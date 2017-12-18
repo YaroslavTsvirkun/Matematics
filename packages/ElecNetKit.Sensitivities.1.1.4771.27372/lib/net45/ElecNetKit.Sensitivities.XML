@@ -1,0 +1,254 @@
+<?xml version="1.0"?>
+<doc>
+    <assembly>
+        <name>ElecNetKit.Sensitivities</name>
+    </assembly>
+    <members>
+        <member name="T:ElecNetKit.Sensitivities.NamespaceDoc">
+             <summary>
+             The <see cref="N:ElecNetKit.Sensitivities"/> namespace defines a set of classes
+             for running perturb-and-observe style experiments, and for obtaining sensitivity
+             information from them.
+             </summary>
+             <remarks>For more information see <conceptualLink target="846f840c-9009-47f2-9838-a8f2f6998a0d"/>.
+            </remarks>
+        </member>
+        <member name="T:ElecNetKit.Sensitivities.ObserveResultsTransform`1">
+            <summary>
+            A transform that observes and saves data from specific network elements.
+            </summary>
+            <typeparam name="T">The type of data to store about each selected element.</typeparam>
+        </member>
+        <member name="M:ElecNetKit.Sensitivities.ObserveResultsTransform`1.#ctor(System.Func{ElecNetKit.NetworkModelling.NetworkModel,System.Collections.Generic.IEnumerable{ElecNetKit.NetworkModelling.NetworkElement}},System.Func{ElecNetKit.NetworkModelling.NetworkElement,`0})">
+            <summary>
+            Instantiates a new <see cref="T:ElecNetKit.Sensitivities.ObserveResultsTransform`1"/>, with the specified
+            observation targets and observation values.
+            </summary>
+            <param name="ChooseElementsStrategy">A function defining the network elements that
+            should be examined.</param>
+            <param name="ObserveStrategy">A function that returns a value of type <typeparamref name="T"/>
+            for each element specified by <see cref="P:ElecNetKit.Sensitivities.ObserveResultsTransform`1.ChooseElementsStrategy"/>.</param>
+        </member>
+        <member name="M:ElecNetKit.Sensitivities.ObserveResultsTransform`1.PreExperimentHook(ElecNetKit.NetworkModelling.NetworkModel)">
+            <inheritdoc />
+        </member>
+        <member name="M:ElecNetKit.Sensitivities.ObserveResultsTransform`1.PostExperimentHook(ElecNetKit.NetworkModelling.NetworkModel)">
+            <summary>
+            Processes the network data after the experiment is run. Stores the requested
+            network data in the <see cref="P:ElecNetKit.Sensitivities.ObserveResultsTransform`1.WatchedElements"/> property.
+            </summary>
+            <inheritdoc/>
+        </member>
+        <member name="P:ElecNetKit.Sensitivities.ObserveResultsTransform`1.ChooseElementsStrategy">
+            <summary>
+            A function defining the network elements that
+            should be examined.
+            </summary>
+        </member>
+        <member name="P:ElecNetKit.Sensitivities.ObserveResultsTransform`1.ObserveStrategy">
+            <summary>
+            A function that returns a value of type <typeparamref name="T"/>
+            for each element specified by <see cref="P:ElecNetKit.Sensitivities.ObserveResultsTransform`1.ChooseElementsStrategy"/>.
+            </summary>
+        </member>
+        <member name="P:ElecNetKit.Sensitivities.ObserveResultsTransform`1.WatchedElements">
+            <summary>
+            The data obtained by watching the values specified by <see cref="P:ElecNetKit.Sensitivities.ObserveResultsTransform`1.ObserveStrategy"/>
+            of the elements specified by <see cref="P:ElecNetKit.Sensitivities.ObserveResultsTransform`1.ChooseElementsStrategy"/>.
+            </summary>
+            <value>
+            The keys in the <see cref="T:System.Collections.Generic.Dictionary`2"/> returned by <see cref="P:ElecNetKit.Sensitivities.ObserveResultsTransform`1.WatchedElements"/>
+            are <see cref="T:System.Tuple`2"/>s, where <see cref="P:System.Tuple`2.Item1"/> is the ID of the element,
+            and <see cref="P:System.Tuple`2.Item1"/> is the type of the element.</value>
+        </member>
+        <member name="T:ElecNetKit.Sensitivities.VoltageSensitivityToPQDataSet">
+            <summary>
+            Holds a set of sensitivities between two buses.
+            </summary>
+        </member>
+        <member name="P:ElecNetKit.Sensitivities.VoltageSensitivityToPQDataSet.dV_dP">
+            <summary>
+            Change in Voltage (single phase) with respect to change in three-phase Power.
+            </summary>
+        </member>
+        <member name="P:ElecNetKit.Sensitivities.VoltageSensitivityToPQDataSet.dV_dQ">
+            <summary>
+            Change in Voltage (single phase) with respect to change in three-phase Reactive Power.
+            </summary>
+        </member>
+        <member name="P:ElecNetKit.Sensitivities.VoltageSensitivityToPQDataSet.dd_dP">
+            <summary>
+            Change in Voltage angle (radians) with respect to change in three-phase Power.
+            </summary>
+        </member>
+        <member name="P:ElecNetKit.Sensitivities.VoltageSensitivityToPQDataSet.dd_dQ">
+            <summary>
+            Change in Voltage angle (radians) with respect to change in three-phase Reactive Power.
+            </summary>
+        </member>
+        <member name="T:ElecNetKit.Sensitivities.SensitivityGenerator`1">
+            <summary>
+            Generates sensitivity information from the values obtained from
+            applying a <see cref="T:ElecNetKit.Sensitivities.PerturbAndObserveRunner`1"/> to an electrical network
+            model.
+            </summary>
+            <remarks>The <see cref="T:ElecNetKit.Sensitivities.SensitivityGenerator`1"/> class uses perturb-and-observe
+            measurements to obtain the rate of change of a given parameter relative to another parameter.
+            This is done by applying a <see cref="P:ElecNetKit.Sensitivities.SensitivityGenerator`1.RecordedPerturbationSelector"/> to obtain a numerical value
+            for the perturbation, and a <see cref="P:ElecNetKit.Sensitivities.SensitivityGenerator`1.ResultSelector"/> to obtain a numerical value for 
+            the parameter in question both before and after experimentation. The sensitivity is then determined
+            by the formula
+            <code>
+            Sensitivity = (ValueAfterExperiment - ValueBeforeExperiment) / PerturbationAmount;</code>
+            Both <see cref="P:ElecNetKit.Sensitivities.SensitivityGenerator`1.RecordedPerturbationSelector"/> and <see cref="P:ElecNetKit.Sensitivities.SensitivityGenerator`1.ResultSelector"/> should return
+            values that are convertible to <see cref="T:System.Double"/>.</remarks>
+            <typeparam name="T">The generic type parameter of the <see cref="T:ElecNetKit.Sensitivities.PerturbAndObserveRunner`1"/>
+            to determine sensitivities from.</typeparam>
+        </member>
+        <member name="M:ElecNetKit.Sensitivities.SensitivityGenerator`1.GenerateSensitivities(ElecNetKit.Sensitivities.PerturbAndObserveRunner{`0})">
+            <summary>
+            Generate sensitivities from the results of <see cref="M:ElecNetKit.Sensitivities.PerturbAndObserveRunner`1.RunPerturbAndObserve"/>,
+            and using the selection functions <see cref="P:ElecNetKit.Sensitivities.SensitivityGenerator`1.ResultSelector"/> and <see cref="P:ElecNetKit.Sensitivities.SensitivityGenerator`1.RecordedPerturbationSelector"/>.
+            </summary>
+            <param name="perturbAndObserveRunner">The <see cref="T:ElecNetKit.Sensitivities.PerturbAndObserveRunner`1"/> to determine sensitivities
+            from.</param>
+            <returns>A twin-key dictionary with each value representing the sensitivity of the specified value at the Y-element
+            to changes in the perturbed value at the X-element.</returns>
+        </member>
+        <member name="P:ElecNetKit.Sensitivities.SensitivityGenerator`1.ResultSelector">
+            <summary>
+            Maps the results stored in <see cref="P:ElecNetKit.Sensitivities.PerturbAndObserveRunner`1.BeforeValues"/> and
+            the values of <see cref="P:ElecNetKit.Sensitivities.PerturbAndObserveRunner`1.AfterValues"/> to a single object that is
+            convertible to <see cref="T:System.Double"/>.
+            </summary>
+        </member>
+        <member name="P:ElecNetKit.Sensitivities.SensitivityGenerator`1.RecordedPerturbationSelector">
+            <summary>
+            Maps the perturbations stored in the keys of <see cref="P:ElecNetKit.Sensitivities.PerturbAndObserveRunner`1.AfterValues"/>
+            to single objects that are convertible to <see cref="T:System.Double"/>.
+            </summary>
+        </member>
+        <member name="T:ElecNetKit.Sensitivities.StringFormatExperimentor">
+            <summary>
+            Runs experiment commands obtained by applying <see cref="M:System.String.Format(System.String,System.Object[])"/>
+            with values specified in <see cref="P:ElecNetKit.Sensitivities.StringFormatExperimentor.ExperimentValues"/> to the commands
+            specified in <see cref="P:ElecNetKit.Sensitivities.StringFormatExperimentor.ExperimentCommands"/>.
+            </summary>
+        </member>
+        <member name="T:ElecNetKit.Sensitivities.PerturbAndObserveRunner`1">
+            <summary>
+            Runs perturb-and-observe experiments on electrical network models.
+            </summary>
+            <typeparam name="TObserve">The type of value to observe during experiments.</typeparam>
+        </member>
+        <member name="M:ElecNetKit.Sensitivities.PerturbAndObserveRunner`1.#ctor">
+            <summary>
+            Instantiates a new <see cref="T:ElecNetKit.Sensitivities.PerturbAndObserveRunner`1"/>.
+            </summary>
+        </member>
+        <member name="M:ElecNetKit.Sensitivities.PerturbAndObserveRunner`1.#ctor(ElecNetKit.Simulator.ISimulator)">
+            <summary>
+            Instantiates a new <see cref="T:ElecNetKit.Sensitivities.PerturbAndObserveRunner`1"/>.
+            </summary>
+            <param name="Simulator">The simulator to use for the perturb-and-observe experiment.</param>
+        </member>
+        <member name="M:ElecNetKit.Sensitivities.PerturbAndObserveRunner`1.RunPerturbAndObserve">
+            <summary>
+            Runs the perturb-and-observe experiment.
+            </summary>
+        </member>
+        <member name="P:ElecNetKit.Sensitivities.PerturbAndObserveRunner`1.NetworkFilename">
+            <summary>
+            The full path to the master network file to run the perturb-and-observe experiment on.
+            </summary>
+        </member>
+        <member name="P:ElecNetKit.Sensitivities.PerturbAndObserveRunner`1.ObserveElementSelector">
+            <summary>
+            A function that, given a <see cref="T:ElecNetKit.NetworkModelling.NetworkModel"/>, returns a set of <see cref="T:ElecNetKit.NetworkModelling.NetworkElement"/>s that should
+            have a specific value observed.
+            </summary>
+        </member>
+        <member name="P:ElecNetKit.Sensitivities.PerturbAndObserveRunner`1.ObserveElementValuesSelector">
+            <summary>
+            A function that, given a <see cref="T:ElecNetKit.NetworkModelling.NetworkElement"/>, returns a value that should be recorded, both
+            before and after the experiment is run.
+            </summary>
+        </member>
+        <member name="P:ElecNetKit.Sensitivities.PerturbAndObserveRunner`1.PerturbElementSelector">
+            <summary>
+            A function that, given a <see cref="T:ElecNetKit.NetworkModelling.NetworkModel"/>, returns a set of <see cref="T:ElecNetKit.NetworkModelling.NetworkElement"/>s
+            that should be candidates for perturbation.
+            </summary>
+        </member>
+        <member name="P:ElecNetKit.Sensitivities.PerturbAndObserveRunner`1.PerturbElementValuesSelector">
+            <summary>
+            A function that, given a <see cref="T:ElecNetKit.NetworkModelling.NetworkElement"/> that is to be perturbed, should select a set
+            of values that will be used as the parameters to the format strings given by <see cref="P:ElecNetKit.Sensitivities.PerturbAndObserveRunner`1.PerturbCommands"/>.
+            </summary>
+        </member>
+        <member name="P:ElecNetKit.Sensitivities.PerturbAndObserveRunner`1.PerturbValuesToRecord">
+            <summary>
+            A function that, given the set of values specified by <see cref="P:ElecNetKit.Sensitivities.PerturbAndObserveRunner`1.PerturbElementValuesSelector"/>, should
+            return a value to be recorded as the perturbation.
+            </summary>
+            <value>
+            Defaults to <c>x =&gt; x</c>, that is, to return the complete set of values specified by <see cref="P:ElecNetKit.Sensitivities.PerturbAndObserveRunner`1.PerturbElementValuesSelector"/>.</value>
+        </member>
+        <member name="P:ElecNetKit.Sensitivities.PerturbAndObserveRunner`1.PerturbCommands">
+            <summary>
+            A set of commands that should be run on the network. These commands will be used as a parameter to
+            <see cref="M:System.String.Format(System.String,System.Object[])"/>, and as such, should be in format-string notation. The
+            corresponding values to fill in the parameters in these commands will be supplied by <see cref="P:ElecNetKit.Sensitivities.PerturbAndObserveRunner`1.PerturbElementValuesSelector"/>.
+            </summary>
+        </member>
+        <member name="P:ElecNetKit.Sensitivities.PerturbAndObserveRunner`1.BeforeValues">
+            <summary>
+            The set of observed values before any perturbation occurs.
+            </summary>
+            <value>
+            The keys of the dictionary provided by this property are <see cref="T:System.Tuple`2"/>s, where
+            <see cref="P:System.Tuple`2.Item1"/> is the ID of the observed network element, and <see cref="P:System.Tuple`2.Item2"/>
+            is the type of the observed network element.</value>
+        </member>
+        <member name="P:ElecNetKit.Sensitivities.PerturbAndObserveRunner`1.AfterValues">
+            <summary>
+            A dictionary specifying the observed effect of all perturbations.
+            </summary>
+            <value>
+            The keys of the outer dictionary provided by this property are <see cref="T:System.Tuple`2"/>s, where
+            <see cref="P:System.Tuple`2.Item1"/> is a <see cref="T:System.Tuple`2"/> specifying the ID and type of the perturbing network element, and <see cref="P:System.Tuple`2.Item2"/>
+            is the set of perturbation values, as specified by <see cref="P:ElecNetKit.Sensitivities.PerturbAndObserveRunner`1.PerturbValuesToRecord"/>.
+            The keys of the inner dictionary are <see cref="T:System.Tuple`2"/>s specifying the ID and type of the observed network element.
+            The values of the inner dictionary are the values required to be observed by <see cref="P:ElecNetKit.Sensitivities.PerturbAndObserveRunner`1.ObserveElementValuesSelector"/>.</value>
+        </member>
+        <member name="T:ElecNetKit.Sensitivities.VoltageSensitivityToComplexPowerGenerator">
+            <summary>
+            Generates Voltage Sensitivities to changes in P and Q.
+            </summary>
+        </member>
+        <member name="M:ElecNetKit.Sensitivities.VoltageSensitivityToComplexPowerGenerator.GetVoltageSensitivityToComplexPower(ElecNetKit.Simulator.ISimulator,System.String,System.String,System.Double)">
+            <summary>
+            Generates Voltage Sensitivities to changes in P and Q at each load bus on
+            the network.
+            </summary>
+            <remarks>
+            This is a convenience class that uses the functionality supplied by
+            <see cref="T:ElecNetKit.Sensitivities.SensitivityGenerator`1"/> and <see cref="T:ElecNetKit.Sensitivities.PerturbAndObserveRunner`1"/>.
+            For other kinds of sensitivities, you may wish to use these classes directly.</remarks>
+            <param name="Simulator">The simulator to use for the generation of sensitivities.</param>
+            <param name="NetworkMasterFile">The file path of the Network to calculate sensitivities for.</param>
+            <param name="CommandString">A command for issuing perturbations. The command should be
+            compatible with <see cref="M:System.String.Format(System.String,System.Object[])"/>-style format strings, and should
+            use <c>{0}</c> to represent a random ID, <c>{1}</c> to represent the bus that perturbation should occur
+            on, <c>{2}</c> to represent a kW quantity to perturb by and <c>{3}</c> to represent a kVAr quantity to
+            perturb by.
+            <example>
+            As an example, the following string specifies a new generator for perturbation in OpenDSS syntax:
+            <code>
+            "new Generator.{0} bus1={1} phases=3 model=1 status=fixed kV=11 Vminpu=0.9 Vmaxpu=1.1 kW={2} kvAR={3}"</code></example></param>
+            <param name="PerturbationFrac">The fraction of average load size to perturb by.</param>
+            <returns>A 2-axis dictionary, in which the X-axis represents the source bus, the Y-axis represents the affected bus,
+            and the values are an index of sensitivity information.</returns>
+        </member>
+    </members>
+</doc>

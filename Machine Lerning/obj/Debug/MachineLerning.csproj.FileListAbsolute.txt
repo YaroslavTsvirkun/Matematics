@@ -1,0 +1,5 @@
+C:\Users\test\Documents\Visual Studio 2017\Projects\Matematics\Machine Lerning\bin\Debug\Machine Lerning.dll
+C:\Users\test\Documents\Visual Studio 2017\Projects\Matematics\Machine Lerning\bin\Debug\Machine Lerning.pdb
+C:\Users\test\Documents\Visual Studio 2017\Projects\Matematics\Machine Lerning\obj\Debug\MachineLerning.csprojResolveAssemblyReference.cache
+C:\Users\test\Documents\Visual Studio 2017\Projects\Matematics\Machine Lerning\obj\Debug\Machine Lerning.dll
+C:\Users\test\Documents\Visual Studio 2017\Projects\Matematics\Machine Lerning\obj\Debug\Machine Lerning.pdb

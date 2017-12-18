@@ -1,0 +1,7 @@
+C:\Users\test\Documents\Visual Studio 2017\Projects\Matematics\Numerics\obj\Debug\Numerics.dll
+C:\Users\test\Documents\Visual Studio 2017\Projects\Matematics\Numerics\obj\Debug\Numerics.pdb
+C:\Users\test\Documents\Visual Studio 2017\Projects\Matematics\Numerics\bin\Debug\Numerics.xml
+C:\Users\test\Documents\Visual Studio 2017\Projects\Matematics\Numerics\bin\Debug\Numerics.dll
+C:\Users\test\Documents\Visual Studio 2017\Projects\Matematics\Numerics\bin\Debug\Numerics.pdb
+C:\Users\test\Documents\Visual Studio 2017\Projects\Matematics\Numerics\obj\Debug\Numerics.csproj.CoreCompileInputs.cache
+C:\Users\test\Documents\Visual Studio 2017\Projects\Matematics\Numerics\obj\Debug\Numerics.csprojResolveAssemblyReference.cache

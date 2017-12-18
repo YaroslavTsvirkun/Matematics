@@ -1,0 +1,131 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Project ToolsVersion="15.0" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+  <Import Project="$(MSBuildExtensionsPath)\$(MSBuildToolsVersion)\Microsoft.Common.props" Condition="Exists('$(MSBuildExtensionsPath)\$(MSBuildToolsVersion)\Microsoft.Common.props')" />
+  <PropertyGroup>
+    <Configuration Condition=" '$(Configuration)' == '' ">Debug</Configuration>
+    <Platform Condition=" '$(Platform)' == '' ">AnyCPU</Platform>
+    <ProjectGuid>{8C1C81DE-152E-484A-BFD9-FA00789CC33E}</ProjectGuid>
+    <OutputType>Library</OutputType>
+    <AppDesignerFolder>Properties</AppDesignerFolder>
+    <RootNamespace>Numerics</RootNamespace>
+    <AssemblyName>Numerics</AssemblyName>
+    <TargetFrameworkVersion>v4.7</TargetFrameworkVersion>
+    <FileAlignment>512</FileAlignment>
+    <TargetFrameworkProfile />
+  </PropertyGroup>
+  <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Debug|AnyCPU' ">
+    <DebugSymbols>true</DebugSymbols>
+    <DebugType>full</DebugType>
+    <Optimize>true</Optimize>
+    <OutputPath>bin\Debug\</OutputPath>
+    <DefineConstants>DEBUG;TRACE</DefineConstants>
+    <ErrorReport>prompt</ErrorReport>
+    <WarningLevel>4</WarningLevel>
+    <GenerateSerializationAssemblies>On</GenerateSerializationAssemblies>
+    <CodeAnalysisRuleSet>AllRules.ruleset</CodeAnalysisRuleSet>
+    <DocumentationFile>bin\Debug\Numerics.xml</DocumentationFile>
+  </PropertyGroup>
+  <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Release|AnyCPU' ">
+    <DebugType>pdbonly</DebugType>
+    <Optimize>true</Optimize>
+    <OutputPath>bin\Release\</OutputPath>
+    <DefineConstants>TRACE</DefineConstants>
+    <ErrorReport>prompt</ErrorReport>
+    <WarningLevel>4</WarningLevel>
+  </PropertyGroup>
+  <ItemGroup>
+    <Reference Include="System" />
+    <Reference Include="System.Core" />
+    <Reference Include="System.Numerics" />
+    <Reference Include="System.Xml.Linq" />
+    <Reference Include="System.Data.DataSetExtensions" />
+    <Reference Include="Microsoft.CSharp" />
+    <Reference Include="System.Data" />
+    <Reference Include="System.Xml" />
+  </ItemGroup>
+  <ItemGroup>
+    <Compile Include="Algebra\QuadraticEquation.cs" />
+    <Compile Include="Algorithms\Search\FindShortestPaths\Dekstra\DekstraAlgorithm.cs" />
+    <Compile Include="Algorithms\Search\FindShortestPaths\Dekstra\DekstraException.cs" />
+    <Compile Include="Algorithms\Search\FindShortestPaths\Dekstra\Point.cs" />
+    <Compile Include="Algorithms\Search\FindShortestPaths\Dekstra\PrintGrath.cs" />
+    <Compile Include="Algorithms\Search\FindShortestPaths\Dekstra\Ribs.cs" />
+    <Compile Include="Algorithms\Sorting\MergeSort.cs" />
+    <Compile Include="Algorithms\Sorting\QuickSort.cs" />
+    <Compile Include="Algorithms\Sorting\SelectionSort.cs" />
+    <Compile Include="ArithmeticFunctions.cs" />
+    <Compile Include="ArithmeticFunctionsExcellent.cs" />
+    <Compile Include="BooleanFunctions.cs" />
+    <Compile Include="CombinatorialAnalysis\SplitNumbers\SplitNumber.cs" />
+    <Compile Include="CyclicFunctions.cs" />
+    <Compile Include="Factorial.cs" />
+    <Compile Include="Geometry\Snapes\Polygon\APolygon.cs" />
+    <Compile Include="Geometry\Snapes\Polygon\Hexagon.cs" />
+    <Compile Include="Geometry\Snapes\Polygon\Pentagon.cs" />
+    <Compile Include="Geometry\Snapes\Polygon\Rectangle.cs" />
+    <Compile Include="Geometry\Snapes\Polygon\Square.cs" />
+    <Compile Include="Geometry\Snapes\Polygon\Triangle.cs" />
+    <Compile Include="Geometry\Snapes\Snape.cs" />
+    <Compile Include="Geometry\Snapes\WithoutAngles\AWithoutAngle.cs" />
+    <Compile Include="Geometry\Snapes\WithoutAngles\Circle.cs" />
+    <Compile Include="Geometry\Snapes\WithoutAngles\Ellipse.cs" />
+    <Compile Include="Geometry\Snapes\WithoutAngles\Semicircle.cs" />
+    <Compile Include="LinearAlgebra\Matrix\JordanMatrix.cs" />
+    <Compile Include="LinearAlgebra\Matrix\Matrix.cs" />
+    <Compile Include="LinearAlgebra\Matrix\SkewSymmetricMatrix.cs" />
+    <Compile Include="LinearAlgebra\Matrix\SymmetricMatrix.cs" />
+    <Compile Include="LinearAlgebra\Matrix\TriangularMatrix.cs" />
+    <Compile Include="LinearAlgebra\Matrix\UnitMatrix.cs" />
+    <Compile Include="LinearAlgebra\SystemLinearAlgebraicEquations\LinearEquatioons.cs" />
+    <Compile Include="NumberSystems\TranslationNumbers.cs" />
+    <Compile Include="Numbers\CatalanNumbers.cs" />
+    <Compile Include="Numbers\FibonacciNumbers.cs" />
+    <Compile Include="Geometry\FourDimensionalFigures\AHundredAndTwentyOne.cs" />
+    <Compile Include="Geometry\FourDimensionalFigures\Pentecostal.cs" />
+    <Compile Include="Geometry\FourDimensionalFigures\SixHopper.cs" />
+    <Compile Include="Geometry\FourDimensionalFigures\SixteenYearOldBoy.cs" />
+    <Compile Include="Geometry\FourDimensionalFigures\Tesseract.cs" />
+    <Compile Include="Geometry\FourDimensionalFigures\TwentyFourthTier.cs" />
+    <Compile Include="Geometry\Point\IPoint3D.cs" />
+    <Compile Include="Geometry\Point\IPoint4D.cs" />
+    <Compile Include="Geometry\Point\Point.cs" />
+    <Compile Include="Geometry\Point\Point2D.cs" />
+    <Compile Include="Geometry\Point\Point3D.cs" />
+    <Compile Include="Geometry\Point\Point4D.cs" />
+    <Compile Include="Numbers\CompositeNumbers\MersennesNumbers.cs" />
+    <Compile Include="Numbers\IntegersNumbers.cs" />
+    <Compile Include="Numbers\NumberNumbers.cs" />
+    <Compile Include="Numbers\PrimeNumbers\FermatNumbers.cs" />
+    <Compile Include="Numbers\PrimeNumbers\MersennesNumbers.cs" />
+    <Compile Include="Properties\AssemblyInfo.cs" />
+    <Compile Include="BooleanFunctionsExcellent.cs" />
+    <Compile Include="TreeGenerator.cs" />
+    <Compile Include="Type\BinarySystem.cs" />
+    <Compile Include="Type\PentagonalSystem.cs" />
+    <Compile Include="Type\QuaternarySystem.cs" />
+    <Compile Include="Type\TernarySystem.cs" />
+  </ItemGroup>
+  <ItemGroup>
+    <Folder Include="Algorithms\Search\SearchDepth\" />
+    <Folder Include="Algorithms\Search\SearchWidth\" />
+    <Folder Include="AnalyticGeometry\" />
+    <Folder Include="ComplexAnalysis\" />
+    <Folder Include="DifferentialEquations\" />
+    <Folder Include="DifferentialGeometry\" />
+    <Folder Include="DiscreteMath\" />
+    <Folder Include="FunctionalAnalysis\" />
+    <Folder Include="IntegralEquations\" />
+    <Folder Include="LinearAlgebra\BilinearForm\" />
+    <Folder Include="LinearAlgebra\LinearMapping\" />
+    <Folder Include="LinearAlgebra\QuadraticForm\" />
+    <Folder Include="LinearAlgebra\Tensors\" />
+    <Folder Include="LinearAlgebra\VectorSpace\" />
+    <Folder Include="LinearAlgebra\Vectors\" />
+    <Folder Include="MathLogic\" />
+    <Folder Include="Topology\" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="ClassDiagram1.cd" />
+  </ItemGroup>
+  <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
+</Project>

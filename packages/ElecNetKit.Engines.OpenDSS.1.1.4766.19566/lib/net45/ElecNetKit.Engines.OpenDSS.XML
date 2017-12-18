@@ -1,0 +1,103 @@
+<?xml version="1.0"?>
+<doc>
+    <assembly>
+        <name>ElecNetKit.Engines.OpenDSS</name>
+    </assembly>
+    <members>
+        <member name="T:ElecNetKit.Engines.OpenDSSSimulator">
+            <summary>
+            A simulator backend that connects ElecNetKit to the OpenDSS Engine.
+            Should rarely be used directly, only instantiated and passed to the
+            <see cref="T:ElecNetKit.Simulator.NetworkController"/> constructor.
+            If you're looking to get information, obtain results etc, use a
+            <see cref="T:ElecNetKit.Simulator.NetworkController"/> instead.
+            </summary>
+        </member>
+        <member name="F:ElecNetKit.Engines.OpenDSSSimulator.dss">
+            <summary>
+            The OpenDSS interface.
+            </summary>
+        </member>
+        <member name="M:ElecNetKit.Engines.OpenDSSSimulator.#ctor">
+            <summary>
+            Instantiates a new <see cref="T:ElecNetKit.Engines.OpenDSSSimulator"/>.
+            </summary>
+        </member>
+        <member name="M:ElecNetKit.Engines.OpenDSSSimulator.RunCommand(System.String)">
+            <summary>
+            Run a single OpenDSS command through the OpenDSS Text interface.
+            </summary>
+            <param name="command">The OpenDSS command to run.</param>
+        </member>
+        <member name="M:ElecNetKit.Engines.OpenDSSSimulator.GetNetworkModel">
+            <summary>
+            Obtains a model of the network from the DSS Engine.
+            </summary>
+            <returns>A network model for the OpenDSS Active Circuit.</returns>
+        </member>
+        <member name="M:ElecNetKit.Engines.OpenDSSSimulator.GetBuses">
+            <summary>
+            Obtains a list of all buses from OpenDSS.
+            </summary>
+            <returns>A Dictionary of Buses, indexed by ID String.
+            This is required in order to link the other network elements.
+            </returns>
+        </member>
+        <member name="M:ElecNetKit.Engines.OpenDSSSimulator.GetLines(System.Collections.Generic.Dictionary{System.String,ElecNetKit.NetworkModelling.Bus})">
+            <summary>
+            Obtain a collection of lines.
+            </summary>
+            <param name="Buses">A Dictionary of buses indexed by ID.
+            Used for determining which buses the lines link to.</param>
+            <returns>All the lines in the Active Circuit.</returns>
+        </member>
+        <member name="M:ElecNetKit.Engines.OpenDSSSimulator.GetLoads(System.Collections.Generic.Dictionary{System.String,ElecNetKit.NetworkModelling.Bus})">
+            <summary>
+            Obtains all loads in the Active Circuit.
+            </summary>
+            <param name="Buses">A Dictionary of buses indexed by ID.
+            Used for determining which buses the loads are on.</param>
+            <returns>All loads in the Active Circuit.</returns>
+        </member>
+        <member name="M:ElecNetKit.Engines.OpenDSSSimulator.ResolveOpenDSSBusString(System.String,System.Int32)">
+            <summary>
+            Translates an OpenDSS bus connection string into a bus ID and a set of phases.
+            </summary>
+            <param name="busConnString">The bus connection string from OpenDSS.</param>
+            <param name="numPhases"></param>
+            <returns></returns>
+        </member>
+        <member name="M:ElecNetKit.Engines.OpenDSSSimulator.GetGenerators(System.Collections.Generic.Dictionary{System.String,ElecNetKit.NetworkModelling.Bus})">
+            <summary>
+            Obtains all generators in the Active Circuit.
+            </summary>
+            <param name="Buses">A Dictionary of buses indexed by ID.
+            Used for determining which buses the loads are on.</param>
+            <returns>All generators in the Active Circuit.</returns>
+        </member>
+        <member name="M:ElecNetKit.Engines.OpenDSSSimulator.GetProperties(System.String)">
+            <summary>
+            Provides a list of all properties for an item.
+            </summary>
+            <param name="fullID">The ID in terms of object type and object
+            name the information is to be obtained for,
+            e.g. generator.gen-1</param>
+            <returns>A Dictionary of all properties for the specified item.
+            the Key is the property name, the String in the Tuple is the
+            property description and the Object in the Tuple is value.</returns>
+        </member>
+        <member name="M:ElecNetKit.Engines.OpenDSSSimulator.PrepareNetwork(System.String)">
+            <summary>
+            Loads a network from <paramref name="filename"/>, but does not solve.
+            </summary>
+            <param name="filename">The filename to load the network from.</param>
+        </member>
+        <member name="P:ElecNetKit.Engines.OpenDSSSimulator.ResultAccuracy">
+            <summary>
+            The required accuracy of convergence (in pu voltage) of the results.
+            Defaults to 1e-7. Increase this for easier and faster convergence. This
+            level of accuracy is required for sensitivity applications.
+            </summary>
+        </member>
+    </members>
+</doc>

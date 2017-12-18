@@ -1,0 +1,1350 @@
+<?xml version="1.0"?>
+<doc>
+    <assembly>
+        <name>ElecNetKit.Core</name>
+    </assembly>
+    <members>
+        <member name="T:ElecNetKit.Convenience.ComplexExtensions">
+            <summary>
+            Utility functions for <see cref="T:System.Collections.Generic.IEnumerable`1"/>.
+            </summary>
+        </member>
+        <member name="M:ElecNetKit.Convenience.ComplexExtensions.Sum(System.Collections.Generic.IEnumerable{System.Numerics.Complex})">
+            <summary>
+            Returns the sum of a set of complex numbers.
+            </summary>
+            <param name="enumerable">The set of complex numbers to sum.</param>
+            <returns>The sum of the complex numbers in <paramref name="enumerable"/>.</returns>
+        </member>
+        <member name="T:ElecNetKit.Experimentation.ChainExperimentor">
+            <summary>
+            Chains multiple experimentors together. Each sub-experimentor is given
+            the same initial input network, and should provide commands that will be
+            run on the network in the order given by <see cref="P:ElecNetKit.Experimentation.ChainExperimentor.Experimentors"/>.
+            </summary>
+        </member>
+        <member name="T:ElecNetKit.Experimentation.IExperimentor">
+            <summary>
+            Defines an interface for conducting experiments on the network.
+            </summary>
+            <remarks>
+            When the <see cref="T:ElecNetKit.Simulator.NetworkController"/> runs a simulation, it calls <see cref="M:ElecNetKit.Experimentation.IExperimentor.Experiment(ElecNetKit.NetworkModelling.NetworkModel)"/>,
+            passing a <see cref="T:ElecNetKit.NetworkModelling.NetworkModel"/> and expecting a list of simulator-specific commands to manipulate the network.
+            Results are then fed through to a Results Core.Transform or a graph.
+            </remarks>
+        </member>
+        <member name="M:ElecNetKit.Experimentation.IExperimentor.Experiment(ElecNetKit.NetworkModelling.NetworkModel)">
+            <summary>
+            Examines the network model and issues commands in order to
+            manipulate or experiment upon the network model.
+            Called by <see cref="M:ElecNetKit.Simulator.NetworkController.Execute"/>.
+            </summary>
+            <param name="Network">A network to experiment on.</param>
+            <returns>A list of simulator-specific commands to be fed into the
+            simulator by the associated <see cref="T:ElecNetKit.Simulator.NetworkController"/>.</returns>
+        </member>
+        <member name="M:ElecNetKit.Experimentation.ChainExperimentor.#ctor">
+            <summary>
+            Instantiates a new <see cref="T:ElecNetKit.Experimentation.ChainExperimentor"/> with an empty experiment chain.
+            </summary>
+        </member>
+        <member name="M:ElecNetKit.Experimentation.ChainExperimentor.Experiment(ElecNetKit.NetworkModelling.NetworkModel)">
+            <summary>
+            Obtains simulator-specific experiment commands pertaining to each
+            <see cref="T:ElecNetKit.Experimentation.IExperimentor"/> in order and aggregates them into a
+            single experiment.
+            </summary>
+            <param name="Network">The network to experiment upon.</param>
+            <returns>A list of simulator-specific experiment commands.</returns>
+        </member>
+        <member name="P:ElecNetKit.Experimentation.ChainExperimentor.Experimentors">
+            <summary>
+            A list of sub-experiments. Sub-experiments will be executed in order.
+            </summary>
+        </member>
+        <member name="T:ElecNetKit.Experimentation.NamespaceDoc">
+            <summary>
+            The <see cref="N:ElecNetKit.Experimentation"/> namespace contains classes that
+            govern the definition of electrical network simulation experiments.
+            </summary>
+        </member>
+        <member name="T:ElecNetKit.NetworkModelling.Bus">
+            <summary>
+            <see cref="T:ElecNetKit.NetworkModelling.Bus"/>es are the 'glue' that hold other network
+            elements together, and as such, every other network element must be
+            connected to at least one <see cref="T:ElecNetKit.NetworkModelling.Bus"/>. <see cref="T:ElecNetKit.NetworkModelling.Bus"/>es also
+            store information on load-flow voltages, and have a location that is
+            useful for graphing.
+            </summary>
+        </member>
+        <member name="T:ElecNetKit.NetworkModelling.NetworkElement">
+            <summary>
+            The <see cref="T:ElecNetKit.NetworkModelling.NetworkElement"/> defines the basic interconnection
+            model between elements of the electrical network.
+            </summary>
+        </member>
+        <member name="M:ElecNetKit.NetworkModelling.NetworkElement.#ctor">
+            <summary>
+            Instantiate a new <see cref="T:ElecNetKit.NetworkModelling.NetworkElement"/>. Initialises the network element
+            to be connected to nothing.
+            </summary>
+        </member>
+        <member name="M:ElecNetKit.NetworkModelling.NetworkElement.Disconnect(ElecNetKit.NetworkModelling.NetworkElement,ElecNetKit.NetworkModelling.NetworkElement)">
+            <summary>
+            Disconnects two <see cref="T:ElecNetKit.NetworkModelling.NetworkElement"/> from each other across all
+            phases.
+            </summary>
+            <param name="elem1">The first element to disconnect.</param>
+            <param name="elem2">The second element to disconnect.</param>
+        </member>
+        <member name="M:ElecNetKit.NetworkModelling.NetworkElement.Disconnect(ElecNetKit.NetworkModelling.NetworkElement,System.Int32,ElecNetKit.NetworkModelling.NetworkElement,System.Int32)">
+            <summary>
+            Disconnects a specific phased connection between network elements.
+            </summary>
+            <param name="elem1">The first element to disconnect.</param>
+            <param name="phase1">The phase that the connection is currently on, for <paramref name="elem1"/>.</param>
+            <param name="elem2">The second element to disconnect.</param>
+            <param name="phase2">The phase that the connection is currently on, for <paramref name="elem2"/>.</param>
+        </member>
+        <member name="M:ElecNetKit.NetworkModelling.NetworkElement.Disconnect(ElecNetKit.NetworkModelling.NetworkElement)">
+            <summary>
+            Disconnect this network element from another network element across all phases.
+            </summary>
+            <param name="elem">The <see cref="T:ElecNetKit.NetworkModelling.NetworkElement"/> to disconnect from.</param>
+        </member>
+        <member name="M:ElecNetKit.NetworkModelling.NetworkElement.ConnectBetween(ElecNetKit.NetworkModelling.NetworkElement,System.Int32,ElecNetKit.NetworkModelling.NetworkElement,System.Int32,ElecNetKit.NetworkModelling.NetworkElement,System.Int32)">
+            <summary>
+            Connect a <see cref="T:ElecNetKit.NetworkModelling.NetworkElement"/> between two other <see cref="T:ElecNetKit.NetworkModelling.NetworkElement"/>s, with a specific phasing.
+            </summary>
+            <param name="thisElem">The element to connect in between the other two elements.</param>
+            <param name="thisElemPhase">The phase of <paramref name="thisElem"/> that should be connected.</param>
+            <param name="elem1">The element to connect to <paramref name="thisElem"/> on one side.</param>
+            <param name="elem1Phase">The phase of <paramref name="elem1"/> that should be connected.</param>
+            <param name="elem2">The element to connect to <paramref name="thisElem"/> on the other side.</param>
+            <param name="elem2Phase">The phase of <paramref name="elem2"/> that should be connected.</param>
+        </member>
+        <member name="M:ElecNetKit.NetworkModelling.NetworkElement.ConnectBetween(System.Int32,ElecNetKit.NetworkModelling.NetworkElement,System.Int32,ElecNetKit.NetworkModelling.NetworkElement,System.Int32)">
+            <summary>
+            Connects the <see cref="T:ElecNetKit.NetworkModelling.NetworkElement"/> between two other <see cref="T:ElecNetKit.NetworkModelling.NetworkElement"/>s, with a specific phasing.
+            </summary>
+            <param name="thisElemPhase">The phase that should be connected.</param>
+            <param name="elem1">The element to connect to this element on one side.</param>
+            <param name="elem1Phase">The phase of <paramref name="elem1"/> that should be connected.</param>
+            <param name="elem2">The element to connect to this element on the other side.</param>
+            <param name="elem2Phase">The phase of <paramref name="elem2"/> that should be connected.</param>
+        </member>
+        <member name="M:ElecNetKit.NetworkModelling.NetworkElement.Connect(ElecNetKit.NetworkModelling.NetworkElement,System.Int32,ElecNetKit.NetworkModelling.NetworkElement,System.Int32)">
+            <summary>
+            Connects a <see cref="T:ElecNetKit.NetworkModelling.NetworkElement"/> to a single other <see cref="T:ElecNetKit.NetworkModelling.NetworkElement"/>, with a specified phasing.
+            </summary>
+            <param name="elem1">The first element to connect.</param>
+            <param name="phase1">The phase of the first element to connect.</param>
+            <param name="elem2">The second element to connect.</param>
+            <param name="phase2">The phase of the second element to connect.</param>
+        </member>
+        <member name="M:ElecNetKit.NetworkModelling.NetworkElement.Connect(System.Int32,ElecNetKit.NetworkModelling.NetworkElement,System.Int32)">
+            <summary>
+            Connects this <see cref="T:ElecNetKit.NetworkModelling.NetworkElement"/> to a single other <see cref="T:ElecNetKit.NetworkModelling.NetworkElement"/>, with a specified phasing.
+            </summary>
+            <param name="thisPhase">The phase of this element to connect.</param>
+            <param name="connectTo">The other element to connect.</param>
+            <param name="connectToPhase">The phase of the other element to connect.</param>
+        </member>
+        <member name="M:ElecNetKit.NetworkModelling.NetworkElement.ConnectionExists(ElecNetKit.NetworkModelling.NetworkElement,System.Int32,ElecNetKit.NetworkModelling.NetworkElement,System.Int32)">
+            <summary>
+            Test if a specific connection between elements on specific phases exists.
+            </summary>
+            <param name="elem1">The first element to check.</param>
+            <param name="phase1">The phase of <paramref name="elem1"/> to check.</param>
+            <param name="elem2">The second element to check.</param>
+            <param name="phase2">The phase of <paramref name="elem2"/> to check.</param>
+            <returns><c>true</c> if the specifically requested connection exists.</returns>
+        </member>
+        <member name="M:ElecNetKit.NetworkModelling.NetworkElement.ConnectionExists(System.Int32,ElecNetKit.NetworkModelling.NetworkElement,System.Int32)">
+            <summary>
+            Test if a specific connection between this element and another element on specific phases exists.
+            </summary>
+            <param name="thisElemPhase">The phase of this element to check.</param>
+            <param name="otherElem">The second element to check.</param>
+            <param name="otherElemPhase">The phase of <paramref name="otherElem"/> to check.</param>
+            <returns><c>true</c> if the specifically requested connection exists.</returns>
+        </member>
+        <member name="M:ElecNetKit.NetworkModelling.NetworkElement.OnDeserialization(System.Object)">
+            <summary>
+            Reconstructs the <see cref="T:ElecNetKit.NetworkModelling.NetworkElement"/> after deserialisation.
+            </summary>
+            <param name="sender"></param>
+        </member>
+        <member name="P:ElecNetKit.NetworkModelling.NetworkElement.ConnectedToPhased">
+            <summary>
+            A set of other elements that the <see cref="T:ElecNetKit.NetworkModelling.NetworkElement"/> is connected to, arranged by phase.
+            </summary>
+        </member>
+        <member name="P:ElecNetKit.NetworkModelling.NetworkElement.ConnectedTo">
+            <summary>
+            A set of other elements that the <see cref="T:ElecNetKit.NetworkModelling.NetworkElement"/> is connected to. Incorporates
+            connections on any phase. This property can be safely used for analysis of balanced three-phase or single-phase networks.
+            </summary>
+        </member>
+        <member name="P:ElecNetKit.NetworkModelling.NetworkElement.ID">
+            <summary>
+            The ID of this specific element.
+            </summary>
+        </member>
+        <member name="P:ElecNetKit.NetworkModelling.NetworkElement.ConnectedToAnyPhase">
+            <summary>
+            All connected elements, across any phase.
+            </summary>
+        </member>
+        <member name="P:ElecNetKit.NetworkModelling.NetworkElement.ConnectedOnAllActivePhases">
+            <summary>
+            All elements that are connected to this element across all active phases (and possibly across neutral, phase 0).
+            </summary>
+        </member>
+        <member name="P:ElecNetKit.NetworkModelling.NetworkElement.ElementType">
+            <summary>
+            Gets a type-string for the element, e.g. 'Bus', 'Load', etc.
+            </summary>
+        </member>
+        <member name="M:ElecNetKit.NetworkModelling.Bus.#ctor(System.String,System.Numerics.Complex,System.Double,System.Nullable{System.Windows.Point})">
+            <summary>
+            Instantiates a new <see cref="T:ElecNetKit.NetworkModelling.Bus"/>. This is the single-phase/balanced three-phase
+            constructor. Use this only if your model will be used for balanced
+            network analysis.
+            </summary>
+            <param name="ID">The ID of the bus. Should be unique among buses, but
+            does not need to be unique amongst all network elements.</param>
+            <param name="Voltage">The single-phase absolute voltage of the bus
+            (in Volts).</param>
+            <param name="BaseVoltage">The single-phase base voltage of the bus
+            (in Volts).</param>
+            <param name="Location">The XY coordinates of the bus. Used for
+            graphing the network.</param>
+        </member>
+        <member name="M:ElecNetKit.NetworkModelling.Bus.#ctor(System.String,ElecNetKit.NetworkModelling.Phasing.Phased{System.Numerics.Complex},System.Double,System.Nullable{System.Windows.Point})">
+            <summary>
+            Instantiates a new <see cref="T:ElecNetKit.NetworkModelling.Bus"/>. This constructor supports
+            arbitrarily-phased networks, including three-phase balanced and single-phase.
+            </summary>
+            <param name="ID">The ID of the bus. Should be unique among buses, but
+            does not need to be unique amongst all network elements.</param>
+            <param name="VoltagePhased">The absolute line-neutral voltage of each
+            phase of the bus.</param>
+            <param name="BaseVoltage">The single-phase base voltage of the bus
+            (in Volts).</param>
+            <param name="Location">The XY coordinates of the bus. Used for
+            graphing the network.</param>
+        </member>
+        <member name="M:ElecNetKit.NetworkModelling.Bus.OnDeserialization(System.Object)">
+            <summary>
+            Reconstructs the <see cref="T:ElecNetKit.NetworkModelling.Bus"/> when it has just been deserialised.
+            </summary>
+            <param name="sender">Not used.</param>
+        </member>
+        <member name="P:ElecNetKit.NetworkModelling.Bus.Voltage">
+            <summary>
+            The single-phase (Line-Neutral) voltage (in complex phasor notation) of the bus. A single-phase, or balanced three-phase network is assumed.
+            </summary>
+        </member>
+        <member name="P:ElecNetKit.NetworkModelling.Bus.VoltagePhased">
+            <summary>
+            The voltage of each bus phase, in complex notation.
+            </summary>
+        </member>
+        <member name="P:ElecNetKit.NetworkModelling.Bus.Location">
+            <summary>
+            The XY location of the bus, in network coordinates, useful for graphing.
+            </summary>
+        </member>
+        <member name="P:ElecNetKit.NetworkModelling.Bus.BaseVoltage">
+            <summary>
+            The Single-Phase base voltage of the bus (e.g. 11/sqrt(3) kV,
+            0.23 kV).
+            </summary>
+        </member>
+        <member name="P:ElecNetKit.NetworkModelling.Bus.VoltagePU">
+            <summary>
+            The single-phase voltage of the bus in p.u. terms, defined as
+            <see cref="P:ElecNetKit.NetworkModelling.Bus.Voltage"/>/<see cref="P:ElecNetKit.NetworkModelling.Bus.BaseVoltage"/>. Assumes a single-phase or balanced three-phase network.
+            </summary>
+        </member>
+        <member name="P:ElecNetKit.NetworkModelling.Bus.VoltagePUPhased">
+            <summary>
+            The voltage of the bus in p.u. terms for each phase, defined as
+            <see cref="P:ElecNetKit.NetworkModelling.Bus.VoltagePhased"/>/<see cref="P:ElecNetKit.NetworkModelling.Bus.BaseVoltage"/>.
+            </summary>
+        </member>
+        <member name="T:ElecNetKit.NetworkModelling.NamespaceDoc">
+            <summary>
+            The <see cref="N:ElecNetKit.NetworkModelling"/> namespace defines classes and functions
+            for examing, building and traversing electrical network models.
+            </summary>
+        </member>
+        <member name="T:ElecNetKit.NetworkModelling.NetworkElementConnection">
+            <summary>
+            A structure that defines a single connection to another network element,
+            specifying a network element and a phase to connect on.
+            </summary>
+        </member>
+        <member name="M:ElecNetKit.NetworkModelling.NetworkElementConnection.#ctor(ElecNetKit.NetworkModelling.NetworkElement,System.Int32)">
+            <summary>
+            Creates a new <see cref="T:ElecNetKit.NetworkModelling.NetworkElementConnection"/>.
+            </summary>
+            <param name="Element">The <see cref="T:ElecNetKit.NetworkModelling.NetworkElement"/> that this structure represents a connection to.</param>
+            <param name="Phase">The phase of <see cref="P:ElecNetKit.NetworkModelling.NetworkElementConnection.Element"/> that this structure represents a connection to.</param>
+        </member>
+        <member name="M:ElecNetKit.NetworkModelling.NetworkElementConnection.Equals(ElecNetKit.NetworkModelling.NetworkElementConnection)">
+            <summary>
+            Compares between this and another <see cref="T:ElecNetKit.NetworkModelling.NetworkElementConnection"/> for member-wise equality.
+            </summary>
+            <param name="obj">The other <see cref="T:ElecNetKit.NetworkModelling.NetworkElementConnection"/> to compare to.</param>
+            <returns><c>true</c> if the two elements are equal.</returns>
+        </member>
+        <member name="M:ElecNetKit.NetworkModelling.NetworkElementConnection.Equals(System.Object)">
+            <inheritdoc />
+        </member>
+        <member name="M:ElecNetKit.NetworkModelling.NetworkElementConnection.op_Equality(ElecNetKit.NetworkModelling.NetworkElementConnection,ElecNetKit.NetworkModelling.NetworkElementConnection)">
+            <summary>
+            Tests for member-wise equality between <paramref name="a"/> and <paramref name="b"/>.
+            </summary>
+            <param name="a">The first connection to check.</param>
+            <param name="b">The second connection to check.</param>
+            <returns><c>true</c> if the two <see cref="T:ElecNetKit.NetworkModelling.NetworkElementConnection"/>s are equal.</returns>
+        </member>
+        <member name="M:ElecNetKit.NetworkModelling.NetworkElementConnection.op_Inequality(ElecNetKit.NetworkModelling.NetworkElementConnection,ElecNetKit.NetworkModelling.NetworkElementConnection)">
+            <summary>
+            Tests for inequality between <paramref name="a"/> and <paramref name="b"/>.
+            Defined as <c>!(a == b)</c>.
+            </summary>
+            <param name="a">The first connection to check.</param>
+            <param name="b">The second connection to check.</param>
+            <returns><c>true</c> if the two <see cref="T:ElecNetKit.NetworkModelling.NetworkElementConnection"/>s are not equal.</returns>
+        </member>
+        <member name="M:ElecNetKit.NetworkModelling.NetworkElementConnection.ToString">
+            <inheritdoc />
+        </member>
+        <member name="M:ElecNetKit.NetworkModelling.NetworkElementConnection.GetHashCode">
+            <inheritdoc />
+            <remarks>This function is based on the method proposed by <see href="http://www.cse.yorku.ca/~oz/hash.html">Dan Bernstein</see>
+            and used extensively on <see href="http://stackoverflow.com/a/263416/996592">Stack Overflow</see>.</remarks>
+        </member>
+        <member name="P:ElecNetKit.NetworkModelling.NetworkElementConnection.Element">
+            <summary>
+            The <see cref="T:ElecNetKit.NetworkModelling.NetworkElement"/> that this structure represents a connection to.
+            </summary>
+        </member>
+        <member name="P:ElecNetKit.NetworkModelling.NetworkElementConnection.Phase">
+            <summary>
+            The phase of <see cref="P:ElecNetKit.NetworkModelling.NetworkElementConnection.Element"/> that this structure represents a connection to.
+            </summary>
+        </member>
+        <member name="T:ElecNetKit.NetworkModelling.NetworkModel">
+            <summary>
+            Defines the entire network model, in terms of buses, lines, loads, generators
+            and the connections between them.
+            </summary>
+        </member>
+        <member name="F:ElecNetKit.NetworkModelling.NetworkModel.networkBounds">
+            <summary>
+            A rectangle indicating the outer limits of the XY coordinates of the
+            network buses.
+            </summary>
+        </member>
+        <member name="M:ElecNetKit.NetworkModelling.NetworkModel.#ctor(System.Collections.Generic.Dictionary{System.String,ElecNetKit.NetworkModelling.Bus},System.Collections.ObjectModel.Collection{ElecNetKit.NetworkModelling.Line},System.Collections.ObjectModel.Collection{ElecNetKit.NetworkModelling.Load},System.Collections.ObjectModel.Collection{ElecNetKit.NetworkModelling.Generator},System.Numerics.Complex,ElecNetKit.NetworkModelling.Bus)">
+            <summary>
+            Instantiates a new <see cref="T:ElecNetKit.NetworkModelling.NetworkModel"/>.
+            </summary>
+            <param name="Buses">All the buses in the network.</param>
+            <param name="Lines">All the lines in the network.</param>
+            <param name="Loads">All the loads in the network.</param>
+            <param name="Generators">All the generators in the network.</param>
+            <param name="Losses">The losses (in kVA) across the whole network.</param>
+            <param name="SourceBus">The source bus (fixed bus) of the network.</param>
+        </member>
+        <member name="M:ElecNetKit.NetworkModelling.NetworkModel.FindNetworkBounds">
+            <summary>
+            Finds a bounding box for the network elements.
+            </summary>
+            <returns>A bounding box (in network coords) that contains all the objects in the network.</returns>
+        </member>
+        <member name="M:ElecNetKit.NetworkModelling.NetworkModel.UpdateNetworkBounds">
+            <summary>
+            Updates the network bounds based upon the XY coordinates of the
+            network buses.
+            </summary>
+        </member>
+        <member name="P:ElecNetKit.NetworkModelling.NetworkModel.Buses">
+            <summary>
+            A dictionary of buses in the network, indexed by Bus ID so as to be
+            easier to find and connect to other network elements.
+            </summary>
+        </member>
+        <member name="P:ElecNetKit.NetworkModelling.NetworkModel.Lines">
+            <summary>
+            Every line in the network.
+            </summary>
+        </member>
+        <member name="P:ElecNetKit.NetworkModelling.NetworkModel.Loads">
+            <summary>
+            Every load in the network.
+            </summary>
+        </member>
+        <member name="P:ElecNetKit.NetworkModelling.NetworkModel.Generators">
+            <summary>
+            Every generator in the network.
+            </summary>
+        </member>
+        <member name="P:ElecNetKit.NetworkModelling.NetworkModel.NetworkBounds">
+            <summary>
+            The bounding box of all network elements in network coordinates.
+            Calculated on network construction, or by calling <see cref="M:ElecNetKit.NetworkModelling.NetworkModel.UpdateNetworkBounds"/>.
+            </summary>
+        </member>
+        <member name="P:ElecNetKit.NetworkModelling.NetworkModel.LosseskVA">
+            <summary>
+            The total losses on the network, across all phases, in kVA.
+            </summary>
+        </member>
+        <member name="P:ElecNetKit.NetworkModelling.NetworkModel.SourceBus">
+            <summary>
+            The source (stiff, fixed) bus of the network.
+            </summary>
+        </member>
+        <member name="T:ElecNetKit.NetworkModelling.Generator">
+            <summary>
+            An electrical network element that injects power
+            in to the network.
+            </summary>
+        </member>
+        <member name="T:ElecNetKit.NetworkModelling.PowerConversionElement">
+            <summary>
+            A <see cref="T:ElecNetKit.NetworkModelling.NetworkElement"/> that converts power from one form to another. Think
+            <see cref="T:ElecNetKit.NetworkModelling.Load"/>s, <see cref="T:ElecNetKit.NetworkModelling.Generator"/>s, etc.
+            </summary>
+            <remarks>As far as the connection model goes, <see cref="T:ElecNetKit.NetworkModelling.PowerConversionElement"/>s are
+            connected to a single <see cref="T:ElecNetKit.NetworkModelling.Bus"/>, with each <see cref="T:ElecNetKit.NetworkModelling.PowerConversionElement"/> phase being connected between <see cref="T:ElecNetKit.NetworkModelling.Bus"/>
+            phases. This should be viewed in contrast with <seealso cref="T:ElecNetKit.NetworkModelling.PowerDeliveryElement"/>.</remarks>
+        </member>
+        <member name="M:ElecNetKit.NetworkModelling.PowerConversionElement.Connect(System.Int32,ElecNetKit.NetworkModelling.Bus,System.Int32)">
+            <summary>
+            Connects a phase of a power conversion element between two phases of a single <see cref="T:ElecNetKit.NetworkModelling.Bus"/>.
+            </summary>
+            <param name="thisPhase">The phase of this <see cref="T:ElecNetKit.NetworkModelling.PowerConversionElement"/> to connect between phases of the bus.</param>
+            <param name="connectTo">The bus to connect <paramref name="thisPhase"/> of this <see cref="T:ElecNetKit.NetworkModelling.PowerConversionElement"/> to.</param>
+            <param name="connectToPhasePrimary">The primary phase of the bus to connect to. Should be an active phase.</param>
+        </member>
+        <member name="M:ElecNetKit.NetworkModelling.PowerConversionElement.ConnectWye(ElecNetKit.NetworkModelling.Bus,System.Int32[])">
+            <summary>
+            Connects this power conversion element in Wye to <paramref name="connectTo"/>. Each phase of
+            the <see cref="T:ElecNetKit.NetworkModelling.PowerConversionElement"/> specified in <paramref name="phases"/> will be connected
+            to the corresponding active phase.
+            </summary>
+            <param name="connectTo">The <see cref="T:ElecNetKit.NetworkModelling.Bus"/> that the <see cref="T:ElecNetKit.NetworkModelling.PowerConversionElement"/> should connect to.</param>
+            <param name="phases">The phases of the <see cref="T:ElecNetKit.NetworkModelling.PowerConversionElement"/> and the active phases of the <see cref="T:ElecNetKit.NetworkModelling.Bus"/>
+            to connect on.</param>
+        </member>
+        <member name="M:ElecNetKit.NetworkModelling.PowerConversionElement.ConnectWye(ElecNetKit.NetworkModelling.Bus,System.Collections.Generic.IEnumerable{System.Int32},System.Collections.Generic.IEnumerable{System.Int32})">
+            <summary>
+            Connects this power conversion element in Wye to <paramref name="connectTo"/>. Each phase of the
+            <see cref="T:ElecNetKit.NetworkModelling.PowerConversionElement"/>in <paramref name="pcElementPhases"/> is connected to the phase of the same index in
+            <paramref name="busPhases"/>.
+            </summary>
+            <param name="connectTo">The <see cref="T:ElecNetKit.NetworkModelling.Bus"/> to connect this <see cref="T:ElecNetKit.NetworkModelling.PowerConversionElement"/> to.</param>
+            <param name="pcElementPhases">The phases of this element that should be connected.</param>
+            <param name="busPhases">The phases of <paramref name="connectTo"/> to connect to.</param>
+        </member>
+        <member name="M:ElecNetKit.NetworkModelling.PowerConversionElement.Connect(ElecNetKit.NetworkModelling.Bus)">
+            <summary>
+            Connects this <see cref="T:ElecNetKit.NetworkModelling.PowerConversionElement"/> to a <see cref="T:ElecNetKit.NetworkModelling.Bus"/>.
+            This is the connection method for three-phase balanced networks. Use
+            <see cref="O:ConnectWye"/> and <see cref="M:ElecNetKit.NetworkModelling.PowerConversionElement.Connect(System.Int32,ElecNetKit.NetworkModelling.Bus,System.Int32)"/>
+            for arbitrarily-phased networks.
+            </summary>
+            <param name="connectTo">The <see cref="T:ElecNetKit.NetworkModelling.Bus"/> to connect to.</param>
+        </member>
+        <member name="M:ElecNetKit.NetworkModelling.Generator.#ctor(System.String,System.Numerics.Complex,System.Int32)">
+            <summary>
+            Instantiates a new <see cref="T:ElecNetKit.NetworkModelling.Generator"/>. This constructor is
+            for building balanced networks only.
+            </summary>
+            <param name="ID">The ID of the generator. Must be unique among
+            generators, but not among network elements.</param>
+            <param name="Generation">The total generation (in kVA) of
+            the generator.</param>
+            <param name="NumPhases">The number of phases to split the total generation between.</param>
+        </member>
+        <member name="M:ElecNetKit.NetworkModelling.Generator.#ctor(System.String,ElecNetKit.NetworkModelling.Phasing.Phased{System.Numerics.Complex})">
+            <summary>
+            Instantiates a new <see cref="T:ElecNetKit.NetworkModelling.Generator"/>. This constructor is
+            for building arbitrarily-phased networks.
+            </summary>
+            <param name="ID">The ID of the generator. Must be unique among
+            generators, but not among network elements.</param>
+            <param name="Generation">The phased generation (in kVA) of
+            the generator.</param>
+        </member>
+        <member name="P:ElecNetKit.NetworkModelling.Generator.Generation">
+            <summary>
+            The total kVA that the <see cref="T:ElecNetKit.NetworkModelling.Generator"/> injects into the network.
+            The real component represents the real power (kW) and
+            the imaginary component represents the injected reactive (imaginary)
+            power (kVAr).
+            </summary>
+        </member>
+        <member name="P:ElecNetKit.NetworkModelling.Generator.GenerationPhased">
+            <summary>
+            The kVA that the <see cref="T:ElecNetKit.NetworkModelling.Generator"/> injects into the network.
+            This is a phased value, of which the real component represents the real power (kW) and
+            the imaginary component represents the injected reactive (imaginary)
+            power (kVAr).
+            </summary>
+        </member>
+        <member name="T:ElecNetKit.NetworkModelling.Line">
+            <summary>
+            A line connecting two buses in the electrical network model.
+            </summary>
+        </member>
+        <member name="T:ElecNetKit.NetworkModelling.PowerDeliveryElement">
+            <summary>
+            A <see cref="T:ElecNetKit.NetworkModelling.NetworkElement"/> that delivers power to other <see cref="T:ElecNetKit.NetworkModelling.NetworkElement"/>s. Think
+            <see cref="T:ElecNetKit.NetworkModelling.Line"/>s, Transformers, etc.
+            </summary>
+            <remarks>As far as the connection model goes, <see cref="T:ElecNetKit.NetworkModelling.PowerDeliveryElement"/>s are
+            connected to between different <see cref="T:ElecNetKit.NetworkModelling.Bus"/>es. This should be viewed in contrast with
+            <seealso cref="T:ElecNetKit.NetworkModelling.PowerDeliveryElement"/>.</remarks>
+        </member>
+        <member name="M:ElecNetKit.NetworkModelling.PowerDeliveryElement.Connect(System.Int32,ElecNetKit.NetworkModelling.Bus,System.Int32,ElecNetKit.NetworkModelling.Bus,System.Int32)">
+            <summary>
+            Connects <paramref name="thisPhase"/> of this <see cref="T:ElecNetKit.NetworkModelling.PowerDeliveryElement"/> between
+            <paramref name="bus1Phase"/> of <paramref name="bus1"/> and <paramref name="bus2Phase"/>
+            of <paramref name="bus2"/>.
+            </summary>
+            <param name="thisPhase">The phase of this element to connect.</param>
+            <param name="bus1">The <see cref="T:ElecNetKit.NetworkModelling.Bus"/> to connect on one side of this <see cref="T:ElecNetKit.NetworkModelling.PowerDeliveryElement"/>.</param>
+            <param name="bus1Phase">The phase of <paramref name="bus1"/> to connect to.</param>
+            <param name="bus2">The <see cref="T:ElecNetKit.NetworkModelling.Bus"/> to connect on the other side of this <see cref="T:ElecNetKit.NetworkModelling.PowerDeliveryElement"/>.</param>
+            <param name="bus2Phase">The phase of <paramref name="bus2"/> to connect to.</param>
+        </member>
+        <member name="M:ElecNetKit.NetworkModelling.PowerDeliveryElement.Connect(ElecNetKit.NetworkModelling.Bus,System.Collections.Generic.IEnumerable{System.Int32},ElecNetKit.NetworkModelling.Bus,System.Collections.Generic.IEnumerable{System.Int32})">
+            <summary>
+            Connects the <see cref="T:ElecNetKit.NetworkModelling.PowerDeliveryElement"/> on the phases in <paramref name="bus1AndLinePhases"/>
+            to the same phases on <paramref name="bus1"/>, and to the correspondingly-indexed phases <paramref name="bus2Phases"/>
+            on <paramref name="bus2"/>.
+            </summary>
+            <example>
+            The following code connects the <see cref="T:ElecNetKit.NetworkModelling.PowerDeliveryElement"/> to <paramref name="bus1"/>
+            and <paramref name="bus2"/>, with the following phasing:
+            <code>
+            // key: line phase -&gt; bus1 phase, bus2 phase
+            // 1 -&gt; 1, 2
+            // 2 -&gt; 2, 3
+            // 3 -&gt; 3, 1
+            myPowerDeliveryElement.Connect(bus1, new[] {1,2,3}, bus2, new[] {2,3,1});
+            </code></example>
+            <param name="bus1">The first <see cref="T:ElecNetKit.NetworkModelling.Bus"/> to connect to. Shares common phases with the <see cref="T:ElecNetKit.NetworkModelling.PowerDeliveryElement"/>.</param>
+            <param name="bus1AndLinePhases">The common phases to connect between the <see cref="T:ElecNetKit.NetworkModelling.PowerDeliveryElement"/> and the <see cref="T:ElecNetKit.NetworkModelling.Bus"/>.</param>
+            <param name="bus2">The second <see cref="T:ElecNetKit.NetworkModelling.Bus"/> to connect to.</param>
+            <param name="bus2Phases">Phase connections for <paramref name="bus2"/>.</param>
+        </member>
+        <member name="M:ElecNetKit.NetworkModelling.PowerDeliveryElement.Connect(ElecNetKit.NetworkModelling.Bus,ElecNetKit.NetworkModelling.Bus,System.Int32[])">
+            <summary>
+            Connects this <see cref="T:ElecNetKit.NetworkModelling.PowerDeliveryElement"/> between <paramref name="bus1"/>
+            and <paramref name="bus2"/> on matching <paramref name="phases"/>.
+            </summary>
+            <param name="bus1">The first <see cref="T:ElecNetKit.NetworkModelling.Bus"/> to connect to.</param>
+            <param name="bus2">The second <see cref="T:ElecNetKit.NetworkModelling.Bus"/> to connect to.</param>
+            <param name="phases">The phases to connect the <see cref="T:ElecNetKit.NetworkModelling.PowerDeliveryElement"/>
+            to the <see cref="T:ElecNetKit.NetworkModelling.Bus"/>es on.</param>
+        </member>
+        <member name="M:ElecNetKit.NetworkModelling.PowerDeliveryElement.Connect3Phase(ElecNetKit.NetworkModelling.Bus,ElecNetKit.NetworkModelling.Bus)">
+             <summary>
+             Connects this <see cref="T:ElecNetKit.NetworkModelling.PowerDeliveryElement"/> between two <see cref="T:ElecNetKit.NetworkModelling.Bus"/>es,
+             on phases 1,2,3.
+             </summary>
+            <param name="bus1">The <see cref="T:ElecNetKit.NetworkModelling.Bus"/> to connect on one side of this <see cref="T:ElecNetKit.NetworkModelling.PowerDeliveryElement"/>.</param>
+             <param name="bus2">The <see cref="T:ElecNetKit.NetworkModelling.Bus"/> to connect on the other side of this <see cref="T:ElecNetKit.NetworkModelling.PowerDeliveryElement"/>.</param>
+        </member>
+        <member name="M:ElecNetKit.NetworkModelling.PowerDeliveryElement.Connect(ElecNetKit.NetworkModelling.Bus,ElecNetKit.NetworkModelling.Bus)">
+             <summary>
+             Connects this <see cref="T:ElecNetKit.NetworkModelling.PowerDeliveryElement"/> between two <see cref="T:ElecNetKit.NetworkModelling.Bus"/>es. This method is for
+             building three-phase balanced networks. Use
+             <see cref="M:ElecNetKit.NetworkModelling.PowerDeliveryElement.Connect3Phase(ElecNetKit.NetworkModelling.Bus,ElecNetKit.NetworkModelling.Bus)"/>, <see cref="M:ElecNetKit.NetworkModelling.PowerDeliveryElement.Connect(System.Int32,ElecNetKit.NetworkModelling.Bus,System.Int32,ElecNetKit.NetworkModelling.Bus,System.Int32)"/>, <see cref="M:ElecNetKit.NetworkModelling.PowerDeliveryElement.Connect(ElecNetKit.NetworkModelling.Bus,ElecNetKit.NetworkModelling.Bus,System.Int32[])"/>
+             and <see cref="M:ElecNetKit.NetworkModelling.PowerDeliveryElement.Connect(ElecNetKit.NetworkModelling.Bus,System.Collections.Generic.IEnumerable{System.Int32},ElecNetKit.NetworkModelling.Bus,System.Collections.Generic.IEnumerable{System.Int32})"/> for arbitrarily-phased networks.
+             </summary>
+            <param name="bus1">The <see cref="T:ElecNetKit.NetworkModelling.Bus"/> to connect on one side of this <see cref="T:ElecNetKit.NetworkModelling.PowerDeliveryElement"/>.</param>
+             <param name="bus2">The <see cref="T:ElecNetKit.NetworkModelling.Bus"/> to connect on the other side of this <see cref="T:ElecNetKit.NetworkModelling.PowerDeliveryElement"/>.</param>
+        </member>
+        <member name="M:ElecNetKit.NetworkModelling.Line.#ctor(System.String,System.Double)">
+            <summary>
+            Instantiates a new <see cref="T:ElecNetKit.NetworkModelling.Line"/>.
+            </summary>
+            <param name="ID">The ID of the line. Must be unique among lines,
+            but not necessarily among all <see cref="T:ElecNetKit.NetworkModelling.NetworkElement"/>s.</param>
+            <param name="Length">The length of the line.</param>
+        </member>
+        <member name="P:ElecNetKit.NetworkModelling.Line.Length">
+            <summary>
+            The length of the line.
+            </summary>
+        </member>
+        <member name="T:ElecNetKit.NetworkModelling.Load">
+            <summary>
+            A kVA-absorbing load on the network.
+            </summary>
+        </member>
+        <member name="M:ElecNetKit.NetworkModelling.Load.#ctor(System.String,System.Numerics.Complex,System.Int32)">
+            <summary>
+            Instantiates a new <see cref="T:ElecNetKit.NetworkModelling.Load"/>. This constructor is
+            for building balanced networks only.
+            </summary>
+            <param name="ID">The ID of the load.</param>
+            <param name="ActualKVA">The total kVA absorbed by the load.</param>
+            <param name="NumPhases">The number of phases to split <paramref name="ActualKVA"/> between.</param>
+        </member>
+        <member name="M:ElecNetKit.NetworkModelling.Load.#ctor(System.String,ElecNetKit.NetworkModelling.Phasing.Phased{System.Numerics.Complex})">
+            <summary>
+            Instantiates a new <see cref="T:ElecNetKit.NetworkModelling.Load"/>. This constructor is
+            for building arbitrarily-phased networks.
+            </summary>
+            <param name="ID">The ID of the load.</param>
+            <param name="ActualKVAPhased">The phased kVA absorbed by the load.</param>
+        </member>
+        <member name="P:ElecNetKit.NetworkModelling.Load.ActualKVA">
+            <summary>
+            The total kVA absorbed by the load. A positive imaginary quantity
+            corresponds to a lagging power factor, a negative imaginary
+            quantity corresponds to a leading power factor.
+            </summary>
+            <seealso cref="P:ElecNetKit.NetworkModelling.Load.ActualKVAPhased"/>
+        </member>
+        <member name="P:ElecNetKit.NetworkModelling.Load.ActualKVAPhased">
+            <summary>
+            The kVA absorbed by the load, by phase. A positive imaginary quantity
+            corresponds to a lagging power factor, a negative imaginary
+            quantity corresponds to a leading power factor.
+            </summary>
+        </member>
+        <member name="T:ElecNetKit.NetworkModelling.Phasing.CachedPhasedReadOnlyEvaluated`2">
+            <summary>
+            An implementation of <see cref="T:ElecNetKit.NetworkModelling.Phasing.PhasedReadOnlyEvaluated`2"/> that caches
+            results and provides the same object multiple times if requested.
+            </summary>
+            <example>
+            Use when <typeparamref name="T"/> is a type that provides new views into 
+            the same data, such as when <typeparamref name="TFrom"/> is a
+            <see cref="T:System.Collections.ObjectModel.Collection`1"/>  and <typeparamref name="T"/> is a
+            <see cref="T:System.Collections.ObjectModel.ReadOnlyCollection`1"/>.</example>
+            <typeparam name="TFrom">The type of the backing <see cref="T:ElecNetKit.NetworkModelling.Phasing.Phased`1"/>.</typeparam>
+            <typeparam name="T">The type of the elements of this <see cref="T:ElecNetKit.NetworkModelling.Phasing.Phased`1"/>.</typeparam>
+        </member>
+        <member name="T:ElecNetKit.NetworkModelling.Phasing.PhasedReadOnlyEvaluated`2">
+            <summary>
+            An implementation of <see cref="T:ElecNetKit.NetworkModelling.Phasing.Phased`1"/> that is read-only, works with objects
+            (as opposed to <see cref="T:ElecNetKit.NetworkModelling.Phasing.PhasedEvaluated`2"/>, which only works with value types)
+            and returns 
+            </summary>
+            <typeparam name="TFrom"></typeparam>
+            <typeparam name="T"></typeparam>
+        </member>
+        <member name="T:ElecNetKit.NetworkModelling.Phasing.Phased`1">
+            <summary>
+            An interface that defines a set of values of type <typeparamref name="T"/> and
+            ordered by phase.
+            </summary>
+            <typeparam name="T">The type that should have a unique value per phase.</typeparam>
+            <remarks>The <see cref="T:ElecNetKit.NetworkModelling.Phasing.Phased`1"/> interface is intended to be used directly by all
+            client code. Implementors of <see cref="T:ElecNetKit.NetworkModelling.NetworkElement"/>s should consider using the
+            types <see cref="T:ElecNetKit.NetworkModelling.Phasing.PhasedValues`1"/> and <see cref="T:ElecNetKit.NetworkModelling.Phasing.PhasedEvaluated`2"/>, which implement
+            the <see cref="T:ElecNetKit.NetworkModelling.Phasing.Phased`1"/> interface with a set of values and an evaluator function
+            respectively. For example usage, see the implementation of <see cref="T:ElecNetKit.NetworkModelling.Bus"/>.
+            </remarks>
+        </member>
+        <member name="F:ElecNetKit.NetworkModelling.Phasing.PhasedReadOnlyEvaluated`2.getTransform">
+            <summary>
+            The transform that is used to return values of type <typeparamref name="T"/>
+            from the backing <see cref="T:ElecNetKit.NetworkModelling.Phasing.Phased`1"/>.
+            </summary>
+        </member>
+        <member name="F:ElecNetKit.NetworkModelling.Phasing.PhasedReadOnlyEvaluated`2.basePhased">
+            <summary>
+            The backing <see cref="T:ElecNetKit.NetworkModelling.Phasing.Phased`1"/>.
+            </summary>
+        </member>
+        <member name="M:ElecNetKit.NetworkModelling.Phasing.PhasedReadOnlyEvaluated`2.#ctor">
+            <summary>
+            Instantiates a new <see cref="T:ElecNetKit.NetworkModelling.Phasing.PhasedReadOnlyEvaluated`2"/>.
+            </summary>
+        </member>
+        <member name="M:ElecNetKit.NetworkModelling.Phasing.PhasedReadOnlyEvaluated`2.#ctor(System.Func{`0,`1},ElecNetKit.NetworkModelling.Phasing.Phased{`0})">
+            <summary>
+            Instantiates a new <see cref="T:ElecNetKit.NetworkModelling.Phasing.PhasedReadOnlyEvaluated`2"/>.
+            </summary>
+            <param name="getTransform">A function that converts from <typeparamref name="TFrom"/> to <typeparamref name="T"/>.</param>
+            <param name="basePhased">The backing <see cref="T:ElecNetKit.NetworkModelling.Phasing.Phased`1"/>.</param>
+        </member>
+        <member name="M:ElecNetKit.NetworkModelling.Phasing.PhasedReadOnlyEvaluated`2.Add(System.Int32,`1)">
+            <summary>
+            Not supported. Always throws a <see cref="T:System.NotSupportedException"/>.
+            </summary>
+            <param name="key">Not used.</param>
+            <param name="value">Not used.</param>
+        </member>
+        <member name="M:ElecNetKit.NetworkModelling.Phasing.PhasedReadOnlyEvaluated`2.ContainsKey(System.Int32)">
+            <inheritdoc />
+        </member>
+        <member name="M:ElecNetKit.NetworkModelling.Phasing.PhasedReadOnlyEvaluated`2.Remove(System.Int32)">
+            <summary>
+            Not supported. Always throws a <see cref="T:System.NotSupportedException"/>.
+            </summary>
+            <param name="key">Not used.</param>
+        </member>
+        <member name="M:ElecNetKit.NetworkModelling.Phasing.PhasedReadOnlyEvaluated`2.TryGetValue(System.Int32,`1@)">
+            <inheritdoc />
+        </member>
+        <member name="M:ElecNetKit.NetworkModelling.Phasing.PhasedReadOnlyEvaluated`2.Add(System.Collections.Generic.KeyValuePair{System.Int32,`1})">
+            <summary>
+            Not supported. Always throws a <see cref="T:System.NotSupportedException"/>.
+            </summary>
+            <param name="item">Not used.</param>
+        </member>
+        <member name="M:ElecNetKit.NetworkModelling.Phasing.PhasedReadOnlyEvaluated`2.Clear">
+            <summary>
+            Not supported. Always throws a <see cref="T:System.NotSupportedException"/>.
+            </summary>
+        </member>
+        <member name="M:ElecNetKit.NetworkModelling.Phasing.PhasedReadOnlyEvaluated`2.Contains(System.Collections.Generic.KeyValuePair{System.Int32,`1})">
+            <inheritdoc />
+        </member>
+        <member name="M:ElecNetKit.NetworkModelling.Phasing.PhasedReadOnlyEvaluated`2.CopyTo(System.Collections.Generic.KeyValuePair{System.Int32,`1}[],System.Int32)">
+            <inheritdoc />
+        </member>
+        <member name="M:ElecNetKit.NetworkModelling.Phasing.PhasedReadOnlyEvaluated`2.Remove(System.Collections.Generic.KeyValuePair{System.Int32,`1})">
+            <summary>
+            Not supported. Always throws a <see cref="T:System.NotSupportedException"/>.
+            </summary>
+            <param name="item">Not used.</param>
+        </member>
+        <member name="M:ElecNetKit.NetworkModelling.Phasing.PhasedReadOnlyEvaluated`2.GetEnumerator">
+            <inheritdoc />
+        </member>
+        <member name="M:ElecNetKit.NetworkModelling.Phasing.PhasedReadOnlyEvaluated`2.System#Collections#IEnumerable#GetEnumerator">
+            <inheritdoc />
+        </member>
+        <member name="P:ElecNetKit.NetworkModelling.Phasing.PhasedReadOnlyEvaluated`2.Keys">
+            <inheritdoc />
+        </member>
+        <member name="P:ElecNetKit.NetworkModelling.Phasing.PhasedReadOnlyEvaluated`2.Values">
+            <inheritdoc />
+        </member>
+        <member name="P:ElecNetKit.NetworkModelling.Phasing.PhasedReadOnlyEvaluated`2.Item(System.Int32)">
+            <inheritdoc />
+        </member>
+        <member name="P:ElecNetKit.NetworkModelling.Phasing.PhasedReadOnlyEvaluated`2.Count">
+            <inheritdoc />
+        </member>
+        <member name="P:ElecNetKit.NetworkModelling.Phasing.PhasedReadOnlyEvaluated`2.IsReadOnly">
+            <inheritdoc />
+        </member>
+        <member name="M:ElecNetKit.NetworkModelling.Phasing.CachedPhasedReadOnlyEvaluated`2.#ctor(System.Func{`0,`1},ElecNetKit.NetworkModelling.Phasing.Phased{`0})">
+            <summary>
+            Instantiates a new <see cref="T:ElecNetKit.NetworkModelling.Phasing.CachedPhasedReadOnlyEvaluated`2"/>
+            </summary>
+            <param name="transform">The transform to apply to the elements of the backing <see cref="T:ElecNetKit.NetworkModelling.Phasing.Phased`1"/>.</param>
+            <param name="theBase">The backing <see cref="T:ElecNetKit.NetworkModelling.Phasing.Phased`1"/>.</param>
+        </member>
+        <member name="M:ElecNetKit.NetworkModelling.Phasing.CachedPhasedReadOnlyEvaluated`2.CacheTransform(`0)">
+            <summary>
+            Provides caching.
+            </summary>
+            <param name="arg">The element from the backing <see cref="T:ElecNetKit.NetworkModelling.Phasing.Phased`1"/>.</param>
+            <returns>A converted and possibly cached transformed value.</returns>
+        </member>
+        <member name="T:ElecNetKit.NetworkModelling.Phasing.NamespaceDoc">
+            <summary>
+            The <see cref="N:ElecNetKit.NetworkModelling.Phasing"/> namespace defines classes for representing
+            phased values on electrical network elements.
+            </summary>
+        </member>
+        <member name="T:ElecNetKit.NetworkModelling.Phasing.PhasedValues`1">
+            <summary>
+            A value-based type that implements the <see cref="T:ElecNetKit.NetworkModelling.Phasing.Phased`1"/> interface.
+            </summary>
+            <typeparam name="T">The type that should have a unique value per phase.</typeparam>
+        </member>
+        <member name="M:ElecNetKit.NetworkModelling.Phasing.PhasedValues`1.#ctor(System.Runtime.Serialization.SerializationInfo,System.Runtime.Serialization.StreamingContext)">
+            <inheritdoc />
+        </member>
+        <member name="M:ElecNetKit.NetworkModelling.Phasing.PhasedValues`1.GetObjectData(System.Runtime.Serialization.SerializationInfo,System.Runtime.Serialization.StreamingContext)">
+            <inheritdoc />
+        </member>
+        <member name="M:ElecNetKit.NetworkModelling.Phasing.PhasedValues`1.#ctor">
+            <summary>
+            Instantiates a new <see cref="T:ElecNetKit.NetworkModelling.Phasing.PhasedValues`1"/>.
+            </summary>
+        </member>
+        <member name="T:ElecNetKit.NetworkModelling.Phasing.PhasedEvaluated`2">
+            <summary>
+            <see cref="T:ElecNetKit.NetworkModelling.Phasing.PhasedEvaluated`2"/> applies transforms to the values from an underlying <see cref="T:ElecNetKit.NetworkModelling.Phasing.Phased`1"/>
+            in order to obtain new values.
+            </summary>
+            <remarks><see cref="T:ElecNetKit.NetworkModelling.Phasing.PhasedEvaluated`2"/> is useful for providing phased convenience properties to classes when there
+            is no difference in underlying data.</remarks>
+            <example>Consider the two properties of electrical network buses: voltage, and per-unit voltage. There is no
+            point in storing these values twice in a network element model: The per-unit voltage would be redundant,
+            as it is defined as (Voltage/BaseVoltage), and both of these values are stored in the network element.
+            In such cases, it is best to use a <see cref="T:ElecNetKit.NetworkModelling.Phasing.PhasedEvaluated`2"/> for implementation:
+            <code source="../Examples/Snippets/PhasedEvaluated.cs" language="c#"/></example>
+            <typeparam name="TFrom">The type of the base phased object.</typeparam>
+            <typeparam name="TTo">The type of the values of this phased object.</typeparam>
+        </member>
+        <member name="M:ElecNetKit.NetworkModelling.Phasing.PhasedEvaluated`2.#ctor(System.Func{`0,`1},System.Func{`1,`0},ElecNetKit.NetworkModelling.Phasing.Phased{`0})">
+            <summary>
+            Instantiates a new <see cref="T:ElecNetKit.NetworkModelling.Phasing.PhasedEvaluated`2"/> with the specified transforms and base phased object.
+            </summary>
+            <param name="getTransform">A transform translating values from <see cref="F:ElecNetKit.NetworkModelling.Phasing.PhasedEvaluated`2.basePhased"/> to this <see cref="T:ElecNetKit.NetworkModelling.Phasing.PhasedEvaluated`2"/>, for get operations.</param>
+            <param name="setTransform">A transform translating values from this <see cref="T:ElecNetKit.NetworkModelling.Phasing.PhasedEvaluated`2"/> to <see cref="F:ElecNetKit.NetworkModelling.Phasing.PhasedEvaluated`2.basePhased"/>, for set operations.</param>
+            <param name="basePhased"></param>
+        </member>
+        <member name="M:ElecNetKit.NetworkModelling.Phasing.PhasedEvaluated`2.Add(System.Int32,`1)">
+            <inheritdoc />
+        </member>
+        <member name="M:ElecNetKit.NetworkModelling.Phasing.PhasedEvaluated`2.ContainsKey(System.Int32)">
+            <inheritdoc />
+        </member>
+        <member name="M:ElecNetKit.NetworkModelling.Phasing.PhasedEvaluated`2.Remove(System.Int32)">
+            <inheritdoc />
+        </member>
+        <member name="M:ElecNetKit.NetworkModelling.Phasing.PhasedEvaluated`2.TryGetValue(System.Int32,`1@)">
+            <inheritdoc />
+        </member>
+        <member name="M:ElecNetKit.NetworkModelling.Phasing.PhasedEvaluated`2.Add(System.Collections.Generic.KeyValuePair{System.Int32,`1})">
+            <inheritdoc />
+        </member>
+        <member name="M:ElecNetKit.NetworkModelling.Phasing.PhasedEvaluated`2.Clear">
+            <inheritdoc />
+        </member>
+        <member name="M:ElecNetKit.NetworkModelling.Phasing.PhasedEvaluated`2.Contains(System.Collections.Generic.KeyValuePair{System.Int32,`1})">
+            <inheritdoc />
+        </member>
+        <member name="M:ElecNetKit.NetworkModelling.Phasing.PhasedEvaluated`2.CopyTo(System.Collections.Generic.KeyValuePair{System.Int32,`1}[],System.Int32)">
+            <inheritdoc />
+        </member>
+        <member name="M:ElecNetKit.NetworkModelling.Phasing.PhasedEvaluated`2.Remove(System.Collections.Generic.KeyValuePair{System.Int32,`1})">
+            <inheritdoc />
+        </member>
+        <member name="M:ElecNetKit.NetworkModelling.Phasing.PhasedEvaluated`2.GetEnumerator">
+            <inheritdoc />
+        </member>
+        <member name="P:ElecNetKit.NetworkModelling.Phasing.PhasedEvaluated`2.Keys">
+            <inheritdoc />
+        </member>
+        <member name="P:ElecNetKit.NetworkModelling.Phasing.PhasedEvaluated`2.Values">
+            <inheritdoc />
+        </member>
+        <member name="P:ElecNetKit.NetworkModelling.Phasing.PhasedEvaluated`2.Item(System.Int32)">
+            <inheritdoc />
+        </member>
+        <member name="P:ElecNetKit.NetworkModelling.Phasing.PhasedEvaluated`2.Count">
+            <inheritdoc />
+        </member>
+        <member name="P:ElecNetKit.NetworkModelling.Phasing.PhasedEvaluated`2.IsReadOnly">
+            <inheritdoc />
+        </member>
+        <member name="T:ElecNetKit.NetworkModelling.Phasing.QueryableCollection`2">
+            <summary>
+            A read-only collection that uses a transform function to
+            transform the individual elements of another collection.
+            </summary>
+            <typeparam name="TBase">The type of the underlying <see cref="T:System.Collections.Generic.ICollection`1"/>.</typeparam>
+            <typeparam name="TTo">The type of this collection.</typeparam>
+        </member>
+        <member name="M:ElecNetKit.NetworkModelling.Phasing.QueryableCollection`2.#ctor(System.Func{`0,`1},System.Collections.Generic.ICollection{`0})">
+            <summary>
+            Instantiates a new <see cref="T:ElecNetKit.NetworkModelling.Phasing.QueryableCollection`2"/> with the specified translation functions and base <see cref="T:System.Collections.Generic.ICollection`1"/>.
+            </summary>
+            <param name="transform">A function that transforms the elements of the base collection to <typeparamref name="TTo"/>.</param>
+            <param name="theBase">The base collection.</param>
+        </member>
+        <member name="M:ElecNetKit.NetworkModelling.Phasing.QueryableCollection`2.Add(`1)">
+            <summary>
+            Not supported. Always throws a <see cref="T:System.NotSupportedException"/>.
+            </summary>
+            <param name="item">Not used.</param>
+        </member>
+        <member name="M:ElecNetKit.NetworkModelling.Phasing.QueryableCollection`2.Clear">
+            <summary>
+            Not supported. Always throws a <see cref="T:System.NotSupportedException"/>.
+            </summary>
+        </member>
+        <member name="M:ElecNetKit.NetworkModelling.Phasing.QueryableCollection`2.Contains(`1)">
+            <inheritdoc />
+        </member>
+        <member name="M:ElecNetKit.NetworkModelling.Phasing.QueryableCollection`2.CopyTo(`1[],System.Int32)">
+            <summary>
+            Not supported. Always throws a <see cref="T:System.NotSupportedException"/>.
+            </summary>
+            <param name="array">Not used.</param>
+            <param name="arrayIndex">Not used.</param>
+        </member>
+        <member name="M:ElecNetKit.NetworkModelling.Phasing.QueryableCollection`2.Remove(`1)">
+            <summary>
+            Not supported. Always throws a <see cref="T:System.NotSupportedException"/>.
+            </summary>
+            <param name="item">Not used.</param>
+        </member>
+        <member name="M:ElecNetKit.NetworkModelling.Phasing.QueryableCollection`2.GetEnumerator">
+            <inheritdoc />
+        </member>
+        <member name="M:ElecNetKit.NetworkModelling.Phasing.QueryableCollection`2.System#Collections#IEnumerable#GetEnumerator">
+            <inheritdoc />
+        </member>
+        <member name="P:ElecNetKit.NetworkModelling.Phasing.QueryableCollection`2.Count">
+            <inheritdoc />
+        </member>
+        <member name="P:ElecNetKit.NetworkModelling.Phasing.QueryableCollection`2.IsReadOnly">
+            <inheritdoc />
+        </member>
+        <member name="T:ElecNetKit.NetworkModelling.Tracing">
+            <summary>
+            The <see cref="T:ElecNetKit.NetworkModelling.Tracing"/> class defines a set of functions for tracing
+            the topology of <see cref="T:ElecNetKit.NetworkModelling.NetworkModel"/>s.
+            </summary>
+        </member>
+        <member name="M:ElecNetKit.NetworkModelling.Tracing.BusesOnRouteToTarget(ElecNetKit.NetworkModelling.Bus,ElecNetKit.NetworkModelling.Bus)">
+            <summary>
+            Obtains a list of all buses that are directly on-route from
+            <paramref name="FromBus"/> to <paramref name="TargetBus"/>.
+            </summary>
+            <param name="FromBus">The <see cref="T:ElecNetKit.NetworkModelling.Bus"/> to trace from.</param>
+            <param name="TargetBus">The <see cref="T:ElecNetKit.NetworkModelling.Bus"/> to trace to.</param>
+            <returns>A list of all buses that are directly on-route from
+            <paramref name="FromBus"/> to <paramref name="TargetBus"/> (inclusive).</returns>
+        </member>
+        <member name="M:ElecNetKit.NetworkModelling.Tracing.TraceWithoutCrossingBuses(ElecNetKit.NetworkModelling.Bus,System.Collections.Generic.IEnumerable{ElecNetKit.NetworkModelling.Bus})">
+            <summary>
+            Obtains a list of all buses directly or indirectly connected to <paramref name="FromBus"/>,
+            so long as they are connected in a fashion that does not rely upon the presence of any elements of
+            <paramref name="BusesToExclude"/>
+            </summary>
+            <param name="FromBus">The <see cref="T:ElecNetKit.NetworkModelling.Bus"/> to trace from.</param>
+            <param name="BusesToExclude">A set of <see cref="T:ElecNetKit.NetworkModelling.Bus"/>es that should be avoided in the trace operation.</param>
+            <returns>A list of all buses directly or indirectly connected to <paramref name="FromBus"/>, 
+            so long as connection is not through any element in <paramref name="BusesToExclude"/>.</returns>
+        </member>
+        <member name="M:ElecNetKit.NetworkModelling.Tracing.GetDirectLengthBetweenBuses(ElecNetKit.NetworkModelling.Bus,ElecNetKit.NetworkModelling.Bus)">
+            <summary>
+            Obtains the direct line length between two buses.
+            </summary>
+            <param name="FromBus">The bus to trace from.</param>
+            <param name="ToBus">The bus to find the line length to.</param>
+            <returns>The line length, in metres.</returns>
+        </member>
+        <member name="M:ElecNetKit.NetworkModelling.Tracing.TraceFromWithCallback(ElecNetKit.NetworkModelling.Bus,System.Collections.Generic.IEnumerable{ElecNetKit.NetworkModelling.Bus},System.Action{ElecNetKit.NetworkModelling.Bus,ElecNetKit.NetworkModelling.Line,ElecNetKit.NetworkModelling.Bus})">
+            <summary>
+            Traces from <paramref name="FromBus"/> along all buses in <paramref name="AllowedBuses"/>,
+            and executing <paramref name="Callback"/> for every connection between two buses.
+            </summary>
+            <param name="FromBus">The bus to trace from.</param>
+            <param name="AllowedBuses">All buses that are to be allowed in the trace.</param>
+            <param name="Callback">A custom action to execute for every connection.</param>
+        </member>
+        <member name="T:ElecNetKit.Engines.NamespaceDoc">
+            <summary>
+            The <see cref="N:ElecNetKit.Engines"/> namespace
+            contains simulator backends for the Electric Network Toolkit.
+            Note that no engines are provided within the core assembly,
+            so references to <c>ElecNetKit.Engines.*</c> assemblies should
+            be added before use of these backends.
+            </summary>
+        </member>
+        <member name="T:ElecNetKit.Simulator.NamespaceDoc">
+            <summary>
+            The <see cref="N:ElecNetKit.Simulator"/> namespace defines a set of classes
+            for controlling simulation, and managing external simulator integration.
+            </summary>
+        </member>
+        <member name="T:ElecNetKit.Transform.DifferenceTransform">
+            <summary>
+            Measures the change in voltage magnitudes and phases between a pre- and
+            post- experiment network. Saves the computed differences back into the
+            final <see cref="T:ElecNetKit.NetworkModelling.NetworkModel"/> for processing, traversing or graphing.
+            </summary>
+        </member>
+        <member name="T:ElecNetKit.Transform.IResultsTransform">
+            <summary>
+            Classes that implement <see cref="T:ElecNetKit.Transform.IResultsTransform"/> are used for
+            observing and modifying the electrical network model pre- and post- 
+            experiment.
+            They meaningfully reinterpret the results obtained by experimentation
+            in order to be better visualised or stored.
+            </summary>
+            <example>For an example implementation, see
+            <see cref="T:ElecNetKit.Transform.DifferenceTransform"/>.</example>
+        </member>
+        <member name="M:ElecNetKit.Transform.IResultsTransform.PreExperimentHook(ElecNetKit.NetworkModelling.NetworkModel)">
+            <summary>
+            Called by a <see cref="T:ElecNetKit.Simulator.NetworkController"/>
+            before experiment commands are run, providing the
+            <see cref="T:ElecNetKit.Transform.IResultsTransform"/> with a chance to measure or
+            manipulate network parameters before experiment.
+            </summary>
+            <param name="Network">The un-experimented network.</param>
+        </member>
+        <member name="M:ElecNetKit.Transform.IResultsTransform.PostExperimentHook(ElecNetKit.NetworkModelling.NetworkModel)">
+            <summary>
+            Called by a <see cref="T:ElecNetKit.Simulator.NetworkController"/>
+            after experiment commands are run. Implementors should meaningfully
+            measure or modify the <see cref="T:ElecNetKit.NetworkModelling.NetworkModel"/> to enable better
+            analysis of results.
+            </summary>
+            <param name="Network">The electrical network model, post-experiment.
+            </param>
+        </member>
+        <member name="M:ElecNetKit.Transform.DifferenceTransform.PreExperimentHook(ElecNetKit.NetworkModelling.NetworkModel)">
+            <summary>
+            Store original bus voltage magnitudes by BusID in oldVoltages.
+            See <see cref="M:ElecNetKit.Transform.IResultsTransform.PreExperimentHook(ElecNetKit.NetworkModelling.NetworkModel)"/> for how this
+            fits into the system.
+            </summary>
+            <param name="Network">The original, unexperimented network.</param>
+        </member>
+        <member name="M:ElecNetKit.Transform.DifferenceTransform.PostExperimentHook(ElecNetKit.NetworkModelling.NetworkModel)">
+            <summary>
+            Subtracts old bus voltage magnitudes from new bus voltage
+            magnitudes. Note that this will screw around with the phases
+            due to subtraction of magnitudes, not of complex vectors.
+            </summary>
+            <param name="Network">The network to transform.</param>
+        </member>
+        <member name="T:ElecNetKit.Transform.NamespaceDoc">
+            <summary>
+            The <see cref="N:ElecNetKit.Transform"/> namespace contains interfaces and 
+            classes associated with transforming results from network experiments.
+            </summary>
+        </member>
+        <member name="T:ElecNetKit.Util.NamespaceDoc">
+            <summary>Defines a few bells and whistles that are used throughout ElecNetKit
+            and might be useful in potential applications.</summary>
+        </member>
+        <member name="T:ElecNetKit.Util.NormalDist">
+            <summary>
+            A Normal Distribution. Generates normally-distributed random data from
+            a mean and a standard deviation.
+            </summary>
+        </member>
+        <member name="M:ElecNetKit.Util.NormalDist.GetNextValue">
+            <summary>
+            Obtains the next random value from the distribution with the given
+            μ and σ.
+            </summary>
+            <returns>A random value from this distribution.</returns>
+        </member>
+        <member name="M:ElecNetKit.Util.NormalDist.#ctor">
+            <summary>
+            Instantiates a new Normal Distribution, with Mean = 0 and Std Dev = 1.
+            </summary>
+        </member>
+        <member name="M:ElecNetKit.Util.NormalDist.#ctor(System.Double,System.Double)">
+            <summary>
+            Instantiates a new Normal Distribution.
+            </summary>
+            <param name="Mean">The Mean (μ) of the distribution.</param>
+            <param name="StdDev">The Standard Deviation (σ) of the distribution.</param>
+        </member>
+        <member name="M:ElecNetKit.Util.NormalDist.#ctor(System.Collections.Generic.IEnumerable{System.Double})">
+            <summary>
+            Instantiates a new Normal Distribution. Fits a Normal Distribution based on an array of data.
+            </summary>
+            <param name="data">The data to fit the Normal Distribution to.</param>
+        </member>
+        <member name="M:ElecNetKit.Util.NormalDist.GetZ">
+            <summary>
+            Generates a random value for the N(0,1) distribution.
+            </summary>
+            <returns>A random value from the N(0,1) distribution.</returns>
+        </member>
+        <member name="M:ElecNetKit.Util.NormalDist.ToString">
+            <summary>
+            Converts to String.
+            </summary>
+            <returns>A string representation of the normal distribution.</returns>
+        </member>
+        <member name="P:ElecNetKit.Util.NormalDist.Mean">
+            <summary>
+            The Mean of the normally distributed data (μ).
+            </summary>
+        </member>
+        <member name="P:ElecNetKit.Util.NormalDist.StdDev">
+            <summary>
+            The Standard Deviation of the normally distributed data (σ).
+            </summary>
+        </member>
+        <member name="P:ElecNetKit.Util.NormalDist.Variance">
+            <summary>
+            The variance of the normally distributed data (σ²).
+            </summary>
+        </member>
+        <member name="T:ElecNetKit.Simulator.NetworkController">
+            <summary>
+            A class that governs the production of a network model,
+            experimenting on the network model and transforming the results
+            (all as requested). Capable of working with any
+            <see cref="T:ElecNetKit.Simulator.ISimulator"/>, and will automatically detect and use
+            any available simulator in the <c>/ElecNetKitExtensions</c> subfolder
+            of the entry assembly (<see cref="M:System.Reflection.Assembly.GetEntryAssembly"/>)'s
+            location.
+            </summary>
+        </member>
+        <member name="F:ElecNetKit.Simulator.NetworkController.simulator">
+            <summary>
+            The simulator to be used by the system.
+            </summary>
+        </member>
+        <member name="M:ElecNetKit.Simulator.NetworkController.ClearNetworkCache">
+            <summary>
+            Forces the pre-experiment network to be recalculated.
+            </summary>
+        </member>
+        <member name="M:ElecNetKit.Simulator.NetworkController.#ctor(ElecNetKit.Simulator.ISimulator)">
+            <summary>
+            Instantiates a <see cref="T:ElecNetKit.Simulator.NetworkController"/> using the provided simulator.
+            </summary>
+            <param name="sim">The simulator object to use for simulations.</param>
+        </member>
+        <member name="M:ElecNetKit.Simulator.NetworkController.Execute">
+            <summary>
+            Runs the simulation, and an experiment (<see cref="T:ElecNetKit.Experimentation.IExperimentor"/>, if specified), and 
+            applies a results transform (<see cref="T:ElecNetKit.Transform.IResultsTransform"/>, if specified). After simulation
+            has been run, the network can be retrieved for plotting/analysis.
+            </summary>
+        </member>
+        <member name="P:ElecNetKit.Simulator.NetworkController.NetworkFilename">
+            <summary>
+            The filename corresponding to a stored network model. The network model should
+            define the network but not (necessarily) solve anything.
+            </summary>
+        </member>
+        <member name="P:ElecNetKit.Simulator.NetworkController.ExperimentDriver">
+            <summary>
+            The particular experiment that will be applied to the network.
+            </summary>
+        </member>
+        <member name="P:ElecNetKit.Simulator.NetworkController.ResultsTransformer">
+            <summary>
+            The <see cref="T:ElecNetKit.Transform.IResultsTransform"/> to be used in the experiment.
+            </summary>
+        </member>
+        <member name="P:ElecNetKit.Simulator.NetworkController.Network">
+            <summary>
+            The simulated network. Only avaiable once Execute() has been
+            called.
+            </summary>
+        </member>
+        <member name="P:ElecNetKit.Simulator.NetworkController.CacheNetwork">
+            <summary>
+            A flag indicating, if set, that the <see cref="T:ElecNetKit.Simulator.NetworkController"/> should
+            only ever obtain the pre-experiment network from the simulator once.
+            Default value is <c>true</c>.
+            </summary>
+            <remarks>Note that setting <see cref="P:ElecNetKit.Simulator.NetworkController.CacheNetwork"/> to <c>true</c> will
+            not persist the modifications made after experimentation. <see cref="P:ElecNetKit.Simulator.NetworkController.CacheNetwork"/>
+            is only designed to be used for performance improvement. If you wish to
+            combine multiple experiments into one, use <see cref="T:ElecNetKit.Experimentation.ChainExperimentor"/>
+            instead.
+            </remarks>
+        </member>
+        <member name="T:ElecNetKit.Simulator.ISimulator">
+            <summary>
+            Defines an electrical network simulator. Simulators must be able to run
+            textual commands and return network models.
+            </summary>
+            <example>
+            For an example implemention, see the <c>ElecNetKit.Engines.OpenDSS</c> assembly.</example>
+        </member>
+        <member name="M:ElecNetKit.Simulator.ISimulator.RunCommand(System.String)">
+            <summary>
+            Run a single command through the simulator text interface.
+            </summary>
+            <param name="command">The command to run.</param>
+        </member>
+        <member name="M:ElecNetKit.Simulator.ISimulator.PrepareNetwork(System.String)">
+            <summary>
+            Signals that the <see cref="T:ElecNetKit.Simulator.ISimulator"/> should load a network
+            model from <paramref name="filename"/>, ready to be returned as a
+            <see cref="T:ElecNetKit.NetworkModelling.NetworkModel"/> or experimented upon.
+            </summary>
+            <param name="filename"></param>
+        </member>
+        <member name="M:ElecNetKit.Simulator.ISimulator.GetNetworkModel">
+            <summary>
+            Finalises all experiment commands, solves and retrieves all results
+            and returns a <see cref="T:ElecNetKit.NetworkModelling.NetworkModel"/>, characterising the electrical 
+            network.
+            </summary>
+            <returns>The complete electrical network model.</returns>
+        </member>
+        <member name="T:ElecNetKit.Util.Limits">
+            <summary>
+            Automatically determines the minimum and maximum values
+            for a data set. Manual limits (<see cref="P:ElecNetKit.Util.Limits.LimitMin"/> and
+            <see cref="P:ElecNetKit.Util.Limits.LimitMax"/>) can also be specified, and then values can be
+            scaled from the Auto-space to the Manual-space, and vice-versa.
+            </summary>
+        </member>
+        <member name="M:ElecNetKit.Util.Limits.#ctor">
+            <summary>
+            Instantiates a new <see cref="T:ElecNetKit.Util.Limits"/>.
+            </summary>
+        </member>
+        <member name="M:ElecNetKit.Util.Limits.PercentWayThroughAutoData(System.Double)">
+            <summary>
+            How far between the Minimum and Maximum a value is, as a fraction.
+            </summary>
+            <param name="value">The value in question.</param>
+            <returns>A fractional value indicating how far between the Minimum and Maximum the value is.</returns>
+        </member>
+        <member name="M:ElecNetKit.Util.Limits.ValueScaledToLimits(System.Double)">
+            <summary>
+            Scales a value from the Auto-limits space to the manual-limits space.
+            </summary>
+            <param name="value">A value in the auto-limits space, in the interval [<see cref="P:ElecNetKit.Util.Limits.AutoMin"/>,<see cref="P:ElecNetKit.Util.Limits.AutoMax"/>].</param>
+            <returns>A value the same percentage of the way through the interval [<see cref="P:ElecNetKit.Util.Limits.LimitMin"/>,<see cref="P:ElecNetKit.Util.Limits.LimitMax"/>].</returns>
+        </member>
+        <member name="M:ElecNetKit.Util.Limits.ProcessData(System.Double)">
+            <summary>
+            Processes a single data point.
+            </summary>
+            <param name="value">A piece of data to consider into the limits.</param>
+        </member>
+        <member name="M:ElecNetKit.Util.Limits.ProcessData(System.Collections.Generic.IEnumerable{System.Double})">
+            <summary>
+            Processes a set of data.
+            </summary>
+            <param name="values">A set of data to consider into the limits.</param>
+        </member>
+        <member name="M:ElecNetKit.Util.Limits.AutoDataReset">
+            <summary>
+            Resets the Auto limits.
+            </summary>
+        </member>
+        <member name="M:ElecNetKit.Util.Limits.ValueUnscaledFromLimits(System.Double)">
+            <summary>
+            Unscales a value from the manual/custom space to the auto-space
+            </summary>
+            <param name="p">A value in the manual/custom space, in the interval [<see cref="P:ElecNetKit.Util.Limits.LimitMin"/>,<see cref="P:ElecNetKit.Util.Limits.LimitMax"/>]</param>
+            <returns>A value the same percentage of the way through the interval [<see cref="P:ElecNetKit.Util.Limits.AutoMin"/>,<see cref="P:ElecNetKit.Util.Limits.AutoMax"/>].</returns>
+        </member>
+        <member name="P:ElecNetKit.Util.Limits.AutoMin">
+            <summary>
+            Returns the automatically determined minimum value of the processed data.
+            </summary>
+        </member>
+        <member name="P:ElecNetKit.Util.Limits.AutoMax">
+            <summary>
+            Returns the automatically determined maximum value of the processed data.
+            </summary>
+        </member>
+        <member name="P:ElecNetKit.Util.Limits.LimitMin">
+            <summary>
+            A custom minimum for scaling values in the auto-space to a custom space.
+            </summary>
+        </member>
+        <member name="P:ElecNetKit.Util.Limits.LimitMax">
+            <summary>
+            A custom maximum for scaling values in the auto-space to a custom space.
+            </summary>
+        </member>
+        <member name="P:ElecNetKit.Util.Limits.Count">
+            <summary>
+            Returns the number of data points processed by the <see cref="T:ElecNetKit.Util.Limits"/>.
+            </summary>
+        </member>
+        <member name="T:ElecNetKit.Util.TwinKeyDictionary`3">
+            <summary>
+            A Twin-Key dictionary, useful for working with tables of data, such as
+            sensitivities. Can index by either key or both. Could also be interpreted
+            as a sparse matrix with flexible types for the rows and cols.
+            </summary>
+            <typeparam name="TKeyX">One type to index on.</typeparam>
+            <typeparam name="TKeyY">The other type to index on.</typeparam>
+            <typeparam name="TValue">The type of the value.</typeparam>
+        </member>
+        <member name="M:ElecNetKit.Util.TwinKeyDictionary`3.#ctor">
+            <summary>
+            Instantiate a new dictionary.
+            </summary>
+        </member>
+        <member name="M:ElecNetKit.Util.TwinKeyDictionary`3.Add(`0,`1,`2)">
+            <summary>
+            Add a new entry to the table.
+            </summary>
+            <param name="keyX">The X parameter.</param>
+            <param name="keyY">The Y parameter.</param>
+            <param name="value">The value to store at (X,Y).</param>
+        </member>
+        <member name="M:ElecNetKit.Util.TwinKeyDictionary`3.ContainsKey(`0,`1)">
+            <summary>
+            Tests whether the dictionary contains a key at the specified XY
+            location.
+            </summary>
+            <param name="keyX">The row to look in.</param>
+            <param name="keyY">The column to look in.</param>
+            <returns>True if the key exists.</returns>
+        </member>
+        <member name="M:ElecNetKit.Util.TwinKeyDictionary`3.ContainsKeyY(`1)">
+            <summary>
+            Tests whether a column exists in the dictionary.
+            </summary>
+            <param name="keyY">The key of the column to test for.</param>
+            <returns>True if the column exists.</returns>
+        </member>
+        <member name="M:ElecNetKit.Util.TwinKeyDictionary`3.ContainsKeyX(`0)">
+            <summary>
+            Tests whether a row exists in the dictionary.
+            </summary>
+            <param name="keyX">The row to test existence of.</param>
+            <returns>True if the row exists.</returns>
+        </member>
+        <member name="M:ElecNetKit.Util.TwinKeyDictionary`3.Remove(`0,`1)">
+            <summary>
+            Remove the table entry at (X,Y).
+            </summary>
+            <param name="keyX">The X location of the value to remove.</param>
+            <param name="keyY">The Y location of the value to remove.</param>
+        </member>
+        <member name="M:ElecNetKit.Util.TwinKeyDictionary`3.Merge(ElecNetKit.Util.TwinKeyDictionary{`0,`1,`2})">
+            <summary>
+            Imports the entries from <paramref name="otherDictionary"/> into this dictionary.
+            </summary>
+            <param name="otherDictionary">The other dictionary to merge entries from.</param>
+        </member>
+        <member name="M:ElecNetKit.Util.TwinKeyDictionary`3.MergeX(System.Collections.Generic.Dictionary{`0,System.Collections.Generic.Dictionary{`1,`2}})">
+            <summary>
+            Merges in values from a dictionary of dictionaries.
+            </summary>
+            <param name="otherDictionary">The dictionary to merge in.</param>
+        </member>
+        <member name="M:ElecNetKit.Util.TwinKeyDictionary`3.MergeY(System.Collections.Generic.Dictionary{`1,System.Collections.Generic.Dictionary{`0,`2}})">
+            <summary>
+            Merges in values from a dictionary of dictionaries.
+            </summary>
+            <param name="otherDictionary">The dictionary to merge in.</param>
+        </member>
+        <member name="M:ElecNetKit.Util.TwinKeyDictionary`3.OnDeserialization(System.Object)">
+            <summary>
+            Rebuilds index after deserialisation.
+            </summary>
+            <param name="sender">Not used or implemented.</param>
+        </member>
+        <member name="P:ElecNetKit.Util.TwinKeyDictionary`3.MapX">
+            <summary>
+            Access the TwinKeyDictionary first by Row.
+            </summary>
+        </member>
+        <member name="P:ElecNetKit.Util.TwinKeyDictionary`3.MapY">
+            <summary>
+            Access the TwinKeyDictionary first by Column.
+            </summary>
+        </member>
+    </members>
+</doc>

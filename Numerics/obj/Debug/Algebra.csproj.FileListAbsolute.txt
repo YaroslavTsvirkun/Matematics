@@ -1,0 +1,5 @@
+C:\Users\test\Documents\Visual Studio 2017\Projects\Matematics\Numerics\bin\Debug\Numerics.dll
+C:\Users\test\Documents\Visual Studio 2017\Projects\Matematics\Numerics\bin\Debug\Numerics.pdb
+C:\Users\test\Documents\Visual Studio 2017\Projects\Matematics\Numerics\obj\Debug\Numerics.dll
+C:\Users\test\Documents\Visual Studio 2017\Projects\Matematics\Numerics\obj\Debug\Numerics.pdb
+C:\Users\test\Documents\Visual Studio 2017\Projects\Matematics\Numerics\bin\Debug\Numerics.xml

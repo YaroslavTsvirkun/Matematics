@@ -1,0 +1,760 @@
+<?xml version="1.0"?>
+<doc>
+    <assembly>
+        <name>ElecNetKit.Graphing</name>
+    </assembly>
+    <members>
+        <member name="T:ElecNetKit.Graphing.AdaptiveGradients.AdaptiveGradient">
+            <summary>
+            Provides functions for building gradients around data. Colours can be
+            anchored to not only fixed data points (see <see cref="T:ElecNetKit.Graphing.AdaptiveGradients.StaticValue"/>),
+            but also to the minimum value (<see cref="T:ElecNetKit.Graphing.AdaptiveGradients.MinValue"/>) and maximum value
+            (<see cref="T:ElecNetKit.Graphing.AdaptiveGradients.MaxValue"/>) of the data-set, for example.
+            </summary>
+        </member>
+        <member name="M:ElecNetKit.Graphing.AdaptiveGradients.AdaptiveGradient.#ctor">
+            <summary>
+            Instantiates a new <see cref="T:ElecNetKit.Graphing.AdaptiveGradients.AdaptiveGradient"/>.
+            </summary>
+            <remarks>
+            Note: If you're after a default gradient,
+            use <see cref="M:ElecNetKit.Graphing.AdaptiveGradients.AdaptiveGradient.BlueRedGradient"/> or
+            <see cref="M:ElecNetKit.Graphing.AdaptiveGradients.AdaptiveGradient.BlueBlackRedGradient"/>.</remarks>
+        </member>
+        <member name="M:ElecNetKit.Graphing.AdaptiveGradients.AdaptiveGradient.BlueRedGradient">
+            <summary>
+            Generate a default gradient, with <see cref="P:System.Windows.Media.Colors.Blue"/> at the
+            minimum value of the dataset and <see cref="P:System.Windows.Media.Colors.Red"/> at the
+            maximum.
+            </summary>
+            <returns>A default gradient, auto scaled from blue to red.</returns>
+        </member>
+        <member name="M:ElecNetKit.Graphing.AdaptiveGradients.AdaptiveGradient.BlueBlackRedGradient">
+            <summary>
+            Generate a gradient, with <see cref="P:System.Windows.Media.Colors.Blue"/> at the
+            minimum value of the dataset, <see cref="P:System.Windows.Media.Colors.Black"/> at zero,
+            and <see cref="P:System.Windows.Media.Colors.Red"/> at the maximum. Useful for
+            differential measures.
+            </summary>
+            <returns>An <see cref="T:ElecNetKit.Graphing.AdaptiveGradients.AdaptiveGradient"/>, ready to go!</returns>
+        </member>
+        <member name="M:ElecNetKit.Graphing.AdaptiveGradients.AdaptiveGradient.ResetAutoData">
+            <summary>
+            Resets all Auto Data in the gradient.
+            </summary>
+        </member>
+        <member name="M:ElecNetKit.Graphing.AdaptiveGradients.AdaptiveGradient.ProcessData(System.Double)">
+            <summary>
+            Takes a piece of data to adapt the gradient to, and sends it to all
+            child <see cref="T:ElecNetKit.Graphing.AdaptiveGradients.AdaptiveGradientStop"/>s, for adaptation to
+            the new data.
+            </summary>
+            <param name="data">The data to process.</param>
+        </member>
+        <member name="T:ElecNetKit.Graphing.AdaptiveGradients.AdaptiveGradientMap`1">
+            <summary>
+            Maps inputs to coloured objects based on an <see cref="T:ElecNetKit.Graphing.AdaptiveGradients.AdaptiveGradient"/>.
+            </summary>
+            <typeparam name="T">The type of object to map to and output.</typeparam>
+        </member>
+        <member name="M:ElecNetKit.Graphing.AdaptiveGradients.AdaptiveGradientMap`1.Map(System.Double)">
+            <summary>
+            Obtain the nearest coloured match to part of the gradient for the
+            specified value.
+            </summary>
+            <param name="value">The value to interpolate into the gradient.</param>
+            <returns>The nearest mapped object.</returns>
+        </member>
+        <member name="M:ElecNetKit.Graphing.AdaptiveGradients.AdaptiveGradientMap`1.#ctor(System.Double[],`0[])">
+            <summary>
+            Make a new AdaptiveGradientMap
+            </summary>
+            <param name="targetValues">A set of target values to interpolate
+            between</param>
+            <param name="options">A set of options to choose from (interpolate
+            to).</param>
+        </member>
+        <member name="T:ElecNetKit.Graphing.AdaptiveGradients.AdaptiveGradientMapBuilder">
+            <summary>
+            Builds <see cref="T:ElecNetKit.Graphing.AdaptiveGradients.AdaptiveGradientMap`1"/>s from <see cref="T:ElecNetKit.Graphing.AdaptiveGradients.AdaptiveGradient"/>s.
+            </summary>
+        </member>
+        <member name="M:ElecNetKit.Graphing.AdaptiveGradients.AdaptiveGradientMapBuilder.#ctor(ElecNetKit.Graphing.AdaptiveGradients.AdaptiveGradient,System.UInt32)">
+            <summary>
+            Generates <see cref="T:ElecNetKit.Graphing.AdaptiveGradients.AdaptiveGradientMap`1"/>s based upon the specified
+            <see cref="T:ElecNetKit.Graphing.AdaptiveGradients.AdaptiveGradient"/> and a number of samples.
+            </summary>
+            <param name="gradient">The gradient to generate a map with.</param>
+            <param name="numSamples">The number of samples to interpolate on the
+            gradient.</param>
+        </member>
+        <member name="M:ElecNetKit.Graphing.AdaptiveGradients.AdaptiveGradientMapBuilder.BuildGradientMap``1(System.Func{System.Windows.Media.Color,``0})">
+            <summary>
+            Builds a gradient map with a transform function.
+            </summary>
+            <typeparam name="T">The type of <see cref="T:ElecNetKit.Graphing.AdaptiveGradients.AdaptiveGradientMap`1"/>
+            to build (think <see cref="T:System.Windows.Media.Brush"/>, <see cref="T:System.Windows.Media.Pen"/>, etc).</typeparam>
+            <param name="TransformFunction">A function that transforms a <see cref="T:System.Windows.Media.Color"/>
+            into a <typeparamref name="T"/>.</param>
+            <returns>The corresponding map.</returns>
+        </member>
+        <member name="P:ElecNetKit.Graphing.AdaptiveGradients.AdaptiveGradientMapBuilder.NumSamples">
+            <summary>
+            The number of samples to provide in the gradient map.
+            </summary>
+        </member>
+        <member name="T:ElecNetKit.Graphing.AdaptiveGradients.AdaptiveGradientStop">
+            <summary>
+            Represents a Gradient Stop, comprised of a <see cref="P:ElecNetKit.Graphing.AdaptiveGradients.AdaptiveGradientStop.Color"/> and an <see cref="P:ElecNetKit.Graphing.AdaptiveGradients.AdaptiveGradientStop.Anchor"/>.
+            </summary>
+        </member>
+        <member name="M:ElecNetKit.Graphing.AdaptiveGradients.AdaptiveGradientStop.#ctor(System.Windows.Media.Color,ElecNetKit.Graphing.AdaptiveGradients.IAdaptiveGradientAnchor)">
+            <summary>
+            Instantiates a new <see cref="T:ElecNetKit.Graphing.AdaptiveGradients.AdaptiveGradientStop"/>.
+            </summary>
+            <param name="Color">The Color of the stop.</param>
+            <param name="Anchor">The location of the stop.</param>
+        </member>
+        <member name="P:ElecNetKit.Graphing.AdaptiveGradients.AdaptiveGradientStop.Color">
+            <summary>
+            
+            </summary>
+        </member>
+        <member name="P:ElecNetKit.Graphing.AdaptiveGradients.AdaptiveGradientStop.Anchor">
+            <summary>
+            The location of the color stop. Because it's an *Adaptive* Gradient,
+            can be anything that implements the <see cref="T:ElecNetKit.Graphing.AdaptiveGradients.IAdaptiveGradientAnchor"/> interface
+            (any function of a dataset).
+            </summary>
+        </member>
+        <member name="T:ElecNetKit.Graphing.AdaptiveGradients.IAdaptiveGradientAnchor">
+            <summary>
+            An Adaptive Gradient Anchor. Adaptive Gradients use these to determine
+            postition of Gradient Stops. <see cref="T:ElecNetKit.Graphing.AdaptiveGradients.IAdaptiveGradientAnchor"/>s 
+            process a data set and spit out a specific anchor value.
+            Can be reset and used again.
+            </summary>
+        </member>
+        <member name="M:ElecNetKit.Graphing.AdaptiveGradients.IAdaptiveGradientAnchor.ProcessData(System.Double)">
+            <summary>
+            Process a single item of data. Do whatever you need to do with it
+            To spit out a dataset-adapted value.
+            </summary>
+            <param name="data">The data to process.</param>
+        </member>
+        <member name="M:ElecNetKit.Graphing.AdaptiveGradients.IAdaptiveGradientAnchor.Reset">
+            <summary>
+            Prime the Anchor to work on a new set of data.
+            </summary>
+        </member>
+        <member name="P:ElecNetKit.Graphing.AdaptiveGradients.IAdaptiveGradientAnchor.AnchorValue">
+            <summary>
+            The adapted Anchor value, after all the data has been processed.
+            </summary>
+        </member>
+        <member name="T:ElecNetKit.Graphing.AdaptiveGradients.MaxValue">
+            <summary>
+            Anchors a gradient stop at the Maximum value in the data set.
+            </summary>
+        </member>
+        <member name="M:ElecNetKit.Graphing.AdaptiveGradients.MaxValue.#ctor">
+            <summary>
+            Initialises a new <see cref="T:ElecNetKit.Graphing.AdaptiveGradients.MaxValue"/>.
+            </summary>
+        </member>
+        <member name="M:ElecNetKit.Graphing.AdaptiveGradients.MaxValue.ProcessData(System.Double)">
+            <inheritdoc />
+        </member>
+        <member name="M:ElecNetKit.Graphing.AdaptiveGradients.MaxValue.Reset">
+            <inheritdoc />
+        </member>
+        <member name="P:ElecNetKit.Graphing.AdaptiveGradients.MaxValue.AnchorValue">
+            <inheritdoc />
+        </member>
+        <member name="T:ElecNetKit.Graphing.AdaptiveGradients.MinValue">
+            <summary>
+            Anchors a gradient stop at the Minimum value in the data set.
+            </summary>
+        </member>
+        <member name="M:ElecNetKit.Graphing.AdaptiveGradients.MinValue.#ctor">
+            <summary>
+            Initialises a new MinValue.
+            </summary>
+        </member>
+        <member name="M:ElecNetKit.Graphing.AdaptiveGradients.MinValue.ProcessData(System.Double)">
+            <inheritdoc />
+        </member>
+        <member name="M:ElecNetKit.Graphing.AdaptiveGradients.MinValue.Reset">
+            <inheritdoc />
+        </member>
+        <member name="P:ElecNetKit.Graphing.AdaptiveGradients.MinValue.AnchorValue">
+            <inheritdoc />
+        </member>
+        <member name="T:ElecNetKit.Graphing.AdaptiveGradients.NamespaceDoc">
+            <summary>
+            The <see cref="N:ElecNetKit.Graphing.AdaptiveGradients"/> namespace
+            contains classes that provide Adaptive Gradient capabilities to
+             electrical network graphs.
+            </summary>
+        </member>
+        <member name="T:ElecNetKit.Graphing.AdaptiveGradients.StaticValue">
+            <summary>
+            Anchors a gradient stop to a static value.
+            </summary>
+        </member>
+        <member name="M:ElecNetKit.Graphing.AdaptiveGradients.StaticValue.#ctor(System.Double)">
+            <summary>
+            Initialise a new StaticValue gradient anchor.
+            </summary>
+            <param name="d">The fixed value to anchor the gradient stop to.</param>
+        </member>
+        <member name="M:ElecNetKit.Graphing.AdaptiveGradients.StaticValue.ProcessData(System.Double)">
+            <inheritdoc />
+        </member>
+        <member name="M:ElecNetKit.Graphing.AdaptiveGradients.StaticValue.Reset">
+            <inheritdoc />
+        </member>
+        <member name="P:ElecNetKit.Graphing.AdaptiveGradients.StaticValue.AnchorValue">
+            <summary>
+            The value that the anchor is fixed to.
+            </summary>
+        </member>
+        <member name="T:ElecNetKit.Graphing.Controls.GraphHost">
+            <summary>
+            A WPF control that can display one <see cref="T:ElecNetKit.Graphing.INetworkGraph"/>, and handles layout,
+            redrawing etc. Simply assign an <see cref="T:ElecNetKit.Graphing.INetworkGraph"/> to the <see cref="P:ElecNetKit.Graphing.Controls.GraphHost.Graph"/>
+            property and you're good to go.
+            </summary>
+            <remarks>
+            Note that <see cref="T:ElecNetKit.NetworkModelling.NetworkModel"/>s don't notify
+            of changes, and <see cref="T:ElecNetKit.Graphing.INetworkGraph"/>s don't notify of changes to their parameters
+            either. If you set the <see cref="P:ElecNetKit.Graphing.INetworkGraph.Network"/> property, you can force a 
+            redraw of the graph with the <see cref="M:ElecNetKit.Graphing.Controls.GraphHost.RefreshGraph"/> method.</remarks>
+        </member>
+        <member name="T:ElecNetKit.Graphing.Controls.VisualHost">
+            <summary>
+            A control that can display one <see cref="T:System.Windows.Media.Visual"/>, and handles layout
+            accordingly.
+            </summary>
+            <remarks>
+            This control should be used for displaying <see cref="T:System.Windows.Media.Visual"/>s generated by
+            <see cref="T:ElecNetKit.Graphing.INetworkGraph"/>s in WPF applications.
+            Adapted from http://msdn.microsoft.com/en-us/library/ms742254.aspx
+            http://kentb.blogspot.com.au/2008/10/customizing-logical-children.html
+            http://msdn.microsoft.com/en-us/library/system.windows.media.visual.removevisualchild.aspx
+            http://www.codeproject.com/Articles/34741/Change-Notification-for-Dependency-Properties
+            </remarks>
+        </member>
+        <member name="M:ElecNetKit.Graphing.Controls.VisualHost.#ctor">
+            <summary>
+            Instantiates a new <see cref="T:ElecNetKit.Graphing.Controls.VisualHost"/> control.
+            </summary>
+        </member>
+        <member name="M:ElecNetKit.Graphing.Controls.VisualHost.GetVisualChild(System.Int32)">
+            <summary>
+            Provide a required override for the <see cref="M:ElecNetKit.Graphing.Controls.VisualHost.GetVisualChild(System.Int32)"/> method.
+            </summary>
+            <param name="index">The index of child to return.</param>
+            <returns>The appropriate child.</returns>
+        </member>
+        <member name="F:ElecNetKit.Graphing.Controls.VisualHost.DrawingProperty">
+            <summary>
+            DependencyProperty backing the only child <see cref="P:ElecNetKit.Graphing.Controls.VisualHost.Drawing"/> of the <see cref="T:ElecNetKit.Graphing.Controls.VisualHost"/>.
+            </summary>
+        </member>
+        <member name="M:ElecNetKit.Graphing.Controls.VisualHost.ExportXPS(System.Uri)">
+            <summary>
+            Export the currently displayed content to an xps (vector format) file.
+            </summary>
+            <param name="path">The .xps file to export to.</param>
+            <remarks>
+            Adapted from http://denisvuyka.wordpress.com/2007/12/03/wpf-diagramming-saving-you-canvas-to-image-xps-document-or-raw-xaml/.
+            </remarks>
+        </member>
+        <member name="M:ElecNetKit.Graphing.Controls.VisualHost.ExportPNG(System.String,System.Int32)">
+            <summary>
+            Export the currently displayed content to a PNG file.
+            </summary>
+            <param name="path">The path to export to</param>
+            <param name="dpi">The dpi of the png, defaults to 96.</param>
+            <remarks>Adapted from http://msdn.microsoft.com/en-us/library/aa969819.aspx.
+            </remarks>
+        </member>
+        <member name="M:ElecNetKit.Graphing.Controls.VisualHost.OnPropertyChanged(System.String)">
+            <summary>
+            Triggers the <see cref="E:ElecNetKit.Graphing.Controls.VisualHost.PropertyChanged"/> event for the specified property name.
+            </summary>
+            <param name="name">The name of the property that has changed.</param>
+        </member>
+        <member name="P:ElecNetKit.Graphing.Controls.VisualHost.VisualChildrenCount">
+            <summary>
+            Counts the number of children owned by the host.
+            </summary>
+        </member>
+        <member name="P:ElecNetKit.Graphing.Controls.VisualHost.Drawing">
+            <summary>
+            The Drawing that the <see cref="T:ElecNetKit.Graphing.Controls.VisualHost"/> should render.
+            </summary>
+        </member>
+        <member name="E:ElecNetKit.Graphing.Controls.VisualHost.PropertyChanged">
+            <summary>
+            Notifies when a property changes.
+            </summary>
+        </member>
+        <member name="M:ElecNetKit.Graphing.Controls.GraphHost.RefreshGraph">
+            <summary>
+            Force a redraw. Useful after setting a parameter of the <see cref="T:ElecNetKit.Graphing.INetworkGraph"/>
+            assigned in the <see cref="P:ElecNetKit.Graphing.Controls.GraphHost.Graph"/> property, or modifying the
+            <see cref="P:ElecNetKit.Graphing.INetworkGraph.Network"/>.
+            </summary>
+        </member>
+        <member name="M:ElecNetKit.Graphing.Controls.GraphHost.#ctor">
+            <summary>
+            Instantiates a new <see cref="T:ElecNetKit.Graphing.Controls.GraphHost"/> control.
+            </summary>
+        </member>
+        <member name="P:ElecNetKit.Graphing.Controls.GraphHost.Graph">
+            <summary>
+            The <see cref="T:ElecNetKit.Graphing.INetworkGraph"/> that should be drawn by the control.
+            </summary>
+        </member>
+        <member name="T:ElecNetKit.Graphing.Controls.GraphHostWindow">
+            <summary>
+            Enables pop-up <see cref="T:ElecNetKit.Graphing.INetworkGraph"/>s to be displayed from a
+            console or GUI application with minimum fuss.
+            </summary>
+            <remarks>When displaying graphs from a console application, you can use
+            <see cref="M:ElecNetKit.Graphing.Controls.GraphHostWindow.StartGraphHostWindow(ElecNetKit.Graphing.INetworkGraph)"/> instead of instantiating a new
+            <see cref="T:ElecNetKit.Graphing.Controls.GraphHostWindow"/>.
+            Alternatively, if you require a reference to a <see cref="T:ElecNetKit.Graphing.Controls.GraphHostWindow"/>,
+            you can mark the application entry point (usually <c>Main()</c>) with
+            <see cref="T:System.STAThreadAttribute"/>. See <see href="http://stackoverflow.com/questions/4183622/the-calling-thread-must-be-sta-because-many-ui-components-require-this-in-wpf">The calling thread must be STA</see> for more information.</remarks>
+        </member>
+        <member name="M:ElecNetKit.Graphing.Controls.GraphHostWindow.#ctor">
+            <summary>
+            Instantiates a new <see cref="T:ElecNetKit.Graphing.Controls.GraphHostWindow"/>.
+            </summary>
+        </member>
+        <member name="M:ElecNetKit.Graphing.Controls.GraphHostWindow.RefreshGraph">
+            <summary>
+            Forces a refresh of the graph displayed in the window.
+            </summary>
+        </member>
+        <member name="M:ElecNetKit.Graphing.Controls.GraphHostWindow.StartGraphHostWindow(ElecNetKit.Graphing.INetworkGraph)">
+            <summary>
+            Starts a <see cref="T:ElecNetKit.Graphing.Controls.GraphHostWindow"/> with the specified <paramref name="Graph"/> in a new, Single-Threaded Apartment (STA) thread.
+            </summary>
+            <param name="Graph">The graph that should be displayed.</param>
+        </member>
+        <member name="P:ElecNetKit.Graphing.Controls.GraphHostWindow.Graph">
+            <summary>
+            The <see cref="T:ElecNetKit.Graphing.INetworkGraph"/> to be displayed by the window.
+            </summary>
+        </member>
+        <member name="T:ElecNetKit.Graphing.Controls.NamespaceDoc">
+            <summary>
+            The <see cref="N:ElecNetKit.Graphing.Controls"/> namespace
+            contains controls that assist with the layout and display
+            of <see cref="T:ElecNetKit.Graphing.INetworkGraph"/>s within Windows Presentation
+            Foundation (WPF) applications.
+            </summary>
+        </member>
+        <member name="T:ElecNetKit.Graphing.Graphs.NamespaceDoc">
+            <summary>
+            The <see cref="N:ElecNetKit.Graphing.Graphs"/> namespace
+            contains pre-defined graphs that enable the rapid visualisation of
+            network characteristics.
+            </summary>
+        </member>
+        <member name="T:ElecNetKit.Graphing.NamespaceDoc">
+            <summary>
+            The <see cref="N:ElecNetKit.Graphing"/> namespace contains classes that
+            assist in the production of graphical representations of electrical
+            network models.
+            </summary>
+        </member>
+        <member name="T:ElecNetKit.Graphing.Util.DrawingVisualSerialisers">
+            <summary>
+            Provides some convenience functions for serialising <see cref="T:System.Windows.Media.Visual"/>s.
+            </summary>
+        </member>
+        <member name="M:ElecNetKit.Graphing.Util.DrawingVisualSerialisers.SaveVisualToByteArray(System.Windows.Media.Visual)">
+            <summary>
+            Store a visual in an array of bytes.
+            </summary>
+            <param name="v">The <see cref="T:System.Windows.Media.Visual"/> to serialise.</param>
+            <returns>The serialised <see cref="T:System.Windows.Media.Visual"/>.</returns>
+        </member>
+        <member name="M:ElecNetKit.Graphing.Util.DrawingVisualSerialisers.LoadVisualFromByteArray(System.Byte[])">
+            <summary>
+            Restores a <see cref="T:System.Windows.Media.Visual"/> from an array of bytes.
+            </summary>
+            <param name="data">The data to restore a <see cref="T:System.Windows.Media.Visual"/> from.</param>
+            <returns>The restored <see cref="T:System.Windows.Media.Visual"/>.</returns>
+        </member>
+        <member name="T:ElecNetKit.Graphing.Graphs.FeederProfileGraph">
+            <summary>
+            Draws feeder profile graphs - plots of line voltage (pu) against length
+            from source bus.
+            </summary>
+            <remarks>
+            Only certain lines are displayed, dependant on the <see cref="P:ElecNetKit.Graphing.Graphs.FeederProfileGraph.SelectedElement"/>.
+            The following lines are displayed:
+            <list type="bullet">
+            <item>All lines that are connected between <see cref="P:ElecNetKit.Graphing.Graphs.FeederProfileGraph.SelectedElement"/> and <see cref="P:ElecNetKit.NetworkModelling.NetworkModel.SourceBus"/>, and</item>
+            <item>All lines from the <see cref="P:ElecNetKit.Graphing.Graphs.FeederProfileGraph.SelectedElement"/> away from the <see cref="P:ElecNetKit.NetworkModelling.NetworkModel.SourceBus"/>.</item>
+            </list>
+            This structure allows the <see cref="P:ElecNetKit.Graphing.Graphs.FeederProfileGraph.SelectedElement"/> to be varied along the feeder to obtain different levels of focus.
+            </remarks>
+        </member>
+        <member name="T:ElecNetKit.Graphing.IPresentationMode">
+            <summary>
+            If <see cref="P:ElecNetKit.Graphing.IPresentationMode.PresentationMode"/> is <c>true</c> when an
+            <see cref="T:ElecNetKit.Graphing.INetworkGraph"/> is drawing, the <see cref="T:ElecNetKit.Graphing.INetworkGraph"/>
+            should ensure that the primary information displayed by the graph is
+            represented geometrically.
+            </summary>
+            <remarks>Implement <see cref="T:ElecNetKit.Graphing.IPresentationMode"/> if
+            your <see cref="T:ElecNetKit.Graphing.INetworkGraph"/> has a lot of colour-based or fiddly
+            detail, and especially if part of your audience is visually-impaired,
+            colour-blind, or sitting a long way from the screen.</remarks>
+        </member>
+        <member name="P:ElecNetKit.Graphing.IPresentationMode.PresentationMode">
+            <summary>
+            If <c>true</c>, specifies that the graph should be drawn in presentation mode.
+            </summary>
+        </member>
+        <member name="T:ElecNetKit.Graphing.INetworkGraph">
+            <summary>
+            <see cref="T:ElecNetKit.Graphing.INetworkGraph"/>s plot aspects of the information embedded into the 
+            electrical network model.
+            </summary>
+        </member>
+        <member name="M:ElecNetKit.Graphing.INetworkGraph.Draw">
+            <summary>
+            Draws the graph for the <see cref="T:ElecNetKit.NetworkModelling.NetworkModel"/> provided by
+            <see cref="P:ElecNetKit.Graphing.INetworkGraph.Network"/>.
+            </summary>
+            <returns>A <see cref="T:System.Windows.Media.Visual"/> that contains the completed graph.</returns>
+        </member>
+        <member name="P:ElecNetKit.Graphing.INetworkGraph.Network">
+            <summary>
+            An electrical network model to render.
+            </summary>
+        </member>
+        <member name="P:ElecNetKit.Graphing.INetworkGraph.ImgCoords">
+            <summary>
+            The coordinates within which the image is to be displayed.
+            </summary>
+            <remarks>The <see cref="T:ElecNetKit.Graphing.INetworkGraph"/> should confine all drawing
+            to within the coordinates given by <see cref="P:ElecNetKit.Graphing.INetworkGraph.ImgCoords"/>, shrunk by
+            the values of the <see cref="P:ElecNetKit.Graphing.INetworkGraph.Margin"/> property.</remarks>
+        </member>
+        <member name="P:ElecNetKit.Graphing.INetworkGraph.Margin">
+            <summary>
+            A margin around the edge of the graph.
+            </summary>
+        </member>
+        <member name="T:ElecNetKit.Graphing.IElementSelectable">
+            <summary>
+            Indicates that the graphical output of an <see cref="T:ElecNetKit.Graphing.INetworkGraph"/> will
+            vary based upon a specific selected <see cref="T:ElecNetKit.NetworkModelling.NetworkElement"/>.
+            </summary>
+            <example>
+            For an example, see the implementation of <see cref="T:ElecNetKit.Graphing.Graphs.FeederProfileGraph"/>
+            </example>
+        </member>
+        <member name="P:ElecNetKit.Graphing.IElementSelectable.SelectedElement">
+            <summary>
+            The <see cref="T:ElecNetKit.NetworkModelling.NetworkElement"/> that will be used to vary, modify or focus the graph.
+            </summary>
+        </member>
+        <member name="M:ElecNetKit.Graphing.Graphs.FeederProfileGraph.Draw">
+            <inheritdoc />
+        </member>
+        <member name="M:ElecNetKit.Graphing.Graphs.FeederProfileGraph.#ctor">
+            <summary>
+            Instantiates a new <see cref="T:ElecNetKit.Graphing.Graphs.FeederProfileGraph"/>.
+            </summary>
+        </member>
+        <member name="P:ElecNetKit.Graphing.Graphs.FeederProfileGraph.Network">
+            <inheritdoc />
+        </member>
+        <member name="P:ElecNetKit.Graphing.Graphs.FeederProfileGraph.ImgCoords">
+            <inheritdoc />
+        </member>
+        <member name="P:ElecNetKit.Graphing.Graphs.FeederProfileGraph.Margin">
+            <inheritdoc />
+        </member>
+        <member name="P:ElecNetKit.Graphing.Graphs.FeederProfileGraph.SelectedElement">
+            <inheritdoc />
+        </member>
+        <member name="P:ElecNetKit.Graphing.Graphs.FeederProfileGraph.PresentationMode">
+            <inheritdoc />
+        </member>
+        <member name="T:ElecNetKit.Graphing.IElementLocatable">
+            <summary>
+            Any <see cref="T:ElecNetKit.Graphing.INetworkGraph"/> that implements
+            <see cref="T:ElecNetKit.Graphing.IElementLocatable"/> can provide reverse-lookup capabilities,
+            that is, can find network elements based on a point in the graph.
+            </summary>
+        </member>
+        <member name="M:ElecNetKit.Graphing.IElementLocatable.GetObjectAtLocation(System.Windows.Point)">
+            <summary>
+            Finds the network element at the specified (device-independent) pixel location.
+            </summary>
+            <param name="Location">the pixel to find a <see cref="T:ElecNetKit.NetworkModelling.NetworkElement"/> at.</param>
+            <returns>The <see cref="T:ElecNetKit.NetworkModelling.NetworkElement"/> nearest the pixel.</returns>
+        </member>
+        <member name="T:ElecNetKit.Graphing.TreeGraph">
+            <summary>
+            A class that provides basic layout management functions for a top-down
+            geographic network map. Provides functions for scaling from 'Network Coordinates'
+            to 'Image Coordinates' and vice-versa.
+            </summary>
+        </member>
+        <member name="M:ElecNetKit.Graphing.TreeGraph.#ctor">
+            <summary>
+            Instantiates a new <see cref="T:ElecNetKit.Graphing.TreeGraph"/>, with a default image
+            size of <c>900x700</c> and a default margin of <c>20</c>.
+            </summary>
+        </member>
+        <member name="M:ElecNetKit.Graphing.TreeGraph.ScaledLocation(System.Windows.Point)">
+            <summary>
+            Scales a <see cref="T:System.Windows.Point"/> from Network Coordinates to Image Coordinates.
+            </summary>
+            <param name="location">The point to scale, in Network Coordinates.</param>
+            <returns>The point, in Image Coordinates.</returns>
+        </member>
+        <member name="M:ElecNetKit.Graphing.TreeGraph.ScaledRectangle(System.Windows.Rect)">
+            <summary>
+            Scales a rectangle from Network Coordinates to Image Coordinates.
+            </summary>
+            <param name="NetworkCoords">A rectangle, in Network Coordinates.</param>
+            <returns>The same rectange, in Image Coordinates.</returns>
+        </member>
+        <member name="M:ElecNetKit.Graphing.TreeGraph.UnscaledRectangle(System.Windows.Rect)">
+            <summary>
+            Unscales a rectangle from Image Coordinates to Network Coordinates.
+            </summary>
+            <param name="ImgCoords">A rectangle, in Image Coordinates.</param>
+            <returns>The same rectange, in Network Coordinates.</returns>
+        </member>
+        <member name="M:ElecNetKit.Graphing.TreeGraph.UnscaledLocation(System.Windows.Point)">
+            <summary>
+            Unscales a <see cref="T:System.Windows.Point"/> from Image Coordinates to Network Coordinates.
+            </summary>
+            <param name="location">The point to unscale, in Image Coordinates.</param>
+            <returns>The same point, in Network Coordinates.</returns>
+        </member>
+        <member name="M:ElecNetKit.Graphing.TreeGraph.GetObjectAtLocation(System.Windows.Point)">
+            <inheritdoc />
+        </member>
+        <member name="M:ElecNetKit.Graphing.TreeGraph.Draw">
+            <inheritdoc />
+        </member>
+        <member name="P:ElecNetKit.Graphing.TreeGraph.Network">
+            <summary>
+            The electrical network model that the <see cref="T:ElecNetKit.Graphing.TreeGraph"/> is to
+            draw with the <see cref="M:ElecNetKit.Graphing.TreeGraph.Draw"/> function.
+            </summary>
+        </member>
+        <member name="P:ElecNetKit.Graphing.TreeGraph.ImgCoords">
+            <inheritdoc />
+        </member>
+        <member name="P:ElecNetKit.Graphing.TreeGraph.Margin">
+            <inheritdoc />
+        </member>
+        <member name="P:ElecNetKit.Graphing.TreeGraph.PresentationMode">
+            <inheritdoc />
+        </member>
+        <member name="T:ElecNetKit.Graphing.Util.MagicGridSpacer">
+            <summary>
+            Provides axis spacing with 'convenient' numbers, for given dataset characteristics.
+            </summary>
+            <remarks>
+            Based in part off the work from http://search.cpan.org/dist/Chart-Math-Axis/lib/Chart/Math/Axis.pm.
+            </remarks>
+        </member>
+        <member name="M:ElecNetKit.Graphing.Util.MagicGridSpacer.GetGridSpacings">
+            <summary>
+            Builds a set of <see cref="T:ElecNetKit.Graphing.Util.MagicGridSpacings"/> based upon the provided inputs.
+            </summary>
+            <returns>A set of <see cref="T:ElecNetKit.Graphing.Util.MagicGridSpacings"/>.</returns>
+        </member>
+        <member name="P:ElecNetKit.Graphing.Util.MagicGridSpacer.MinValue">
+            <summary>
+            The Minimum value of the dataset.
+            </summary>
+        </member>
+        <member name="P:ElecNetKit.Graphing.Util.MagicGridSpacer.MaxValue">
+            <summary>
+            The Maximum value of the data set.
+            </summary>
+        </member>
+        <member name="P:ElecNetKit.Graphing.Util.MagicGridSpacer.MaxLines">
+            <summary>
+            The maximum number of lines / ticks etc that should be on the axis.
+            </summary>
+        </member>
+        <member name="T:ElecNetKit.Graphing.Util.MagicGridSpacings">
+            <summary>
+            A set of ticks that characterize an axis on a graph.
+            </summary>
+        </member>
+        <member name="M:ElecNetKit.Graphing.Util.MagicGridSpacings.#ctor(System.Double,System.Double,System.Double)">
+            <summary>
+            Instantiates a new <see cref="T:ElecNetKit.Graphing.Util.MagicGridSpacings"/>.
+            </summary>
+            <param name="LowerLimit">The lower bound of the axis.</param>
+            <param name="Interval">The interval between ticks on the axis.</param>
+            <param name="UpperLimit">The upper bound of the axis.</param>
+        </member>
+        <member name="M:ElecNetKit.Graphing.Util.MagicGridSpacings.GetTicks">
+            <summary>
+            Constructs a set of ticks between <see cref="P:ElecNetKit.Graphing.Util.MagicGridSpacings.LowerLimit"/> and <see cref="P:ElecNetKit.Graphing.Util.MagicGridSpacings.UpperLimit"/>
+            and spaced by <see cref="P:ElecNetKit.Graphing.Util.MagicGridSpacings.Interval"/>.
+            </summary>
+            <returns></returns>
+        </member>
+        <member name="P:ElecNetKit.Graphing.Util.MagicGridSpacings.UpperLimit">
+            <summary>
+            The upper bound of the axis.
+            </summary>
+        </member>
+        <member name="P:ElecNetKit.Graphing.Util.MagicGridSpacings.LowerLimit">
+            <summary>
+            The lower bound of the axis.
+            </summary>
+        </member>
+        <member name="P:ElecNetKit.Graphing.Util.MagicGridSpacings.Interval">
+            <summary>
+            The interval between ticks on the axis.
+            </summary>
+        </member>
+        <member name="T:ElecNetKit.Graphing.Util.doubleME">
+            <summary>
+            Support class for building <see cref="T:System.Double"/>s in an Exponent-Mantissa
+            format.
+            </summary>
+        </member>
+        <member name="T:ElecNetKit.Graphing.Graphs.ValueTransformableTreeGraph">
+            <summary>
+            A network topology graph that automatically manages element positioning
+            and allows element representation to be controlled through Value
+            Transforms.
+            </summary>
+            <remarks></remarks>
+        </member>
+        <member name="M:ElecNetKit.Graphing.Graphs.ValueTransformableTreeGraph.#ctor">
+            <summary>
+            Instantiates a new <see cref="T:ElecNetKit.Graphing.Graphs.ValueTransformableTreeGraph"/>.
+            </summary>
+        </member>
+        <member name="M:ElecNetKit.Graphing.Graphs.ValueTransformableTreeGraph.GetObjectAtLocation(System.Windows.Point)">
+            <inheritdoc />
+        </member>
+        <member name="M:ElecNetKit.Graphing.Graphs.ValueTransformableTreeGraph.Draw">
+            <inheritdoc />
+        </member>
+        <member name="M:ElecNetKit.Graphing.Graphs.ValueTransformableTreeGraph.DrawBuses(ElecNetKit.NetworkModelling.NetworkModel,ElecNetKit.Graphing.AdaptiveGradients.AdaptiveGradientMap{System.Tuple{System.Windows.Media.Brush,System.Windows.Media.Pen}},ElecNetKit.Util.Limits,System.Windows.Media.Pen,System.Windows.Media.DrawingContext)">
+            <summary>
+            Draws all the network buses, using the specified value transforms.
+            </summary>
+            <param name="Network">The network from which to draw buses.</param>
+            <param name="colorMap">A map of the colours to use from the specified gradient.</param>
+            <param name="busSizeLimits">The limits of <see cref="P:ElecNetKit.Graphing.Graphs.ValueTransformableTreeGraph.BusSizeTransform"/>,
+            used for scaling from that space to
+            [<see cref="P:ElecNetKit.Graphing.Graphs.ValueTransformableTreeGraph.BusSizeMin"/>, <see cref="P:ElecNetKit.Graphing.Graphs.ValueTransformableTreeGraph.BusSizeMax"/>].</param>
+            <param name="ringColorPen">A pen for drawing rings.</param>
+            <param name="drawingContext">The target that we should draw to.</param>
+        </member>
+        <member name="M:ElecNetKit.Graphing.Graphs.ValueTransformableTreeGraph.DrawLines(ElecNetKit.NetworkModelling.NetworkModel,ElecNetKit.Graphing.AdaptiveGradients.AdaptiveGradientMap{System.Tuple{System.Windows.Media.Brush,System.Windows.Media.Pen}},System.Windows.Media.DrawingContext)">
+            <summary>
+            Draws all the network lines.
+            </summary>
+            <param name="Network">The network from which to draw buses.</param>
+            <param name="colorMap">A map of the colours to use from the specified gradient.</param>
+            <param name="drawingContext">The target that we should draw to.</param>
+        </member>
+        <member name="M:ElecNetKit.Graphing.Graphs.ValueTransformableTreeGraph.BuildGradientMap(ElecNetKit.NetworkModelling.NetworkModel)">
+            <summary>
+            Builds a gradient map based upon <see cref="P:ElecNetKit.Graphing.Graphs.ValueTransformableTreeGraph.BusColorGradient"/> and
+            <see cref="P:ElecNetKit.Graphing.Graphs.ValueTransformableTreeGraph.BusColorTransform"/> for the data in this network.
+            </summary>
+            <param name="Network">The network that data should be taken from.</param>
+            <returns>A map of gradients.</returns>
+        </member>
+        <member name="P:ElecNetKit.Graphing.Graphs.ValueTransformableTreeGraph.BusColorGradient">
+            <summary>
+            An adaptive gradient that determines, in conjunction with
+            <see cref="P:ElecNetKit.Graphing.Graphs.ValueTransformableTreeGraph.BusColorTransform"/>, how the buses on the network
+            should be coloured.
+            </summary>
+        </member>
+        <member name="P:ElecNetKit.Graphing.Graphs.ValueTransformableTreeGraph.BusColorTransform">
+            <summary>
+            A function that transforms <see cref="T:ElecNetKit.NetworkModelling.Bus"/>es into values that
+            are passed to <see cref="P:ElecNetKit.Graphing.Graphs.ValueTransformableTreeGraph.BusColorGradient"/> to determine the
+            colour of buses displayed on the network graph.
+            </summary>
+        </member>
+        <member name="P:ElecNetKit.Graphing.Graphs.ValueTransformableTreeGraph.BusVisibleTransform">
+            <summary>
+            A function that should return <c>true</c> if a supplied
+            <see cref="T:ElecNetKit.NetworkModelling.Bus"/> should be drawn.
+            </summary>
+        </member>
+        <member name="P:ElecNetKit.Graphing.Graphs.ValueTransformableTreeGraph.BusSizeTransform">
+            <summary>
+            A function that controls the size of each <see cref="T:ElecNetKit.NetworkModelling.Bus"/>.
+            </summary>
+        </member>
+        <member name="P:ElecNetKit.Graphing.Graphs.ValueTransformableTreeGraph.BusSizeMax">
+            <summary>
+            The maximum allowable bus size, in pixel radius.
+            </summary>
+        </member>
+        <member name="P:ElecNetKit.Graphing.Graphs.ValueTransformableTreeGraph.BusSizeMin">
+            <summary>
+            The minimum allowable bus size, in pixel radius.
+            </summary>
+        </member>
+        <member name="P:ElecNetKit.Graphing.Graphs.ValueTransformableTreeGraph.RingEnabledTransform">
+            <summary>
+            A function that should return <c>true</c> if the bus should have
+            a ring drawn around it.
+            </summary>
+        </member>
+        <member name="P:ElecNetKit.Graphing.Graphs.ValueTransformableTreeGraph.RingColor">
+            <summary>
+            The color of the ring. Constant across all buses.
+            </summary>
+        </member>
+        <member name="P:ElecNetKit.Graphing.Graphs.ValueTransformableTreeGraph.RingThickness">
+            <summary>
+            The thickness of the ring (in pixels). Constant across all buses.
+            </summary>
+        </member>
+        <member name="P:ElecNetKit.Graphing.Graphs.ValueTransformableTreeGraph.RingDistanceFromCenter">
+            <summary>
+            Should be set to <c>true</c> if <see cref="P:ElecNetKit.Graphing.Graphs.ValueTransformableTreeGraph.RingDistanceTransform"/>
+            measures the distance of the ring from the centre of the bus.
+            Otherwise, <see cref="P:ElecNetKit.Graphing.Graphs.ValueTransformableTreeGraph.RingDistanceTransform"/> is interpreted as the
+            distance between the edge of the bus circle and the ring.
+            </summary>
+        </member>
+        <member name="P:ElecNetKit.Graphing.Graphs.ValueTransformableTreeGraph.RingDistanceTransform">
+            <summary>
+            Should return values that specify the distance that the ring is to
+            be drawn from either the centre of the bus or the edge of the bus,
+            as controlled by <see cref="P:ElecNetKit.Graphing.Graphs.ValueTransformableTreeGraph.RingDistanceFromCenter"/>.
+            </summary>
+        </member>
+        <member name="P:ElecNetKit.Graphing.Graphs.ValueTransformableTreeGraph.LineThickness">
+            <summary>
+            The thickness of <see cref="T:ElecNetKit.NetworkModelling.Line"/>s to be drawn on the graph.
+            </summary>
+        </member>
+    </members>
+</doc>

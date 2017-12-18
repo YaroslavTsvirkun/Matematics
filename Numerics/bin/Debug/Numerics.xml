@@ -1,0 +1,1833 @@
+<?xml version="1.0"?>
+<doc>
+    <assembly>
+        <name>Numerics</name>
+    </assembly>
+    <members>
+        <member name="T:Numerics.Algebra.QuadraticEquation">
+            <summary>
+            Класс QuadraticEquation содержит логику решения алгебраического 
+            квадратного уровнения общего вида
+            </summary>
+        </member>
+        <member name="M:Numerics.Algebra.QuadraticEquation.QuadraticEquationFunc(System.Double,System.Double,System.Double)">
+            <summary>
+            Метод QuadraticEquationFunc производит решение квадратного уровнения
+            </summary>
+            <param name="a">Первый коэффициент</param>
+            <param name="b">Второй коэффициент</param>
+            <param name="c">Свободный член</param>
+            <returns>Возращает массив коэфициентов</returns>
+        </member>
+        <member name="T:Numerics.Algorithms.Search.FindShortestPaths.Dekstra.DekstraAlgorithm">
+            <summary>
+            Класс DekstraAlgorithm предоставляет собой граф и логику алгоритма Дейкстры
+            </summary>
+            <example> 
+            Вызывающий код класса, <see cref="T:Numerics.Algorithms.Search.FindShortestPaths.Dekstra.DekstraAlgorithm"/> представлен ниже:.
+            <code>
+            class TestClass 
+            {
+                static void Main() 
+                {
+                    DekstraAlgorithm da = new DekstraAlgorithm(v, rebras);
+                    da.Run(v[0]);
+                }
+            }
+            </code>
+            </example>
+        </member>
+        <member name="P:Numerics.Algorithms.Search.FindShortestPaths.Dekstra.DekstraAlgorithm.Points">
+            <summary>
+            Свойство, для хранения вершин графа
+            </summary>
+        </member>
+        <member name="P:Numerics.Algorithms.Search.FindShortestPaths.Dekstra.DekstraAlgorithm.Ribs">
+            <summary>
+            Свойство, для хранения ребер графа
+            </summary>
+        </member>
+        <member name="P:Numerics.Algorithms.Search.FindShortestPaths.Dekstra.DekstraAlgorithm.BeginPoint">
+            <summary>
+            Свойство, для хранения начальной вершины графа
+            </summary>
+        </member>
+        <member name="M:Numerics.Algorithms.Search.FindShortestPaths.Dekstra.DekstraAlgorithm.#ctor(Numerics.Algorithms.Search.FindShortestPaths.Dekstra.Point[],Numerics.Algorithms.Search.FindShortestPaths.Dekstra.Ribs[])">
+            <summary>
+            Конструктор
+            </summary>
+            <param name="Points">Массив вершин графа</param>
+            <param name="Ribs">Массив ребер графа</param>
+        </member>
+        <member name="M:Numerics.Algorithms.Search.FindShortestPaths.Dekstra.DekstraAlgorithm.Run(Numerics.Algorithms.Search.FindShortestPaths.Dekstra.Point)">
+            <summary>
+            Метод Run запускает алгоритм расчета
+            </summary>
+            <param name="begin">Начальная точка, откуда наченается расчет</param>
+        </member>
+        <member name="M:Numerics.Algorithms.Search.FindShortestPaths.Dekstra.DekstraAlgorithm.OneStep(Numerics.Algorithms.Search.FindShortestPaths.Dekstra.Point)">
+            <summary>
+            Метод OneStep делает один шаг алгоритма
+            </summary>
+            <param name="begin">Принимает на вход вершину графа</param>
+        </member>
+        <member name="M:Numerics.Algorithms.Search.FindShortestPaths.Dekstra.DekstraAlgorithm.Ancestor(Numerics.Algorithms.Search.FindShortestPaths.Dekstra.Point)">
+            <summary>
+            Метод Ancestor находит соседей для заданой точки
+            </summary>
+            <param name="currpoint">Вершина графа</param>
+            <returns>Возращает колекцию соседних вершин</returns>
+        </member>
+        <member name="M:Numerics.Algorithms.Search.FindShortestPaths.Dekstra.DekstraAlgorithm.GetRebro(Numerics.Algorithms.Search.FindShortestPaths.Dekstra.Point,Numerics.Algorithms.Search.FindShortestPaths.Dekstra.Point)">
+            <summary>
+            Метод GetRebro получаем ребро, соединяющее 2 входные точки
+            </summary>
+            <param name="a">Первая входная точка</param>
+            <param name="b">Вторая входная точка</param>
+            <returns></returns>
+        </member>
+        <member name="M:Numerics.Algorithms.Search.FindShortestPaths.Dekstra.DekstraAlgorithm.GetAnotherUncheckedPoint">
+            <summary>
+            Метод GetAnotherUncheckedPoint получает очередную неотмеченную вершину, "ближайшую" к заданной.
+            </summary>
+            <returns></returns>
+        </member>
+        <member name="M:Numerics.Algorithms.Search.FindShortestPaths.Dekstra.DekstraAlgorithm.MinPath(Numerics.Algorithms.Search.FindShortestPaths.Dekstra.Point)">
+            <summary>
+            Метод MinPath находит пути от начальной до конечной вершины
+            </summary>
+            <param name="end">Конечная вершина минимального пути</param>
+            <returns>Возращает кратчайший путь</returns>
+        </member>
+        <member name="T:Numerics.Algorithms.Search.FindShortestPaths.Dekstra.DekstraException">
+            <summary>
+            Класс DekstraException отвечающий за обработку исключитильных ситуаций в алгоритме Дейкстры
+            </summary>
+        </member>
+        <member name="T:Numerics.Algorithms.Search.FindShortestPaths.Dekstra.Point">
+            <summary>
+            Класс Point описывающий вершины графа
+            </summary>
+            <example> 
+            Вызывающий код класса, <see cref="T:Numerics.Algorithms.Search.FindShortestPaths.Dekstra.Point"/> представлен ниже:
+            <code>
+            class TestClass 
+            {
+                static void Main() 
+                {
+                   Point[] v = new Point[6];
+                   v[0] = new Point(0, false, "F");
+                   v[1] = new Point(9999, false, "A");
+                   v[2] = new Point(9999, false, "B");
+                   v[3] = new Point(9999, false, "C");
+                   v[4] = new Point(9999, false, "D");
+                   v[5] = new Point(9999, false, "E");
+                }
+            }
+            </code>
+            </example>
+        </member>
+        <member name="P:Numerics.Algorithms.Search.FindShortestPaths.Dekstra.Point.ValueMetka">
+            <summary>
+            Свойство, отвечающее за хранение значений метки данной вершины
+            </summary>
+        </member>
+        <member name="P:Numerics.Algorithms.Search.FindShortestPaths.Dekstra.Point.IsChecked">
+            <summary>
+            Свойство, отвечает за хранение значение помечена метка или нет
+            </summary>
+        </member>
+        <member name="P:Numerics.Algorithms.Search.FindShortestPaths.Dekstra.Point.PredPoint">
+            <summary>
+            Свойство, отвечает за хранение предка вершины
+            </summary>
+        </member>
+        <member name="P:Numerics.Algorithms.Search.FindShortestPaths.Dekstra.Point.SomeObj">
+            <summary>
+            Свойство, отвечает за хранение некого объекта
+            </summary>
+        </member>
+        <member name="M:Numerics.Algorithms.Search.FindShortestPaths.Dekstra.Point.#ctor(System.Int32,System.Boolean)">
+            <summary>
+            Конструктор, отвечающий за инициализацию значений метки, 
+            за отметку метки и вершины графа
+            </summary>
+            <param name="ValueMetka">Значение метки</param>
+            <param name="IsChecked">Помечена метка или нет</param>
+        </member>
+        <member name="M:Numerics.Algorithms.Search.FindShortestPaths.Dekstra.Point.#ctor(System.Int32,System.Boolean,System.String)">
+            <summary>
+            Конструктор, отвечающий за инициализацию значений метки, за отметку метки, 
+            имени метки и вершины графа
+            </summary>
+            <param name="ValueMetka">Значение метки</param>
+            <param name="IsChecked">Помечена метка или нет</param>
+            <param name="name">Имя метки</param>
+        </member>
+        <member name="M:Numerics.Algorithms.Search.FindShortestPaths.Dekstra.Point.#ctor">
+            <summary>
+            Конструктор по умолчанию
+            </summary>
+        </member>
+        <member name="T:Numerics.Algorithms.Search.FindShortestPaths.Dekstra.PrintGrath">
+            <summary>
+            Класс PrintGrath выводит граф на экран
+            </summary>
+            <example> 
+            Вызывающий код класса, <see cref="T:Numerics.Algorithms.Search.FindShortestPaths.Dekstra.PrintGrath"/> представлен ниже:
+            <code>
+            class TestClass 
+            {
+                static void Main() 
+                {
+                   List(string) b = PrintGrath.PrintAllMinPaths(da);
+                }
+            }
+            </code>
+            </example>
+        </member>
+        <member name="M:Numerics.Algorithms.Search.FindShortestPaths.Dekstra.PrintGrath.PrintAllPoints(Numerics.Algorithms.Search.FindShortestPaths.Dekstra.DekstraAlgorithm)">
+            <summary>
+            Метод PrintAllPoints выводит вершины графа на экран
+            </summary>
+            <param name="da">Ссылка на алгоритм</param>
+            <returns>ВОзращает вершины графа</returns>
+        </member>
+        <member name="M:Numerics.Algorithms.Search.FindShortestPaths.Dekstra.PrintGrath.PrintAllMinPaths(Numerics.Algorithms.Search.FindShortestPaths.Dekstra.DekstraAlgorithm)">
+            <summary>
+            Метод PrintAllMinPaths выводит минимальный пути для вершин графа
+            </summary>
+            <param name="da">Ссылка на алгоритм</param>
+            <returns>Возращает минимальные пути для вершин графа</returns>
+        </member>
+        <member name="M:Numerics.Algorithms.Search.FindShortestPaths.Dekstra.PrintGrath.Show(System.Collections.Generic.List{System.String})">
+            <summary>
+            Метод Show выводит список на экран
+            </summary>
+            <param name="list">Список элементов</param>
+        </member>
+        <member name="T:Numerics.Algorithms.Search.FindShortestPaths.Dekstra.Ribs">
+            <summary>
+            Класс Ribs описывающий ребра графа
+            </summary>
+            <example> 
+            Вызывающий код класса, <see cref="T:Numerics.Algorithms.Search.FindShortestPaths.Dekstra.Ribs"/> представлен ниже:.
+            <code>
+            class TestClass 
+            {
+                static void Main() 
+                {
+                   Ribs[] rebras = new Ribs[10];
+                   rebras[0] = new Ribs(v[0], v[2], 8);
+                   rebras[1] = new Ribs(v[0], v[3], 4);//FC
+                   rebras[2] = new Ribs(v[0], v[1], 9);//FA
+                   rebras[3] = new Ribs(v[2], v[3], 7);//bc
+                   rebras[4] = new Ribs(v[2], v[5], 5);//be
+                   rebras[5] = new Ribs(v[3], v[5], 5);//ce
+                   rebras[6] = new Ribs(v[1], v[5], 6);//ae
+                   rebras[7] = new Ribs(v[1], v[4], 5);//ad
+                   rebras[8] = new Ribs(v[3], v[4], 4);//cd
+                   rebras[9] = new Ribs(v[2], v[4], 7);//bd
+                }
+            }
+            </code>
+            </example>
+        </member>
+        <member name="P:Numerics.Algorithms.Search.FindShortestPaths.Dekstra.Ribs.FirstPoint">
+            <summary>
+            Свойство, отвечает за хранение начальной вершины ребра
+            </summary>
+        </member>
+        <member name="P:Numerics.Algorithms.Search.FindShortestPaths.Dekstra.Ribs.SecondPoint">
+            <summary>
+            Свойство, отвечает за хранение конечной вершины ребра
+            </summary>
+        </member>
+        <member name="P:Numerics.Algorithms.Search.FindShortestPaths.Dekstra.Ribs.Weight">
+            <summary>
+            Свойство, отвечает за хранение весового коэффициента
+            </summary>
+        </member>
+        <member name="M:Numerics.Algorithms.Search.FindShortestPaths.Dekstra.Ribs.#ctor(Numerics.Algorithms.Search.FindShortestPaths.Dekstra.Point,Numerics.Algorithms.Search.FindShortestPaths.Dekstra.Point,System.Single)">
+            <summary>
+            Конструктор, отвечающий за инициализацию начальной вершины ребра,
+            конечной вершины ребра весового коэффициента
+            </summary>
+            <param name="FirstPoint">Начальная вершина</param>
+            <param name="SecondPoint">Конечная вершина</param>
+            <param name="Weight">Весовой коэффициент</param>
+        </member>
+        <member name="T:Numerics.Algorithms.Sorting.MergeSort">
+            <summary>
+            Класс MergeSort реализует алгоритм сортировки слиянием
+            </summary>
+        </member>
+        <member name="M:Numerics.Algorithms.Sorting.MergeSort.Sort``1(System.Collections.Generic.IEnumerable{``0})">
+            <summary>
+            Метод MSort сортирует коллекцию элементов, за время:
+            лучшое: O(n*log(n)),
+            в среднем: O(n*log(n)),
+            в худшем: O(n*log(n)).
+            </summary>
+            <typeparam name="T">Строготипизированный параметер метода, указывающий тип элементов коллекции</typeparam>
+            <param name="list">Коллекция элементов</param>
+            <returns>Возращает отсортированную коллекцию элементов</returns>
+        </member>
+        <member name="T:Numerics.Algorithms.Sorting.QuickSort">
+            <summary>
+            Класс QuickSort реализует алгоритм быстрой сортировки
+            </summary>
+        </member>
+        <member name="M:Numerics.Algorithms.Sorting.QuickSort.QSort``1(System.Collections.Generic.IEnumerable{``0})">
+            <summary>
+            Метод QSort сортирует коллекцию элементов, за время:
+            лучшое: O(n*log(n)),
+            в среднем: O(n*log(n)),
+            в худшем: O(n^2).
+            </summary>
+            <typeparam name="T">Строготипизированный параметер метода, указывающий тип элементов коллекции</typeparam>
+            <param name="list">Коллекция элементов</param>
+            <returns>Возращает отсортированную коллекцию элементов</returns>
+        </member>
+        <member name="T:Numerics.Algorithms.Sorting.SelectionSort">
+            <summary>
+            Класс SelectionSort реализует алгоритм сортировки выбором 
+            </summary>
+        </member>
+        <member name="M:Numerics.Algorithms.Sorting.SelectionSort.Sort``1(System.Collections.Generic.IEnumerable{``0})">
+            <summary>
+            Метод Sort сортирует коллекцию элементов, за время:
+            лучшое: O(n^2),
+            в среднем: O(n^2),
+            в худшем: O(n^2).
+            </summary>
+            <typeparam name="T">Строготипизированный параметер метода, указывающий тип элементов коллекции</typeparam>
+            <param name="list">Коллекция элементов</param> 
+            <returns>Возращает отсортированную коллекцию элементов</returns>
+        </member>
+        <member name="T:Numerics.ArithmeticFunctions`1">
+            <summary>
+            Класс ArithmeticFunctions предоставляет ряд арефмитических операций,
+            таких как сложение, вычитание, умножение, деления, деление с остатком, 
+            для переменного количества аргументов от 2-х до 5-ти
+            </summary>
+            <typeparam name="T">Тип данных класса</typeparam>
+        </member>
+        <member name="P:Numerics.ArithmeticFunctions`1.AddTwo">
+            <summary>
+            Позволяет производить арефмитическую операцию сложения для двух слагаемых
+            </summary>
+        </member>
+        <member name="P:Numerics.ArithmeticFunctions`1.AddCheckedTwo">
+            <summary>
+            Позволяет производить арефмитическую операцию сложения для двух слагаемых, с проверкой переполнения
+            </summary>
+        </member>
+        <member name="P:Numerics.ArithmeticFunctions`1.AddAssignTwo">
+            <summary>
+            Позволяет производить арефметическую операцию присваивания сложения для двух слагаемых
+            </summary>
+        </member>
+        <member name="P:Numerics.ArithmeticFunctions`1.AddAssignCheckedTwo">
+            <summary>
+            Позволяет производить арефметическую операцию присваивания сложения для двух слагаемых, с проверкой переполнения
+            </summary>
+        </member>
+        <member name="P:Numerics.ArithmeticFunctions`1.SubtractTwo">
+            <summary>
+            Позволяет производить арефмитическую операцию вычитания для двух слагаемых
+            </summary>
+        </member>
+        <member name="P:Numerics.ArithmeticFunctions`1.SubtractCheckedTwo">
+            <summary>
+            Позволяет производить арефмитическую операцию вычитания для двух слагаемых, с проверкой переполнения
+            </summary>
+        </member>
+        <member name="P:Numerics.ArithmeticFunctions`1.SubtractAssignTwo">
+            <summary>
+            Позволяет производить арефметическую операцию присваивания вычитания для двух слагаемых
+            </summary>
+        </member>
+        <member name="P:Numerics.ArithmeticFunctions`1.SubtractAssignCheckedTwo">
+            <summary>
+            Позволяет производить арефметическую операцию присваивания вычитания для двух слагаемых, с проверкой переполнения
+            </summary>
+        </member>
+        <member name="P:Numerics.ArithmeticFunctions`1.MultiplyTwo">
+            <summary>
+            Позволяет производить арефмитическую операцию умноженя для двух слагаемых
+            </summary>
+        </member>
+        <member name="P:Numerics.ArithmeticFunctions`1.MultiplyCheckedTwo">
+            <summary>
+            Позволяет производить арефмитическую операцию умноженя для двух слагаемых, с проверкой переполнения
+            </summary>
+        </member>
+        <member name="P:Numerics.ArithmeticFunctions`1.MultiplyAssignTwo">
+            <summary>
+            Позволяет производить арефметическую операцию присваивания умножения для двух слагаемых
+            </summary>
+        </member>
+        <member name="P:Numerics.ArithmeticFunctions`1.MultiplyAssignCheckedTwo">
+            <summary>
+            Позволяет производить арефметическую операцию присваивания умножения для двух слагаемых, с проверкой переполнения
+            </summary>
+        </member>
+        <member name="P:Numerics.ArithmeticFunctions`1.DivideTwo">
+            <summary>
+            Позволяет производить арефмитическую операцию деления для двух слагаемых
+            </summary>
+        </member>
+        <member name="P:Numerics.ArithmeticFunctions`1.DivideAssignTwo">
+            <summary>
+            Позволяет производить арефметическую операцию присваивания деления для двух слагаемых
+            </summary>
+        </member>
+        <member name="P:Numerics.ArithmeticFunctions`1.ModuloTwo">
+            <summary>
+            Позволяет производить арефмитическую операцию деления с остатком для двух слагаемых
+            </summary>
+        </member>
+        <member name="P:Numerics.ArithmeticFunctions`1.ModuloAssignTwo">
+            <summary>
+            Позволяет производить арефметическую операцию присваивания деления с остатком для двух слагаемых
+            </summary>
+        </member>
+        <member name="P:Numerics.ArithmeticFunctions`1.PowTwo">
+            <summary>
+            Позволяет производить арефметическую операцию возведения в степень
+            </summary>
+        </member>
+        <member name="P:Numerics.ArithmeticFunctions`1.PowAssignTwo">
+            <summary>
+            Позволяет производить арефметическую операцию возведения в степень с присваиванием значения текущему выражению
+            </summary>
+        </member>
+        <member name="P:Numerics.ArithmeticFunctions`1.AddThree">
+            <summary>
+            Позволяет производить арефмитическую операцию сложения для трех слагаемых
+            </summary>
+        </member>
+        <member name="P:Numerics.ArithmeticFunctions`1.AddCheckedThree">
+            <summary>
+            Позволяет производить арефмитическую операцию сложения для трех слагаемых, с проверкой переполнения
+            </summary>
+        </member>
+        <member name="P:Numerics.ArithmeticFunctions`1.SubtractThree">
+            <summary>
+            Позволяет производить арефмитическую операцию вычитания для трех слагаемых
+            </summary>
+        </member>
+        <member name="P:Numerics.ArithmeticFunctions`1.SubtractCheckedThree">
+            <summary>
+            Позволяет производить арефмитическую операцию вычитания для трех слагаемых, с проверкой переполнения
+            </summary>
+        </member>
+        <member name="P:Numerics.ArithmeticFunctions`1.MultiplyTree">
+            <summary>
+            Позволяет производить арефмитическую операцию умноженя для трех слагаемых
+            </summary>
+        </member>
+        <member name="P:Numerics.ArithmeticFunctions`1.MultiplyCheckedTree">
+            <summary>
+            Позволяет производить арефмитическую операцию умноженя для трех слагаемых, с проверкой переполнения
+            </summary>
+        </member>
+        <member name="P:Numerics.ArithmeticFunctions`1.DivideTree">
+            <summary>
+            Позволяет производить арефмитическую операцию деления для трех слагаемых
+            </summary>
+        </member>
+        <member name="P:Numerics.ArithmeticFunctions`1.ModuloTree">
+            <summary>
+            Позволяет производить арефмитическую операцию деления с остатком для трех слагаемых
+            </summary>
+        </member>
+        <member name="P:Numerics.ArithmeticFunctions`1.AddFoor">
+            <summary>
+            Позволяет производить арефмитическую операцию сложения для четырех слагаемых
+            </summary>
+        </member>
+        <member name="P:Numerics.ArithmeticFunctions`1.AddCheckedFoor">
+            <summary>
+            Позволяет производить арефмитическую операцию сложения для четырех слагаемых, с проверкой переполнения
+            </summary>
+        </member>
+        <member name="P:Numerics.ArithmeticFunctions`1.SubtractFoor">
+            <summary>
+            Позволяет производить арефмитическую операцию вычитания для четырех слагаемых
+            </summary>
+        </member>
+        <member name="P:Numerics.ArithmeticFunctions`1.SubtractCheckedFoor">
+            <summary>
+            Позволяет производить арефмитическую операцию вычитания для четырех слагаемых, с проверкой переполнения
+            </summary>
+        </member>
+        <member name="P:Numerics.ArithmeticFunctions`1.MultiplyFoor">
+            <summary>
+            Позволяет производить арефмитическую операцию умноженя для четырех слагаемых
+            </summary>
+        </member>
+        <member name="P:Numerics.ArithmeticFunctions`1.MultiplyCheckedFoor">
+            <summary>
+            Позволяет производить арефмитическую операцию умноженя для четырех слагаемых, с проверкой переполнения
+            </summary>
+        </member>
+        <member name="P:Numerics.ArithmeticFunctions`1.DivideFoor">
+            <summary>
+            Позволяет производить арефмитическую операцию деления для четырех слагаемых
+            </summary>
+        </member>
+        <member name="P:Numerics.ArithmeticFunctions`1.ModuloFoor">
+            <summary>
+            Позволяет производить арефмитическую операцию деления с остатком для четырех слагаемых
+            </summary>
+        </member>
+        <member name="P:Numerics.ArithmeticFunctions`1.AddFive">
+            <summary>
+            Позволяет производить арефмитическую операцию сложения для пятех слагаемых
+            </summary>
+        </member>
+        <member name="P:Numerics.ArithmeticFunctions`1.AddCheckedFive">
+            <summary>
+            Позволяет производить арефмитическую операцию сложения для пятех слагаемых, с проверкой переполнения
+            </summary>
+        </member>
+        <member name="P:Numerics.ArithmeticFunctions`1.SubtractFive">
+            <summary>
+            Позволяет производить арефмитическую операцию вычитания для пятех слагаемых
+            </summary>
+        </member>
+        <member name="P:Numerics.ArithmeticFunctions`1.SubtractCheckedFive">
+            <summary>
+            Позволяет производить арефмитическую операцию вычитания для пятех слагаемых, с проверкой переполнения
+            </summary>
+        </member>
+        <member name="P:Numerics.ArithmeticFunctions`1.MultiplyFive">
+            <summary>
+            Позволяет производить арефмитическую операцию умноженя для пятех слагаемых
+            </summary>
+        </member>
+        <member name="P:Numerics.ArithmeticFunctions`1.MultiplyCheckedFive">
+            <summary>
+            Позволяет производить арефмитическую операцию умноженя для пятех слагаемых, с проверкой переполнения
+            </summary>
+        </member>
+        <member name="P:Numerics.ArithmeticFunctions`1.DivideFive">
+            <summary>
+            Позволяет производить арефмитическую операцию деления для пятех слагаемых
+            </summary>
+        </member>
+        <member name="P:Numerics.ArithmeticFunctions`1.ModuloFive">
+            <summary>
+            Позволяет производить арефмитическую операцию деления с остатком для пятех слагаемых
+            </summary>
+        </member>
+        <member name="T:Numerics.ArithmeticFunctionsExcellent`2">
+            <summary>
+            Класс ArithmeticFunctionsExcellent предоставляет ряд арефмитических операций,
+            таких как сложение, вычитание, умножение, деления, деление с остатком, 
+            для 2-х аргументов, позволяющих обрабатывать тип данных Т и отличный тип данных от Т
+            </summary>
+            <typeparam name="T">Первый строготипизированный тип класса</typeparam>
+            <typeparam name="T2">Второй строготипизированный тип класса, отличный от Т</typeparam>
+        </member>
+        <member name="P:Numerics.ArithmeticFunctionsExcellent`2.AddTwo">
+            <summary>
+            Позволяет производить арефмитическую операцию сложения для двух слагаемых
+            </summary>
+        </member>
+        <member name="P:Numerics.ArithmeticFunctionsExcellent`2.AddCheckedTwo">
+            <summary>
+            Позволяет производить арефмитическую операцию сложения для двух слагаемых, с проверкой переполнения
+            </summary>
+        </member>
+        <member name="P:Numerics.ArithmeticFunctionsExcellent`2.AddAssignTwo">
+            <summary>
+            Позволяет производить арефметическую операцию присваивания сложения для двух слагаемых
+            </summary>
+        </member>
+        <member name="P:Numerics.ArithmeticFunctionsExcellent`2.AddAssignCheckedTwo">
+            <summary>
+            Позволяет производить арефметическую операцию присваивания сложения для двух слагаемых, с проверкой переполнения
+            </summary>
+        </member>
+        <member name="P:Numerics.ArithmeticFunctionsExcellent`2.SubtractTwo">
+            <summary>
+            Позволяет производить арефмитическую операцию вычитания для двух слагаемых
+            </summary>
+        </member>
+        <member name="P:Numerics.ArithmeticFunctionsExcellent`2.SubtractCheckedTwo">
+            <summary>
+            Позволяет производить арефмитическую операцию вычитания для двух слагаемых, с проверкой переполнения
+            </summary>
+        </member>
+        <member name="P:Numerics.ArithmeticFunctionsExcellent`2.SubtractAssignTwo">
+            <summary>
+            Позволяет производить арефметическую операцию присваивания вычитания для двух слагаемых
+            </summary>
+        </member>
+        <member name="P:Numerics.ArithmeticFunctionsExcellent`2.SubtractAssignCheckedTwo">
+            <summary>
+            Позволяет производить арефметическую операцию присваивания вычитания для двух слагаемых, с проверкой переполнения
+            </summary>
+        </member>
+        <member name="P:Numerics.ArithmeticFunctionsExcellent`2.MultiplyTwo">
+            <summary>
+            Позволяет производить арефмитическую операцию умноженя для двух слагаемых
+            </summary>
+        </member>
+        <member name="P:Numerics.ArithmeticFunctionsExcellent`2.MultiplyCheckedTwo">
+            <summary>
+            Позволяет производить арефмитическую операцию умноженя для двух слагаемых, с проверкой переполнения
+            </summary>
+        </member>
+        <member name="P:Numerics.ArithmeticFunctionsExcellent`2.MultiplyAssignTwo">
+            <summary>
+            Позволяет производить арефметическую операцию присваивания умножения для двух слагаемых
+            </summary>
+        </member>
+        <member name="P:Numerics.ArithmeticFunctionsExcellent`2.MultiplyAssignCheckedTwo">
+            <summary>
+            Позволяет производить арефметическую операцию присваивания умножения для двух слагаемых, с проверкой переполнения
+            </summary>
+        </member>
+        <member name="P:Numerics.ArithmeticFunctionsExcellent`2.DivideTwo">
+            <summary>
+            Позволяет производить арефмитическую операцию деления для двух слагаемых
+            </summary>
+        </member>
+        <member name="P:Numerics.ArithmeticFunctionsExcellent`2.DivideAssignTwo">
+            <summary>
+            Позволяет производить арефметическую операцию присваивания деления для двух слагаемых
+            </summary>
+        </member>
+        <member name="P:Numerics.ArithmeticFunctionsExcellent`2.ModuloTwo">
+            <summary>
+            Позволяет производить арефмитическую операцию деления с остатком для двух слагаемых
+            </summary>
+        </member>
+        <member name="P:Numerics.ArithmeticFunctionsExcellent`2.ModuloAssignTwo">
+            <summary>
+            Позволяет производить арефметическую операцию присваивания деления с остатком для двух слагаемых
+            </summary>
+        </member>
+        <member name="P:Numerics.ArithmeticFunctionsExcellent`2.PowTwo">
+            <summary>
+            Позволяет производить арефметическую операцию возведения в степень
+            </summary>
+        </member>
+        <member name="P:Numerics.ArithmeticFunctionsExcellent`2.PowAssignTwo">
+            <summary>
+            Позволяет производить арефметическую операцию возведения в степень с присваиванием значения текущему выражению
+            </summary>
+        </member>
+        <member name="T:Numerics.ArithmeticFunctionsExcellent`3">
+            <summary>
+            Класс ArithmeticFunctionsExcellent предоставляет ряд арефмитических операций,
+            таких как сложение, вычитание, умножение, деления, деление с остатком, 
+            для 2-х аргументов, позволяющих обрабатывать тип данных Т и отличный тип данных от Т
+            </summary>
+            <typeparam name="T1">Первый строготипизированный тип класса</typeparam>
+            <typeparam name="T2">Второй строготипизированный тип класса, отличный от Т1</typeparam>
+            <typeparam name="T3">Третий строготипизированный тип класса, отличный от Т1</typeparam>
+        </member>
+        <member name="P:Numerics.ArithmeticFunctionsExcellent`3.ModuloTwo">
+            <summary>
+            Позволяет производить арефмитическую операцию деления с остатком для двух слагаемых
+            </summary>
+        </member>
+        <member name="T:Numerics.BooleanFunctions`3">
+            <summary>
+            Класс BooleanFunctions предоставляет ряд булевых операций,
+            таких как: больше, больше чем, равно, не равно, меньше, меньше чем
+            для переменного количества аргументов от 2-х до 5-ти
+            </summary>
+            <typeparam name="T">Тип данных входящих значений</typeparam>
+            <typeparam name="T2">Тип данных входящих значений</typeparam>
+            <typeparam name="Boolean">Тип данных возращаемого значения</typeparam> 
+        </member>
+        <member name="P:Numerics.BooleanFunctions`3.Less">
+            <summary>
+            Позволяет производить операцию сравнения "меньше чем"
+            </summary>
+        </member>
+        <member name="P:Numerics.BooleanFunctions`3.LessThanOrEquals">
+            <summary>
+            Позволяет производить операцию сравнения "меньше или равно"
+            </summary>
+        </member>
+        <member name="P:Numerics.BooleanFunctions`3.Greater">
+            <summary>
+            Позволяет производить операцию сравнения "больше чем"
+            </summary>
+        </member>
+        <member name="P:Numerics.BooleanFunctions`3.GreaterThanOrEquals">
+            <summary>
+            Позволяет производить операцию сравнения "больше или равно"
+            </summary>
+        </member>
+        <member name="P:Numerics.BooleanFunctions`3.Equals">
+            <summary>
+            Позволяет производить операцию сравнения "равно"
+            </summary>
+        </member>
+        <member name="P:Numerics.BooleanFunctions`3.NotEquals">
+            <summary>
+            Позволяет производить операцию сравнения "не равно"
+            </summary>
+        </member>
+        <member name="T:Numerics.CombinatorialAnalysis.SplitNumbers.SplitNumber">
+            <summary>
+            Класс SplitNumber предоставляет n в виде суммы положительных целых чисел
+            </summary>
+        </member>
+        <member name="M:Numerics.CombinatorialAnalysis.SplitNumbers.SplitNumber.AsymptoticExpressionHardyRamanujan(System.Int64)">
+            <summary>
+            Метол AsymptoticExpressionHardyRamanujan предоставляет асимптотическое выражение для количества разбиений числа n,
+            было получено Харди и Рамануджаном
+            </summary>
+            <param name="n">Число n</param>
+            <returns>Возращает количество разбиений числа n</returns>
+        </member>
+        <member name="T:Numerics.CyclicFunctions`1">
+            <summary>
+            </summary>Предоставляет ряд циклических функций таких как:
+            <typeparam name="Type">Входной строго типизировуаный параметер класса</typeparam>
+        </member>
+        <member name="T:Numerics.Factorial`1">
+            <summary>
+            Класс Factorial определяет факторил числа и ряд других операций с факториалом числа
+            </summary>
+        </member>
+        <member name="M:Numerics.Factorial`1.GetFactorial(System.Int64)">
+            <summary>
+            Метод GetFactorial определяет факториал числа n!
+            </summary>
+            <param name="n">n! - факториал</param>
+            <returns>Возращает факториал числа</returns>
+        </member>
+        <member name="M:Numerics.Factorial`1.SumFactorial(System.Int64)">
+            <summary>
+            Метод SumFactorial определяет сумму цифр факториала числа n!
+            </summary>
+            <param name="n">n! - факториал</param>
+            <returns>Возращает сумму цифр числа n!</returns>
+        </member>
+        <member name="T:Numerics.Geometry.Snapes.Polygon.APolygon">
+            <summary>
+            Класс Polygon описывает фигуры называемые многоугольниками
+            </summary>
+        </member>
+        <member name="T:Numerics.Geometry.Snapes.Polygon.Hexagon">
+            <summary>
+            Класс Hexagon описывает шестиугольник
+            </summary>
+        </member>
+        <member name="T:Numerics.Geometry.Snapes.Polygon.Pentagon">
+            <summary>
+            Класс Pentagon описывает пятиугольник
+            </summary>
+        </member>
+        <member name="T:Numerics.Geometry.Snapes.Polygon.Rectangle">
+            <summary>
+            Класс Rectangle описывает прямоугольник
+            </summary>
+        </member>
+        <member name="F:Numerics.Geometry.Snapes.Polygon.Rectangle.a">
+            <summary>
+            Поля хранящие значения сторон прямоугольника
+            </summary>
+        </member>
+        <member name="F:Numerics.Geometry.Snapes.Polygon.Rectangle.b">
+            <summary>
+            Поля хранящие значения сторон прямоугольника
+            </summary>
+        </member>
+        <member name="M:Numerics.Geometry.Snapes.Polygon.Rectangle.#ctor">
+            <summary>
+            Конструктор по умолчанию
+            </summary>
+        </member>
+        <member name="M:Numerics.Geometry.Snapes.Polygon.Rectangle.#ctor(System.Int32,System.Int32)">
+            <summary>
+            Конструктор для инициализации полей прямоугольника
+            </summary>
+            <param name="a">Сторона прямоугольника</param>
+            <param name="b">Сторона прямоугольника</param>
+        </member>
+        <member name="M:Numerics.Geometry.Snapes.Polygon.Rectangle.#ctor(System.Int32,System.Int32,System.Int32,System.Int32,System.Int32,System.Int32,System.Int32,System.Int32)">
+            <summary>
+            Конструктор для инициализации вершин прямоугольника
+            </summary>
+            <param name="x1">Первая координата первой точки</param>
+            <param name="y1">Вторая координата первой точки</param>
+            <param name="x2">Первая координата второй точки</param>
+            <param name="y2">Вторая координата второй точки</param>
+            <param name="x3">Первая координата третьей точки</param>
+            <param name="y3">Вторая координата третьей точки</param>
+            <param name="x4">Первая координата четвортой точки</param>
+            <param name="y4">Вторая координата четвортой точки</param>
+        </member>
+        <member name="M:Numerics.Geometry.Snapes.Polygon.Rectangle.Perimeter">
+            <summary>
+            Метод Perimeter расчитывает периметр прямоугольника
+            </summary>
+            <returns>Возращает периметер прямоугольника</returns>
+        </member>
+        <member name="M:Numerics.Geometry.Snapes.Polygon.Rectangle.Area">
+            <summary>
+            Метод Area расчитывает площадь прямоугольника
+            </summary>
+            <returns>Возращает площадь прямоугольника</returns>
+        </member>
+        <member name="M:Numerics.Geometry.Snapes.Polygon.Rectangle.Correct(System.Double,System.Double)">
+            <summary>
+            Метод Correct производит проверку на положительность сторон прямоугольника
+            </summary>
+            <param name="a">Сторона прямоугольника</param>
+            <param name="b">Сторона прямоугольника</param>
+        </member>
+        <member name="P:Numerics.Geometry.Snapes.Polygon.Rectangle.A">
+            <summary>
+            Свойство для получения-установления длины стороны а
+            </summary>
+        </member>
+        <member name="P:Numerics.Geometry.Snapes.Polygon.Rectangle.B">
+            <summary>
+            Свойство для получения-установления длины стороны b
+            </summary>
+        </member>
+        <member name="P:Numerics.Geometry.Snapes.Polygon.Rectangle.Square">
+            <summary>
+            Свойство получения информации о том не являеться ли прямоугольник квадратом
+            </summary>
+        </member>
+        <member name="P:Numerics.Geometry.Snapes.Polygon.Rectangle.Item(System.Int32)">
+            <summary>
+            Индексатор для доступа к сторонам триугольника по индексам через свойства
+            </summary>
+            <param name="i">Индекс указывающий на стороны прямоугольника</param>
+            <returns>Возращает указанную сторону прямоугольника</returns>
+        </member>
+        <member name="M:Numerics.Geometry.Snapes.Polygon.Rectangle.op_Multiply(Numerics.Geometry.Snapes.Polygon.Rectangle,System.Int32)">
+            <summary>
+            Перегрузка бинарного оператора " * "
+            </summary>
+            <param name="p">Ссылка на стороны прямоугольника</param>
+            <param name="scalar">Скалярное значение</param>
+            <returns></returns>
+        </member>
+        <member name="M:Numerics.Geometry.Snapes.Polygon.Rectangle.op_Increment(Numerics.Geometry.Snapes.Polygon.Rectangle)">
+            <summary>
+            Перегрузка унарного оператора " ++ "
+            </summary>
+            <param name="p">Ссылка на стороны прямоугольника</param>
+            <returns>Возращает увеличеные стороны прямоугольника</returns>
+        </member>
+        <member name="M:Numerics.Geometry.Snapes.Polygon.Rectangle.op_Decrement(Numerics.Geometry.Snapes.Polygon.Rectangle)">
+            <summary>
+            Перегрузка унарного оператора " -- "
+            </summary>
+            <param name="p">Ссылка на стороны прямоугольника</param>
+            <returns>Возращает уменьшенные стороны прямоугольника</returns>
+        </member>
+        <member name="M:Numerics.Geometry.Snapes.Polygon.Rectangle.op_True(Numerics.Geometry.Snapes.Polygon.Rectangle)">
+            <summary>
+            Перегрузка унарной константы true
+            </summary>
+            <param name="p">Ссылка на стороны прямоугольника</param>
+            <returns>Возращает true если это прямоугольник</returns>
+        </member>
+        <member name="M:Numerics.Geometry.Snapes.Polygon.Rectangle.op_False(Numerics.Geometry.Snapes.Polygon.Rectangle)">
+            <summary>
+            Перегрузка унарной константы false
+            </summary>
+            <param name="p">Ссылка на стороны прямоугольника</param>
+            <returns>Возращает false если это квадрат</returns>
+        </member>
+        <member name="T:Numerics.Geometry.Snapes.Polygon.Square">
+            <summary>
+            Класс Square описывает квадрат
+            </summary>
+        </member>
+        <member name="T:Numerics.Geometry.Snapes.Polygon.Triangle">
+            <summary>
+            Класс Triangle описывающий триугольник
+            </summary>
+        </member>
+        <member name="T:Numerics.Geometry.Snapes.Snape">
+            <summary>
+            Класс Snape описывает характеристики фигуры
+            </summary>
+        </member>
+        <member name="M:Numerics.Geometry.Snapes.Snape.Perimeter">
+            <summary>
+            Метод Perimeter расчитывает периметер фигуры
+            </summary>
+            <returns>Возращает периметер фигуры</returns>
+        </member>
+        <member name="M:Numerics.Geometry.Snapes.Snape.Area">
+            <summary>
+            Метод Area расчитывает площадь фигуры
+            </summary>
+            <returns>Возращает площадь фигуры</returns>
+        </member>
+        <member name="T:Numerics.Geometry.Snapes.WithoutAngles.AWithoutAngle">
+            <summary>
+            Класс WithoutAngles описывает фигуры без углов
+            </summary>
+        </member>
+        <member name="T:Numerics.Geometry.Snapes.WithoutAngles.Circle">
+            <summary>
+            Класс Circle описывает окружность
+            </summary>
+        </member>
+        <member name="T:Numerics.Geometry.Snapes.WithoutAngles.Ellipse">
+            <summary>
+            Класс Ellipse описывает овал
+            </summary>
+        </member>
+        <member name="T:Numerics.Geometry.Snapes.WithoutAngles.Semicircle">
+            <summary>
+            Класс Semicircle описывает полукруг
+            </summary>
+        </member>
+        <member name="T:Numerics.Geometry.FourDimensionalFigures.AHundredAndTwentyOne">
+            <summary>
+            Класс описывающий фигуру называемой стодвадцатиячейник
+            </summary>
+        </member>
+        <member name="T:Numerics.Geometry.FourDimensionalFigures.Pentecostal">
+            <summary>
+            Класс описывает фигуру называемую пятиячейником
+            </summary>
+        </member>
+        <member name="T:Numerics.Geometry.FourDimensionalFigures.SixHopper">
+            <summary>
+            Класс описывающий фигуру называемой шестисотячейник
+            </summary>
+        </member>
+        <member name="T:Numerics.Geometry.FourDimensionalFigures.SixteenYearOldBoy">
+            <summary>
+            Класс описывающий фигуру называемую шестнадцатиячейник
+            </summary>
+        </member>
+        <member name="T:Numerics.Geometry.FourDimensionalFigures.Tesseract">
+            <summary>
+            Класс описывает фигуру называемую тессеракт
+            </summary>
+        </member>
+        <member name="T:Numerics.Geometry.FourDimensionalFigures.TwentyFourthTier">
+            <summary>
+            Класс описывающий фигуру называемую двадцатичетырёхячейник
+            </summary>
+        </member>
+        <member name="T:Numerics.Geometry.Point.Point`1">
+            <summary>
+            Абстрактный класс Point для описания точки в пространстве
+            </summary>
+            <typeparam name="T">Строготипизированный параметр класса</typeparam>
+        </member>
+        <member name="P:Numerics.Geometry.Point.Point`1.X">
+            <summary>
+            Свойство для хранения первого значения координнаты
+            </summary>
+        </member>
+        <member name="P:Numerics.Geometry.Point.Point`1.Y">
+            <summary>
+            Свойство для хранения другого значения координнаты
+            </summary>
+        </member>
+        <member name="P:Numerics.Geometry.Point.Point`1.Z">
+            <summary>
+            Свойство для хранения третьего значения координнаты
+            </summary>
+        </member>
+        <member name="P:Numerics.Geometry.Point.Point`1.A">
+            <summary>
+            Свойство для хранения четвертого значения координнаты
+            </summary>
+        </member>
+        <member name="P:Numerics.Geometry.Point.Point`1.Name">
+            <summary>
+            Свойство, для хранения имени точки
+            </summary>
+        </member>
+        <member name="M:Numerics.Geometry.Point.Point`1.Show">
+            <summary>
+            Свойство, предоставляющее операцию арифмитического умножения
+            </summary>
+            <summary>
+            Метод Show предназначен для вывода координат на консоль
+            </summary>
+        </member>
+        <member name="M:Numerics.Geometry.Point.Point`1.GetDistance(Numerics.Geometry.Point.Point{`0})">
+            <summary>
+            Метод GetDistance предназначен для расчета растояния между точками
+            </summary>
+            <param name="other">Точка до которой нужно расчитать растояние</param>
+            <returns></returns>
+        </member>
+        <member name="M:Numerics.Geometry.Point.Point`1.Transfer(Numerics.Geometry.Point.Point{`0}[])">
+            <summary>
+            Метод Transfer перемещения точки на вектор (а,b)
+            </summary>
+            <param name="a">Начало и конец вектора задается массивом точек с помощью координат</param>
+        </member>
+        <member name="P:Numerics.Geometry.Point.Point`1.Scalar">
+            <summary>
+            Свойство Scalar позволяющее умножить координаты на скаляр
+            </summary>
+        </member>
+        <member name="M:Numerics.Geometry.Point.Point`1.Equal(Numerics.Geometry.Point.Point{`0})">
+            <summary>
+            Метод Equals осуществляет проверку на существование точек с одними и теми же координатами
+            </summary>
+            <param name="p">Массив точек</param>
+            <returns>Возращает true или false</returns>
+        </member>
+        <member name="P:Numerics.Geometry.Point.Point`1.Item(System.Int32)">
+            <summary>
+            Индексатор для обращения к полям
+            </summary>
+            <param name="i">Индекс поля</param>
+            <returns>Возращает или записывает значение в поле</returns>
+        </member>
+        <member name="T:Numerics.Geometry.Point.Point2D`1">
+            <summary>
+            Класс Point2D описывает точку в лвухмерном пространстве                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                            
+            </summary>
+            <typeparam name="T">Строготипизированный параметр класса</typeparam>
+        </member>
+        <member name="F:Numerics.Geometry.Point.Point2D`1.x">
+            <summary>
+            Поле для хранения координати х
+            </summary>
+        </member>
+        <member name="F:Numerics.Geometry.Point.Point2D`1.y">
+            <summary>
+            Поле для хранения координати у 
+            </summary>
+        </member>
+        <member name="F:Numerics.Geometry.Point.Point2D`1.name">
+            <summary>
+            Поле для хранения имени точки
+            </summary>
+        </member>
+        <member name="F:Numerics.Geometry.Point.Point2D`1.value">
+            <summary>
+            Закрытое поле value для переопределения метода Equals
+            и для хранения хэш-кода экземпляра
+            </summary>
+        </member>
+        <member name="P:Numerics.Geometry.Point.Point2D`1.X">
+            <summary>
+            Свойство, для хранения координаты Х, доступно только для чтения
+            </summary>
+        </member>
+        <member name="P:Numerics.Geometry.Point.Point2D`1.Y">
+            <summary>
+            Свойство, для хранения координаты Y, доступно только для чтения
+            </summary>
+        </member>
+        <member name="P:Numerics.Geometry.Point.Point2D`1.Name">
+            <summary>
+            Свойство, для хранения имени точки, доступно только для чтения
+            </summary>
+        </member>
+        <member name="P:Numerics.Geometry.Point.Point2D`1.Scalar">
+            <summary>
+            Свойство Scalar позволяющее умножить координаты на скаляр
+            </summary>
+        </member>
+        <member name="P:Numerics.Geometry.Point.Point2D`1.Item(System.Int32)">
+            <summary>
+            Индексатор для обращения к полям
+            </summary>
+            <param name="i">Индекс поля: 0 - поле Х, 1 - поле Y</param>
+            <returns>Возращает или записывает значение в поле</returns>
+        </member>
+        <member name="M:Numerics.Geometry.Point.Point2D`1.#ctor">
+            <summary>
+            Конструктор по умолчанию
+            </summary>
+        </member>
+        <member name="M:Numerics.Geometry.Point.Point2D`1.#ctor(`0,`0)">
+            <summary>
+            Конструктор инициализирующий поля x, y
+            </summary>
+            <param name="x">Координата х</param>
+            <param name="y">Координата у</param>
+        </member>
+        <member name="M:Numerics.Geometry.Point.Point2D`1.#ctor(`0,`0,System.String)">
+            <summary>
+            Конструктор инициализирующий поля x, y
+            </summary>
+            <param name="x">Координата х</param>
+            <param name="y">Координата у</param>
+            <param name="name">Имя точки</param>
+        </member>
+        <member name="M:Numerics.Geometry.Point.Point2D`1.#ctor(System.String)">
+            <summary>
+            Конструктор инициализирующий имя точки
+            </summary>
+            <param name="name">Имя точки</param>
+        </member>
+        <member name="M:Numerics.Geometry.Point.Point2D`1.Show">
+            <summary>
+            Метод Show выводит координаты точки на экран
+            </summary>
+        </member>
+        <member name="M:Numerics.Geometry.Point.Point2D`1.GetDistance(Numerics.Geometry.Point.Point{`0})">
+            <summary>
+            Метод GetDistance расчитывает растояния между двумя точками
+            </summary>
+            <param name="other">Ссылка на точку</param>
+            <returns>Возращает растояние между точками</returns>
+        </member>
+        <member name="M:Numerics.Geometry.Point.Point2D`1.Transfer(Numerics.Geometry.Point.Point{`0}[])">
+            <summary>
+            Метод Transfer перемещения точки на вектор (а, b)
+            </summary>
+            <param name="a">Начало и конец вектора задается массивом точек с помощью координат</param>
+        </member>
+        <member name="M:Numerics.Geometry.Point.Point2D`1.Equal(Numerics.Geometry.Point.Point{`0})">
+            <summary>
+            Метод Equals осуществляет проверку на существование точек с одними и теми же координатами
+            </summary>
+            <param name="p">Массив точек</param>
+            <returns>Возращает true или false</returns>
+        </member>
+        <member name="M:Numerics.Geometry.Point.Point2D`1.op_Multiply(Numerics.Geometry.Point.Point2D{`0},`0)">
+            <summary>
+            Перегрузка бинарного оператора " * "
+            </summary>
+            <param name="p">Ссылка на экземпляр класса, который умножается</param>
+            <param name="scalar">Параметер на который умножают</param>
+            <returns>Возращает умноженое значение</returns>
+        </member>
+        <member name="M:Numerics.Geometry.Point.Point2D`1.op_Addition(Numerics.Geometry.Point.Point2D{`0},`0)">
+            <summary>
+            Перегрузка бинарного оператора " + "
+            </summary>
+            <param name="p">Ссылка на экземпляр класса, к которому прибавляют</param>
+            <param name="scalar">Параметер который прибавляют</param>
+            <returns>Возращает сложеное значение</returns>
+        </member>
+        <member name="M:Numerics.Geometry.Point.Point2D`1.op_Subtraction(Numerics.Geometry.Point.Point2D{`0},`0)">
+            <summary>
+            Перегрузка бинарного оператора " - "
+            </summary>
+            <param name="p">Ссылка на экземпляр класса, с которого вычитают</param>
+            <param name="scalar">Параметер который вычитают</param>
+            <returns>Возращает уменшеное значение</returns>
+        </member>
+        <member name="M:Numerics.Geometry.Point.Point2D`1.op_Division(Numerics.Geometry.Point.Point2D{`0},`0)">
+            <summary>
+            Перегрузка бинарного оператора " / "
+            </summary>
+            <param name="p">Ссылка на экземпляр класса, который делят</param>
+            <param name="scalar">Параметер на который делят</param>
+            <returns>Возращает разделенное значение</returns>
+        </member>
+        <member name="M:Numerics.Geometry.Point.Point2D`1.op_Increment(Numerics.Geometry.Point.Point2D{`0})">
+            <summary>
+            Перегрузка унарного оператора " ++ "
+            </summary>
+            <param name="p">Ссылка на экземпляр класса, который инкрементируют</param>
+            <returns>Возращает инкрементированое значение</returns>
+        </member>
+        <member name="M:Numerics.Geometry.Point.Point2D`1.op_Decrement(Numerics.Geometry.Point.Point2D{`0})">
+            <summary>
+            Перегрузка унарного оператора " -- "
+            </summary>
+            <param name="p">Ссылка на экземпляр класса, который декрементируют</param>
+            <returns>Возращает декрементирровааное</returns>
+        </member>
+        <member name="M:Numerics.Geometry.Point.Point2D`1.op_Equality(Numerics.Geometry.Point.Point2D{`0},Numerics.Geometry.Point.Point2D{`0})">
+            <summary>
+            Перегрузка бинарного оператора " == "
+            </summary>
+            <param name="a">Ссылка на экземпляр класса</param>
+            <param name="b">Ссылка на экземпляр класса</param>
+            <returns>Возвращает значение true, если поле x = y, иначе false</returns>
+        </member>
+        <member name="M:Numerics.Geometry.Point.Point2D`1.op_Inequality(Numerics.Geometry.Point.Point2D{`0},Numerics.Geometry.Point.Point2D{`0})">
+            <summary>
+            Перегрузка бинарного оператора " != "
+            </summary>
+            <param name="a">Ссылка на экземпляр класса</param>
+            <param name="b">Ссылка на экземпляр класса</param>
+            <returns>Возвращает значение true, если поле x != y, иначе false</returns>
+        </member>
+        <member name="M:Numerics.Geometry.Point.Point2D`1.op_True(Numerics.Geometry.Point.Point2D{`0})">
+            <summary>
+            Перегрузка унарной константы true
+            </summary>
+            <param name="p">Ссылка на экземпляр класса</param>
+            <returns>Возращает true, если все поля равны</returns>
+        </member>
+        <member name="M:Numerics.Geometry.Point.Point2D`1.op_False(Numerics.Geometry.Point.Point2D{`0})">
+            <summary>
+            Перегрузка унарной константы false
+            </summary>
+            <param name="p">Ссылка на экземпляр класса</param>
+            <returns>Возращает false, если все поля неравны</returns>
+        </member>
+        <member name="M:Numerics.Geometry.Point.Point2D`1.Equals(System.Object)">
+            <summary>
+            Метод Equals позволяет сравнивать два объекта Point4D
+            </summary>
+            <param name="obj">Объект с которым сравнивают</param>
+            <returns>Возращает true или false</returns>
+        </member>
+        <member name="M:Numerics.Geometry.Point.Point2D`1.GetHashCode">
+            <summary>
+            Метод GetHashCode генерирует хэш-код экземпляра класса
+            </summary>
+            <returns>Возращает хэш-код</returns>
+        </member>
+        <member name="T:Numerics.Geometry.Point.Point3D`1">
+            <summary>
+            Класс Point3D описывает точку в трехмерном пространстве
+            </summary>
+            <typeparam name="T">Строго типизированный параметер</typeparam>
+        </member>
+        <member name="F:Numerics.Geometry.Point.Point3D`1.z">
+            <summary>
+            Поле для хранеия координати z
+            </summary>
+        </member>
+        <member name="P:Numerics.Geometry.Point.Point3D`1.Z">
+            <summary>
+            Свойство, для хранения координаты Z, доступно только для чтения
+            </summary>                                                                                                                                                                                                                                     
+        </member>
+        <member name="F:Numerics.Geometry.Point.Point3D`1.value">
+            <summary>
+            Закрытое поле value для переопределения метода Equals
+            и для хранения хэш-кода экземпляра
+            </summary>
+        </member>
+        <member name="P:Numerics.Geometry.Point.Point3D`1.Scalar">
+            <summary>
+            Свойство Scalar позволяющее умножить координаты на скаляр
+            </summary>
+        </member>
+        <member name="P:Numerics.Geometry.Point.Point3D`1.Item(System.Int32)">
+            <summary>
+            Индексатор для обращения к полям
+            </summary>
+            <param name="i">Индекс поля: 0 - поле Х, 1 - поле Y, 2 - поле Z</param>
+            <returns>Возращает или записывает значение в поле</returns>
+        </member>
+        <member name="M:Numerics.Geometry.Point.Point3D`1.#ctor">
+            <summary>
+            Конструктор по умолчанию
+            </summary>
+        </member>
+        <member name="M:Numerics.Geometry.Point.Point3D`1.#ctor(`0,`0)">
+            <summary>
+            Конструктор инициализирующий поля x, y
+            </summary>
+            <param name="x">Координата х</param>
+            <param name="y">Координата у</param>
+        </member>
+        <member name="M:Numerics.Geometry.Point.Point3D`1.#ctor(`0,`0,`0)">
+            <summary>
+            Конструктор инициализирующий поля x, y, z
+            </summary>
+            <param name="x">Координата х</param>
+            <param name="y">Координата у</param>
+            <param name="z">Координата z</param>
+        </member>
+        <member name="M:Numerics.Geometry.Point.Point3D`1.#ctor(`0,`0,`0,System.String)">
+            <summary>
+            Конструктор инициализирующий координаты x, y, z, a и имя точки
+            </summary>
+            <param name="x">Координата х</param>
+            <param name="y">Координата у</param>
+            <param name="z">Координата z</param>
+            <param name="name">Имя точки</param>
+        </member>
+        <member name="M:Numerics.Geometry.Point.Point3D`1.#ctor(System.String)">
+            <summary>
+            Конструктор инициализирующий имя точки
+            </summary>
+            <param name="name"></param>
+        </member>
+        <member name="M:Numerics.Geometry.Point.Point3D`1.Show">
+            <summary>
+            Метод Show выводит координаты точки на экран
+            </summary>
+        </member>
+        <member name="M:Numerics.Geometry.Point.Point3D`1.GetDistance(Numerics.Geometry.Point.Point{`0})">
+            <summary>
+            Метод GetDistance расчитывает растояния между двумя точками
+            </summary>
+            <param name="other">Ссылка на точку</param>
+            <returns>Возращает растояние между точками</returns>
+        </member>
+        <member name="M:Numerics.Geometry.Point.Point3D`1.Transfer(Numerics.Geometry.Point.Point{`0}[])">
+            <summary>
+            Метод Transfer перемещения точки на вектор (а, b, z)
+            </summary>
+            <param name="a">Начало и конец вектора задается массивом точек с помощью координат</param>
+        </member>
+        <member name="M:Numerics.Geometry.Point.Point3D`1.Equal(Numerics.Geometry.Point.Point{`0})">
+            <summary>
+            Метод Equals осуществляет проверку на существование точек с одними и теми же координатами
+            </summary>
+            <param name="p">Массив точек</param>
+            <returns>Возращает true или false</returns>
+        </member>
+        <member name="M:Numerics.Geometry.Point.Point3D`1.op_Multiply(Numerics.Geometry.Point.Point3D{`0},`0)">
+            <summary>
+            Перегрузка бинарного оператора " * "
+            </summary>
+            <param name="p">Ссылка на экземпляр класса, который умножается</param>
+            <param name="scalar">Параметер на который умножают</param>
+            <returns>Возращает умноженое значение</returns>
+        </member>
+        <member name="M:Numerics.Geometry.Point.Point3D`1.op_Addition(Numerics.Geometry.Point.Point3D{`0},`0)">
+            <summary>
+            Перегрузка бинарного оператора " + "
+            </summary>
+            <param name="p">Ссылка на экземпляр класса, к которому прибавляют</param>
+            <param name="scalar">Параметер который прибавляют</param>
+            <returns>Возращает сложеное значение</returns>
+        </member>
+        <member name="M:Numerics.Geometry.Point.Point3D`1.op_Subtraction(Numerics.Geometry.Point.Point3D{`0},`0)">
+            <summary>
+            Перегрузка бинарного оператора " - "
+            </summary>
+            <param name="p">Ссылка на экземпляр класса, с которого вычитают</param>
+            <param name="scalar">Параметер который вычитают</param>
+            <returns>Возращает уменшеное значение</returns>
+        </member>
+        <member name="M:Numerics.Geometry.Point.Point3D`1.op_Division(Numerics.Geometry.Point.Point3D{`0},`0)">
+            <summary>
+            Перегрузка бинарного оператора " / "
+            </summary>
+            <param name="p">Ссылка на экземпляр класса, который делят</param>
+            <param name="scalar">Параметер на который делят</param>
+            <returns>Возращает разделенное значение</returns>
+        </member>
+        <member name="M:Numerics.Geometry.Point.Point3D`1.op_Increment(Numerics.Geometry.Point.Point3D{`0})">
+            <summary>
+            Перегрузка унарного оператора " ++ "
+            </summary>
+            <param name="p">Ссылка на экземпляр класса, который инкрементируют</param>
+            <returns>Возращает инкрементированое значение</returns>
+        </member>
+        <member name="M:Numerics.Geometry.Point.Point3D`1.op_Decrement(Numerics.Geometry.Point.Point3D{`0})">
+            <summary>
+            Перегрузка унарного оператора " -- "
+            </summary>
+            <param name="p">Ссылка на экземпляр класса, который декрементируют</param>
+            <returns>Возращает декрементирровааное</returns>
+        </member>
+        <member name="M:Numerics.Geometry.Point.Point3D`1.op_Equality(Numerics.Geometry.Point.Point3D{`0},Numerics.Geometry.Point.Point3D{`0})">
+            <summary>
+            Перегрузка бинарного оператора " == "
+            </summary>
+            <param name="a">Ссылка на экземпляр класса</param>
+            <param name="b">Ссылка на экземпляр класса</param>
+            <returns>Возвращает значение true, если поле x = y, иначе false</returns>
+        </member>
+        <member name="M:Numerics.Geometry.Point.Point3D`1.op_Inequality(Numerics.Geometry.Point.Point3D{`0},Numerics.Geometry.Point.Point3D{`0})">
+            <summary>
+            Перегрузка бинарного оператора " != "
+            </summary>
+            <param name="a">Ссылка на экземпляр класса</param>
+            <param name="b">Ссылка на экземпляр класса</param>
+            <returns>Возвращает значение true, если поле x != y, иначе false</returns>
+        </member>
+        <member name="M:Numerics.Geometry.Point.Point3D`1.op_True(Numerics.Geometry.Point.Point3D{`0})">
+            <summary>
+            Перегрузка унарной константы true
+            </summary>
+            <param name="p">Ссылка на экземпляр класса</param>
+            <returns>Возращает true, если все поля равны</returns>
+        </member>
+        <member name="M:Numerics.Geometry.Point.Point3D`1.op_False(Numerics.Geometry.Point.Point3D{`0})">
+            <summary>
+            Перегрузка унарной константы false
+            </summary>
+            <param name="p">Ссылка на экземпляр класса</param>
+            <returns>Возращает false, если все поля неравны</returns>
+        </member>
+        <member name="M:Numerics.Geometry.Point.Point3D`1.Equals(System.Object)">
+            <summary>
+            Метод Equals позволяет сравнивать два объекта Point4D
+            </summary>
+            <param name="obj">Объект с которым сравнивают</param>
+            <returns>Возращает true или false</returns>
+        </member>
+        <member name="M:Numerics.Geometry.Point.Point3D`1.GetHashCode">
+            <summary>
+            Метод GetHashCode генерирует хэш-код экземпляра класса
+            </summary>
+            <returns>Возращает хэш-код</returns>
+        </member>
+        <member name="T:Numerics.Geometry.Point.Point4D`1">
+            <summary>
+            Класс Point4D описывает точку в четырехмерном пространстве
+            </summary>
+            <typeparam name="T">Строготипизированный параметр класса</typeparam>
+        </member>
+        <member name="F:Numerics.Geometry.Point.Point4D`1.a">
+            <summary>
+            Поле для хранения координати а
+            </summary>
+        </member>
+        <member name="P:Numerics.Geometry.Point.Point4D`1.A">
+            <summary>
+            Свойство, для хранения координаты A, доступно только для чтения
+            </summary>
+        </member>
+        <member name="F:Numerics.Geometry.Point.Point4D`1.value">
+            <summary>
+            Закрытое поле value для переопределения метода Equals
+            и для хранения хэш-кода экземпляра
+            </summary>
+        </member>
+        <member name="P:Numerics.Geometry.Point.Point4D`1.Scalar">
+            <summary>
+            Свойство Scalar позволяющее умножить координаты на скаляр
+            </summary>
+        </member>
+        <member name="P:Numerics.Geometry.Point.Point4D`1.Item(System.Int32)">
+            <summary>
+            Индексатор для обращения к полям
+            </summary>
+            <param name="i">Индекс поля: 0 - поле Х, 1 - поле Y, 2 - поле Z, 3 - поле А</param>
+            <returns>Возращает или записывает значение в поле</returns>
+        </member>
+        <member name="M:Numerics.Geometry.Point.Point4D`1.#ctor">
+            <summary>
+            Конструктор по умолчанию
+            </summary>
+        </member>
+        <member name="M:Numerics.Geometry.Point.Point4D`1.#ctor(`0,`0)">
+            <summary>
+            Конструктор инициализирующий поля x, y
+            </summary>
+            <param name="x">Координата х</param>
+            <param name="y">Координата у</param>
+        </member>
+        <member name="M:Numerics.Geometry.Point.Point4D`1.#ctor(`0,`0,`0)">
+            <summary>
+            Конструктор инициализирующий поля x, y, z
+            </summary>
+            <param name="x">Координата х</param>
+            <param name="y">Координата у</param>
+            <param name="z">Координата z</param>
+        </member>
+        <member name="M:Numerics.Geometry.Point.Point4D`1.#ctor(`0,`0,`0,`0)">
+            <summary>
+            Конструктор инициализирующий поля x, y, z, а
+            </summary>
+            <param name="x">Координата х</param>
+            <param name="y">Координата у</param>
+            <param name="z">Координата z</param>
+            <param name="a">Координата а</param>
+        </member>
+        <member name="M:Numerics.Geometry.Point.Point4D`1.#ctor(`0,`0,`0,`0,System.String)">
+            <summary>
+            Конструктор инициализирующий координаты x, y, z, a и имя точки
+            </summary>
+            <param name="x">Координата х</param>
+            <param name="y">Координата у</param>
+            <param name="z">Координата z</param>
+            <param name="a">Координата а</param>
+            <param name="name">Имя точки</param>
+        </member>
+        <member name="M:Numerics.Geometry.Point.Point4D`1.#ctor(System.String)">
+            <summary>
+            Конструктор инициализирующий имя точки
+            </summary>
+            <param name="name"></param>
+        </member>
+        <member name="M:Numerics.Geometry.Point.Point4D`1.Show">
+            <summary>
+            Метод Show выводит координаты точки на экран
+            </summary>
+        </member>
+        <member name="M:Numerics.Geometry.Point.Point4D`1.GetDistance(Numerics.Geometry.Point.Point{`0})">
+            <summary>
+            Метод GetDistance расчитывает растояния между двумя точками
+            </summary>
+            <param name="other">Ссылка на точку</param>
+            <returns>Возращает растояние между точками</returns>
+        </member>
+        <member name="M:Numerics.Geometry.Point.Point4D`1.Transfer(Numerics.Geometry.Point.Point{`0}[])">
+            <summary>
+            Метод Transfer перемещения точки на вектор (а, b, z, a)
+            </summary>
+            <param name="e">Начало и конец вектора задается массивом точек с помощью координат</param>
+        </member>
+        <member name="M:Numerics.Geometry.Point.Point4D`1.Equal(Numerics.Geometry.Point.Point{`0})">
+            <summary>
+            Метод Equals осуществляет проверку на существование точек с одними и теми же координатами
+            </summary>
+            <param name="p">Массив точек</param>
+            <returns>Возращает true или false</returns>
+        </member>
+        <member name="M:Numerics.Geometry.Point.Point4D`1.op_Multiply(Numerics.Geometry.Point.Point4D{`0},`0)">
+            <summary>
+            Перегрузка бинарного оператора " * "
+            </summary>
+            <param name="p">Ссылка на экземпляр класса, который умножается</param>
+            <param name="scalar">Параметер на который умножают</param>
+            <returns>Возращает умноженое значение</returns>
+        </member>
+        <member name="M:Numerics.Geometry.Point.Point4D`1.op_Addition(Numerics.Geometry.Point.Point4D{`0},`0)">
+            <summary>
+            Перегрузка бинарного оператора " + "
+            </summary>
+            <param name="p">Ссылка на экземпляр класса, к которому прибавляют</param>
+            <param name="scalar">Параметер который прибавляют</param>
+            <returns>Возращает сложеное значение</returns>
+        </member>
+        <member name="M:Numerics.Geometry.Point.Point4D`1.op_Subtraction(Numerics.Geometry.Point.Point4D{`0},`0)">
+            <summary>
+            Перегрузка бинарного оператора " - "
+            </summary>
+            <param name="p">Ссылка на экземпляр класса, с которого вычитают</param>
+            <param name="scalar">Параметер который вычитают</param>
+            <returns>Возращает уменшеное значение</returns>
+        </member>
+        <member name="M:Numerics.Geometry.Point.Point4D`1.op_Division(Numerics.Geometry.Point.Point4D{`0},`0)">
+            <summary>
+            Перегрузка бинарного оператора " / "
+            </summary>
+            <param name="p">Ссылка на экземпляр класса, который делят</param>
+            <param name="scalar">Параметер на который делят</param>
+            <returns>Возращает разделенное значение</returns>
+        </member>
+        <member name="M:Numerics.Geometry.Point.Point4D`1.op_Increment(Numerics.Geometry.Point.Point4D{`0})">
+            <summary>
+            Перегрузка унарного оператора " ++ "
+            </summary>
+            <param name="p">Ссылка на экземпляр класса, который инкрементируют</param>
+            <returns>Возращает инкрементированое значение</returns>
+        </member>
+        <member name="M:Numerics.Geometry.Point.Point4D`1.op_Decrement(Numerics.Geometry.Point.Point4D{`0})">
+            <summary>
+            Перегрузка унарного оператора " -- "
+            </summary>
+            <param name="p">Ссылка на экземпляр класса, который декрементируют</param>
+            <returns>Возращает декрементирровааное</returns>
+        </member>
+        <member name="M:Numerics.Geometry.Point.Point4D`1.op_Equality(Numerics.Geometry.Point.Point4D{`0},Numerics.Geometry.Point.Point4D{`0})">
+            <summary>
+            Перегрузка бинарного оператора " == "
+            </summary>
+            <param name="a">Ссылка на экземпляр класса</param>
+            <param name="b">Ссылка на экземпляр класса</param>
+            <returns>Возвращает значение true, если поле x = y, иначе false</returns>
+        </member>
+        <member name="M:Numerics.Geometry.Point.Point4D`1.op_Inequality(Numerics.Geometry.Point.Point4D{`0},Numerics.Geometry.Point.Point4D{`0})">
+            <summary>
+            Перегрузка бинарного оператора " != "
+            </summary>
+            <param name="a">Ссылка на экземпляр класса</param>
+            <param name="b">Ссылка на экземпляр класса</param>
+            <returns>Возвращает значение true, если поле x != y, иначе false</returns>
+        </member>
+        <member name="M:Numerics.Geometry.Point.Point4D`1.op_True(Numerics.Geometry.Point.Point4D{`0})">
+            <summary>
+            Перегрузка унарной константы true
+            </summary>
+            <param name="p">Ссылка на экземпляр класса</param>
+            <returns>Возращает true, если все поля равны</returns>
+        </member>
+        <member name="M:Numerics.Geometry.Point.Point4D`1.op_False(Numerics.Geometry.Point.Point4D{`0})">
+            <summary>
+            Перегрузка унарной константы false
+            </summary>
+            <param name="p">Ссылка на экземпляр класса</param>
+            <returns>Возращает false, если все поля неравны</returns>
+        </member>
+        <member name="M:Numerics.Geometry.Point.Point4D`1.Equals(System.Object)">
+            <summary>
+            Метод Equals позволяет сравнивать два объекта Point4D
+            </summary>
+            <param name="obj">Объект с которым сравнивают</param>
+            <returns>Возращает true или false</returns>
+        </member>
+        <member name="M:Numerics.Geometry.Point.Point4D`1.GetHashCode">
+            <summary>
+            Метод GetHashCode генерирует хэш-код экземпляра класса
+            </summary>
+            <returns>Возращает хэш-код</returns>
+        </member>
+        <member name="T:Numerics.LinearAlgebra.Matrix.JordanMatrix`1">
+            <summary>
+            Класс JordanMatrix предназначен для работы с жордановыми матрицами
+            </summary>
+            <typeparam name="T">Строго типизированный параметер класса</typeparam>
+        </member>
+        <member name="T:Numerics.LinearAlgebra.Matrix.Matrix`1">
+            <summary>
+            Абстрактный класс Matrix содержит общие элементы матриц
+            </summary>
+            <typeparam name="T">Строго типизированный параметер класса</typeparam>
+        </member>
+        <member name="T:Numerics.LinearAlgebra.Matrix.SkewSymmetricMatrix`1">
+            <summary>
+            Класс SkewSymmetricMatrix предназначен для работы с кососимметричными матрицами
+            </summary>
+            <typeparam name="T">Строго типизированный параметер класса</typeparam>
+        </member>
+        <member name="T:Numerics.LinearAlgebra.Matrix.SymmetricMatrix`1">
+            <summary>
+            Класс SymmetricMatrix предназначен для работы с симметричными матрицами
+            </summary>
+            <typeparam name="T">Строго типизированный параметер класса</typeparam>
+        </member>
+        <member name="T:Numerics.LinearAlgebra.Matrix.TriangularMatrix`1">
+            <summary>
+            Класс TriangularMatrix предназначен для работы с триугольными матрицами
+            </summary>
+            <typeparam name="T">Строго типизированный параметер класса</typeparam>
+        </member>
+        <member name="T:Numerics.LinearAlgebra.Matrix.UnitMatrix`1">
+            <summary>
+            Класс UnitMatrix предназначен для работы с единичными матрицами
+            </summary>
+            <typeparam name="T">Строго типизированный параметер класса</typeparam>
+        </member>
+        <member name="T:Numerics.LinearAlgebra.SystemLinearAlgebraicEquations.LinearEquatioons`1">
+            <summary>
+            Класс LinearEquatioons предназначен для решения
+            систем линейных алгебраических уравнений
+            </summary>
+            <typeparam name="T">Строго типизированный параметер класса</typeparam>
+        </member>
+        <member name="T:Numerics.NumberSystems.TranslationNumbers">
+            <summary>
+            Класс TranslationNumbers для перевода чисел с разных систем исчесления
+            </summary>
+        </member>
+        <member name="M:Numerics.NumberSystems.TranslationNumbers.DecimalToBinary``1(``0)">
+            <summary>
+            Метод DecimalToBinary осуществляет перевод чисел с десятиричной в двоичную систему исчесления
+            </summary>
+            <typeparam name="Type">Входящее десятиричное число</typeparam>
+            <returns>Возращает двоичное представление десятиричного числа</returns>
+        </member>
+        <member name="M:Numerics.NumberSystems.TranslationNumbers.BinaryToDecimal``2(Numerics.Type.BinarySystem{``0})">
+            <summary>
+            Метод BinaryToDecimal осуществляет перевод чисел с двоичной в десятиричную систему исчесления
+            </summary>
+            <param name="type">Входящее двоичное число</param>
+            <typeparam name="Type">Входящий тип данных</typeparam>
+            <typeparam name="Return">Возращаемый тип данных</typeparam>
+            <returns>Возращает десятиричное представление двоичного числа</returns>
+        </member>
+        <member name="T:Numerics.Numbers.CatalanNumbers">
+            <summary>
+            Класс CatalanNumbers для работы с числами Каталана
+            </summary>
+        </member>
+        <member name="M:Numerics.Numbers.CatalanNumbers.CatalanNumber(System.Int32)">
+            <summary>
+            Метод CatalanNumber находит числа Каталана
+            </summary>
+            <param name="n"></param>
+            <returns></returns>
+        </member>
+        <member name="T:Numerics.Numbers.FibonacciNumbers">
+            <summary>
+            Класс FibonacciNumbers определяет числа Фибоначчи
+            </summary>
+        </member>
+        <member name="T:Numerics.Numbers.CompositeNumbers.MersennesNumbers">
+            <summary>
+            Класс MersennesNumbers определяет составные числа Мерсенна
+            </summary>
+        </member>
+        <member name="T:Numerics.Numbers.IntegersNumbers">
+            <summary>
+            Класс IntegersNumbers определяет натуральнные числа
+            </summary>
+        </member>
+        <member name="T:Numerics.Numbers.NumberNumbers">
+            <summary>
+            Класс NumberNumbers предназначен для работы с числами
+            </summary>
+        </member>
+        <member name="M:Numerics.Numbers.NumberNumbers.Numbers(System.Int32[],System.Int32)">
+            <summary>
+            Метод Numbers производит проверку чисел на кратность числу n
+            </summary>
+            <param name="numbers">Числа которые проходят проверку на кратность</param>
+            <param name="n">Число кратности, по умолчанию 2</param>
+            <returns>Возращает от фильтрованный массив чисел кратных n</returns>
+        </member>
+        <member name="T:Numerics.Numbers.PrimeNumbers.FermatNumbers">
+            <summary>
+            Класс FermatNumbers опредиляет простые числа Ферма
+            </summary>
+        </member>
+        <member name="M:Numerics.Numbers.PrimeNumbers.FermatNumbers.GetFermat(System.Int32[])">
+            <summary>
+            Метод GetFermat производит расчет простых чисел Ферма
+            </summary>
+            <param name="n">Неотрицательное целое число</param>
+            <returns>Возращает простые числа Ферма</returns>
+        </member>
+        <member name="T:Numerics.Numbers.PrimeNumbers.MersennesNumbers">
+            <summary>
+            Класс MersennesNumbers определяет простые числа Мерсенна
+            </summary>
+        </member>
+        <member name="M:Numerics.Numbers.PrimeNumbers.MersennesNumbers.GetMersennes(System.Int32[])">
+            <summary>
+            Метод GetMersennes производит расчет простых четных чисел Марсена
+            </summary>
+            <param name="n">Четное число больше нуля</param>
+            <returns>Возращает массив простых чисел Марсена</returns>
+        </member>
+        <member name="T:Numerics.BooleanFunctionsExcellent`3">
+            <summary>
+            Класс BooleanFunctionsExcellent предоставляет ряд булевых операций,
+            таких как: больше, больше чем, равно, не равно, меньше, меньше чем
+            для 2-х єлементов
+            </summary>
+            <typeparam name="T1">Тип данных входящих значений</typeparam>
+            <typeparam name="T2">Тип данных входящих значений</typeparam>
+            <typeparam name="Boolean">Тип данных возращаемого значения</typeparam>
+        </member>
+        <member name="P:Numerics.BooleanFunctionsExcellent`3.GreaterThan">
+            <summary>
+            Позволяет производить операцию числового сравнения "больше чем"
+            </summary>
+        </member>
+        <member name="P:Numerics.BooleanFunctionsExcellent`3.GreaterThanOrEqual">
+            <summary>
+            Позволяет производить операцию числового сравнения "больше или равно"
+            </summary>
+        </member>
+        <member name="P:Numerics.BooleanFunctionsExcellent`3.LessThan">
+            <summary>
+            Позволяет производить операцию числового сравнения "меньше чем"
+            </summary>
+        </member>
+        <member name="P:Numerics.BooleanFunctionsExcellent`3.LessThanOrEqual">
+            <summary>
+            Позволяет производить операцию числового сравнения "меньше или равно"
+            </summary>
+        </member>
+        <member name="P:Numerics.BooleanFunctionsExcellent`3.Equal">
+            <summary>
+            Позволяет производить операцию числового сравнения "равно"
+            </summary>
+        </member>
+        <member name="T:Numerics.TreeGenerator`1">
+            <summary>
+            Класс TreeGenerator генерирует деревья выражений
+            </summary>
+            <typeparam name="T">Строготипизированный параметер класса</typeparam>
+        </member>
+        <member name="M:Numerics.TreeGenerator`1.ExpressionToFunc(System.Func{System.Linq.Expressions.ParameterExpression,System.Linq.Expressions.ParameterExpression,System.Linq.Expressions.BinaryExpression})">
+            <summary>
+            Метод ExpressionToFunc генерирует дерево выражений для двух аргументов
+            </summary>
+            <param name="f">Делегат который принимает переменое количество аргументов</param>
+            <returns>Возращает дерево выражений</returns>
+        </member>
+        <member name="M:Numerics.TreeGenerator`1.ExpressionToFunc(System.Func{System.Linq.Expressions.ParameterExpression,System.Linq.Expressions.ParameterExpression,System.Linq.Expressions.ParameterExpression,System.Linq.Expressions.BinaryExpression})">
+            <summary>
+            Метод ExpressionToFunc генерирует дерево выражений для трех выражений
+            </summary>
+            <param name="f">Делегат который принимает переменое количество аргументов</param>
+            <returns>Возращает дерево выражений</returns>
+        </member>
+        <member name="M:Numerics.TreeGenerator`1.ExpressionToFunc(System.Func{System.Linq.Expressions.ParameterExpression,System.Linq.Expressions.ParameterExpression,System.Linq.Expressions.ParameterExpression,System.Linq.Expressions.ParameterExpression,System.Linq.Expressions.BinaryExpression})">
+            <summary>
+            Метод ExpressionToFunc генерирует дерево выражений для четырех выражений
+            </summary>
+            <param name="f">Делегат который принимает переменое количество аргументов</param>
+            <returns>Возращает дерево выражений</returns>
+        </member>
+        <member name="M:Numerics.TreeGenerator`1.ExpressionToFunc(System.Func{System.Linq.Expressions.ParameterExpression,System.Linq.Expressions.ParameterExpression,System.Linq.Expressions.ParameterExpression,System.Linq.Expressions.ParameterExpression,System.Linq.Expressions.ParameterExpression,System.Linq.Expressions.BinaryExpression})">
+            <summary>
+            Метод ExpressionToFunc генерирует дерево выражений для пятех выражений
+            </summary>
+            <param name="f">Делегат который принимает переменое количество аргументов</param>
+            <returns>Возращает дерево выражений</returns>
+        </member>
+        <member name="M:Numerics.TreeGenerator`2.ExpressionToFunc(System.Func{System.Linq.Expressions.ParameterExpression,System.Linq.Expressions.ParameterExpression,System.Linq.Expressions.BinaryExpression})">
+            <summary>
+            Метод ExpressionToFunc генерирует дерево выражений
+            </summary>
+            <param name="f">Делегат который принимает переменое количество аргументов</param>
+            <returns>Возращает дерево выражений</returns>
+        </member>
+        <member name="M:Numerics.TreeGenerator`3.BooleanExpressionToFunc(System.Func{System.Linq.Expressions.ParameterExpression,System.Linq.Expressions.ParameterExpression,System.Linq.Expressions.BinaryExpression})">
+            <summary>
+            Метод ExpressionToFunc генерирует дерево выражений
+            </summary>
+            <param name="f">Делегат который принимает переменое количество аргументов</param>
+            <returns>Возращает дерево выражений</returns>
+        </member>
+        <member name="T:Numerics.Type.BinarySystem`1">
+            <summary>
+            Структура BinarySystem представляет двоичную систему исчесления
+            </summary>
+        </member>
+        <member name="P:Numerics.Type.BinarySystem`1.Binary">
+            <summary>
+            Свойство Binary хранит число в двоичной системе исчисления
+            </summary>
+        </member>
+        <member name="M:Numerics.Type.BinarySystem`1.Equals(System.Object)">
+            <summary>
+            Перегрузка метода Equals для сравнения объектов
+            </summary>
+            <param name="obj">Объект с которым сравнивают  текущий экземпляр</param>
+            <returns>Возращает true или false</returns>
+        </member>
+        <member name="M:Numerics.Type.BinarySystem`1.op_Equality(Numerics.Type.BinarySystem{`0},Numerics.Type.BinarySystem{`0})">
+            <summary>
+            Перегрузка операции "равно"
+            </summary>
+            <param name="left">Левый операнд</param>
+            <param name="right">Правый операнд</param>
+            <returns>Возращает true или false</returns>
+        </member>
+        <member name="M:Numerics.Type.BinarySystem`1.op_Inequality(Numerics.Type.BinarySystem{`0},Numerics.Type.BinarySystem{`0})">
+            <summary>
+            Перегрузка операции "не равно"
+            </summary>
+            <param name="left">Левый операнд</param>
+            <param name="right">Правый операнд</param>
+            <returns>Возращает true или false</returns>
+        </member>
+        <member name="M:Numerics.Type.BinarySystem`1.GetHashCode">
+            <summary>
+            Перегрузка метода GetHashCode для расчета хэш-кода даного экземпляра
+            </summary>
+            <returns>Возращает хэш-код даного экземпляра</returns>
+        </member>
+        <member name="T:Numerics.Type.PentagonalSystem">
+            <summary>
+            Структура PentagonalSystem представляет пятиричную систему исчесления
+            </summary>
+        </member>
+        <member name="T:Numerics.Type.QuaternarySystem">
+            <summary>
+            Структура QuaternarySystem представляет четвиричную систему исчесления
+            </summary>
+        </member>
+        <member name="T:Numerics.Type.TernarySystem">
+            <summary>
+            Структура TernarySystem представляет троичную систему исчесления
+            </summary>
+        </member>
+    </members>
+</doc>

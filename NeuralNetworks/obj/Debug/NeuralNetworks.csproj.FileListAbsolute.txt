@@ -1,0 +1,5 @@
+C:\Users\test\Documents\Visual Studio 2017\Projects\Matematics\NeuralNetworks\bin\Debug\NeuralNetworks.dll
+C:\Users\test\Documents\Visual Studio 2017\Projects\Matematics\NeuralNetworks\bin\Debug\NeuralNetworks.pdb
+C:\Users\test\Documents\Visual Studio 2017\Projects\Matematics\NeuralNetworks\obj\Debug\NeuralNetworks.dll
+C:\Users\test\Documents\Visual Studio 2017\Projects\Matematics\NeuralNetworks\obj\Debug\NeuralNetworks.pdb
+C:\Users\test\Documents\Visual Studio 2017\Projects\Matematics\NeuralNetworks\obj\Debug\NeuralNetworks.csprojResolveAssemblyReference.cache
