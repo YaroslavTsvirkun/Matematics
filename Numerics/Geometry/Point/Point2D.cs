@@ -1,6 +1,4 @@
 ﻿using System;
-using Numerics;
-using System.Linq;
 
 namespace Numerics.Geometry.Point
 {
@@ -26,18 +24,12 @@ namespace Numerics.Geometry.Point
         protected String name;
 
         /// <summary>
-        /// Закрытое поле value для переопределения метода Equals
-        /// и для хранения хэш-кода экземпляра
-        /// </summary>
-        private Int32 value;
-
-        /// <summary>
         /// Свойство, для хранения координаты Х, доступно только для чтения
         /// </summary>
         public override T X { get => x; }
 
         /// <summary>
-        /// Свойство, для хранения координаты Y, доступно только для чтения
+        ///     Свойство, для хранения координаты Y, доступно только для чтения
         /// </summary>
         public override T Y { get => y; }
 
@@ -250,13 +242,16 @@ namespace Numerics.Geometry.Point
         public override Boolean Equals(object obj)
         {
             if (!(obj is Point2D<T>)) return false;
-            return value == ((Point2D<T>)obj).value;
+            return GetHashCode() == ((Point2D<T>)obj).GetHashCode();
         }
 
         /// <summary>
         /// Метод GetHashCode генерирует хэш-код экземпляра класса
         /// </summary>
         /// <returns>Возращает хэш-код</returns>
-        public override Int32 GetHashCode() => value;
+        public override Int32 GetHashCode()
+        {
+            return base.GetHashCode();
+        }
     }
 }
