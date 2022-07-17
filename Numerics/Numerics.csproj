@@ -9,7 +9,7 @@
     <AppDesignerFolder>Properties</AppDesignerFolder>
     <RootNamespace>Numerics</RootNamespace>
     <AssemblyName>Numerics</AssemblyName>
-    <TargetFrameworkVersion>v4.7</TargetFrameworkVersion>
+    <TargetFrameworkVersion>v4.8</TargetFrameworkVersion>
     <FileAlignment>512</FileAlignment>
     <TargetFrameworkProfile />
   </PropertyGroup>
@@ -50,6 +50,7 @@
     <Compile Include="Algorithms\Search\FindShortestPaths\Dekstra\Point.cs" />
     <Compile Include="Algorithms\Search\FindShortestPaths\Dekstra\PrintGrath.cs" />
     <Compile Include="Algorithms\Search\FindShortestPaths\Dekstra\Ribs.cs" />
+    <Compile Include="Algorithms\Search\SearchDepth.cs" />
     <Compile Include="Algorithms\Sorting\MergeSort.cs" />
     <Compile Include="Algorithms\Sorting\QuickSort.cs" />
     <Compile Include="Algorithms\Sorting\SelectionSort.cs" />
@@ -58,6 +59,9 @@
     <Compile Include="BooleanFunctions.cs" />
     <Compile Include="CombinatorialAnalysis\SplitNumbers\SplitNumber.cs" />
     <Compile Include="CyclicFunctions.cs" />
+    <Compile Include="DiscreteMath\Data\GraphEdgeInfo.cs" />
+    <Compile Include="DiscreteMath\Data\GraphInfo.cs" />
+    <Compile Include="DiscreteMath\Data\GraphVertexInfo.cs" />
     <Compile Include="Factorial.cs" />
     <Compile Include="Geometry\Snapes\Polygon\APolygon.cs" />
     <Compile Include="Geometry\Snapes\Polygon\Hexagon.cs" />
@@ -106,13 +110,11 @@
     <Compile Include="Type\TernarySystem.cs" />
   </ItemGroup>
   <ItemGroup>
-    <Folder Include="Algorithms\Search\SearchDepth\" />
     <Folder Include="Algorithms\Search\SearchWidth\" />
     <Folder Include="AnalyticGeometry\" />
     <Folder Include="ComplexAnalysis\" />
     <Folder Include="DifferentialEquations\" />
     <Folder Include="DifferentialGeometry\" />
-    <Folder Include="DiscreteMath\" />
     <Folder Include="FunctionalAnalysis\" />
     <Folder Include="IntegralEquations\" />
     <Folder Include="LinearAlgebra\BilinearForm\" />
@@ -126,6 +128,12 @@
   </ItemGroup>
   <ItemGroup>
     <None Include="ClassDiagram1.cd" />
+  </ItemGroup>
+  <ItemGroup>
+    <ProjectReference Include="..\Expansions\Extension.csproj">
+      <Project>{C9557CC4-995E-4672-A696-26AF7FE75712}</Project>
+      <Name>Extension</Name>
+    </ProjectReference>
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
 </Project>
