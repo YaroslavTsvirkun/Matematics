@@ -5,7 +5,7 @@ using System.Linq;
 namespace Numerics.DiscreteMath.Data
 {
     /// <summary>
-    ///     Class definition to save the unoriented graph.
+    ///     Class definition to save the unoriented юgraph.
     /// </summary>
     public class GraphInfo
     {
