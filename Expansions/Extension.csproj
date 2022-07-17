@@ -41,9 +41,10 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="ExpansionArray.cs" />
+    <Compile Include="ExtensionArray.cs" />
     <Compile Include="ExpansionInt32.cs" />
-    <Compile Include="ExpansionString.cs" />
+    <Compile Include="ExtensionList{T}.cs" />
+    <Compile Include="ExtensionString.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />

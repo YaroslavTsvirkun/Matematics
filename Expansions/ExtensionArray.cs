@@ -7,7 +7,7 @@ namespace HomeworkOne
     /// <summary>
     /// Класс ExpansionArray предоставляет методы расширения для работы с массивами
     /// </summary>
-    public static class ExpansionArray
+    public static class ExtensionArray
     {
         /// <summary>
         /// Метод IntputArray позволяет ввести элементы массива с клавиатуры

@@ -7,7 +7,7 @@ namespace HomeworkOne
     /// <summary>
     /// Класс ExpansionString предоставляет методы расширения для работы со строками
     /// </summary>
-    public static class ExpansionString
+    public static class ExtensionString
     {
         /// <summary>
         /// Метод ReversStr перестраивает строку в обратном порядке
