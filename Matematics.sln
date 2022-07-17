@@ -1,9 +1,12 @@
 ﻿
 Microsoft Visual Studio Solution File, Format Version 12.00
-# Visual Studio 15
-VisualStudioVersion = 15.0.27004.2010
+# Visual Studio Version 17
+VisualStudioVersion = 17.2.32616.157
 MinimumVisualStudioVersion = 10.0.40219.1
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Numerics", "Numerics\Numerics.csproj", "{8C1C81DE-152E-484A-BFD9-FA00789CC33E}"
+	ProjectSection(ProjectDependencies) = postProject
+		{C9557CC4-995E-4672-A696-26AF7FE75712} = {C9557CC4-995E-4672-A696-26AF7FE75712}
+	EndProjectSection
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "TestApp", "TestApp\TestApp.csproj", "{AF131D7F-34D6-4499-9220-9FAC1A83DF5B}"
 EndProject
@@ -11,7 +14,7 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "NeuralNetworks", "NeuralNet
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "MachineLerning", "Machine Lerning\MachineLerning.csproj", "{2A0F6AD6-1FE0-4FA3-874F-733F63F4C18F}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Expansions", "Expansions\Expansions.csproj", "{C9557CC4-995E-4672-A696-26AF7FE75712}"
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Extension", "Expansions\Extension.csproj", "{C9557CC4-995E-4672-A696-26AF7FE75712}"
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "ElectricalEngineeringLibrary", "ElectricalEngineeringLibrary\ElectricalEngineeringLibrary.csproj", "{A8C3951D-9188-4FF4-8F3E-1EBE52DDB8E8}"
 EndProject
