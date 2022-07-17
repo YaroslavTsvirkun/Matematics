@@ -1,13 +1,9 @@
 ﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 
 namespace Numerics.Algorithms.Search.FindShortestPaths.Dekstra
 {
     /// <summary>
-    /// Класс Ribs описывающий ребра графа
+    ///     Класс Ribs описывающий ребра графа
     /// </summary>
     /// <example> 
     /// Вызывающий код класса, <see cref="Ribs"/> представлен ниже:.
@@ -34,23 +30,23 @@ namespace Numerics.Algorithms.Search.FindShortestPaths.Dekstra
     public class Ribs
     {
         /// <summary>
-        /// Свойство, отвечает за хранение начальной вершины ребра
+        ///     Свойство, отвечает за хранение начальной вершины ребра
         /// </summary>
         public Point FirstPoint { get; private set; }
 
         /// <summary>
-        /// Свойство, отвечает за хранение конечной вершины ребра
+        ///     Свойство, отвечает за хранение конечной вершины ребра
         /// </summary>
         public Point SecondPoint { get; private set; }
 
         /// <summary>
-        /// Свойство, отвечает за хранение весового коэффициента
+        ///     Свойство, отвечает за хранение весового коэффициента
         /// </summary>
         public Single Weight { get; private set; }
 
         /// <summary>
-        /// Конструктор, отвечающий за инициализацию начальной вершины ребра,
-        /// конечной вершины ребра весового коэффициента
+        ///     Конструктор, отвечающий за инициализацию начальной вершины ребра,
+        ///     конечной вершины ребра весового коэффициента
         /// </summary>
         /// <param name="FirstPoint">Начальная вершина</param>
         /// <param name="SecondPoint">Конечная вершина</param>

@@ -5,7 +5,7 @@ using Numerics.Geometry.Point;
 namespace Numerics.Algorithms.Search.FindShortestPaths.Dekstra
 {
     /// <summary>
-    /// Класс PrintGrath выводит граф на экран
+    ///     Класс PrintGrath выводит граф на экран
     /// </summary>
     /// <example> 
     /// Вызывающий код класса, <see cref="PrintGrath"/> представлен ниже:
@@ -22,7 +22,7 @@ namespace Numerics.Algorithms.Search.FindShortestPaths.Dekstra
     public static class PrintGrath
     {
         /// <summary>
-        /// Метод PrintAllPoints выводит вершины графа на экран
+        ///     Метод PrintAllPoints выводит вершины графа на экран
         /// </summary>
         /// <param name="da">Ссылка на алгоритм</param>
         /// <returns>ВОзращает вершины графа</returns>
@@ -37,7 +37,7 @@ namespace Numerics.Algorithms.Search.FindShortestPaths.Dekstra
         }
 
         /// <summary>
-        /// Метод PrintAllMinPaths выводит минимальный пути для вершин графа
+        ///     Метод PrintAllMinPaths выводит минимальный пути для вершин графа
         /// </summary>
         /// <param name="da">Ссылка на алгоритм</param>
         /// <returns>Возращает минимальные пути для вершин графа</returns>
@@ -60,12 +60,13 @@ namespace Numerics.Algorithms.Search.FindShortestPaths.Dekstra
         }
 
         /// <summary>
-        /// Метод Show выводит список на экран
+        ///     Метод Show выводит список на экран
         /// </summary>
         /// <param name="list">Список элементов</param>
-        public static void Show(List<String> list)
+        /// <param name="showAction">Функция вывода информации</param>
+        public static void Show(List<String> list, Action<String> showAction)
         {
-            foreach (var item in list) Console.WriteLine(item);
+            foreach (var item in list) showAction(item);
         }
     }
 }
