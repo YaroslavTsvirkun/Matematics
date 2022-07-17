@@ -11,7 +11,7 @@ using System.Runtime.InteropServices;
 [assembly: AssemblyConfiguration("")]
 [assembly: AssemblyCompany("Yaroslav Tsvirkun")]
 [assembly: AssemblyProduct("Matematics Library")]
-[assembly: AssemblyCopyright("Copyright © Yaroslav Tsvirkun 2017")]
+[assembly: AssemblyCopyright("Copyright © Yaroslav Tsvirkun 2022")]
 [assembly: AssemblyTrademark("")]
 [assembly: AssemblyCulture("")]
 
